@@ -1,0 +1,34 @@
+.toolbar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .app-title {
+    margin-right: 10px;
+  }
+
+  .tabs {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+
+  .tabs a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+
+  .tabs a:hover {
+    background-color: #555;
+  }
+
+  .tabs a.active {
+    background-color: #555;
+  }
