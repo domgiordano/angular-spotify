@@ -8,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-skeleton';
+  username: string = '';
+  password: string = '';
+
+  login() {
+    // Implement your login logic here
+    console.log('Username:', this.username);
+    console.log('Password:', this.password);
+  }
 }
