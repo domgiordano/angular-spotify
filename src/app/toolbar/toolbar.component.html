@@ -1,8 +1,13 @@
 <div class="toolbar">
-    <h2 class="app-title">MyApp</h2>
-    <div class="tabs">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-      <a routerLink="/second-page" routerLinkActive="active">Second</a>
-      <a routerLink="/third-page" routerLinkActive="active">Third</a>
+  <h2 class="app-title">SCB</h2>
+  <div class="tabs">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a routerLink="/my-profile" routerLinkActive="active">My Profile</a>
+    <div class="dropdown" (click)="toggleDropdown()" (mouseleave)="hideDropdown()">
+      <span class="dropdown-text">Portfolios</span>
+      <div class="dropdown-content" [style.display]="dropdownVisible ? 'block' : 'none'">
+        <a *ngFor="let portfolio of portfolios" (click)="selectPortfolio(portfolio)" routerLinkActive="active">{{ portfolio.name }}</a>
+      </div>
     </div>
   </div>
+</div>

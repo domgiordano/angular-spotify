@@ -32,3 +32,42 @@
   .tabs a.active {
     background-color: #555;
   }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content a {
+    font-size: 14px; /* Adjust the font size as needed */
+    text-align: left; /* Align the text to the left */
+    padding: 8px 2px; /* Adjust padding as needed */
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .active {
+    color: blue; /* Example of active link color */
+  }

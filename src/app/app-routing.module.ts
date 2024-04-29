@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { SecondPageComponent } from './second-page/second-page.component';
-import { ThirdPageComponent } from './third-page/third-page.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 const routes: Routes = [
-  { path: 'second-page', component: SecondPageComponent },
-  { path: 'third-page', component: ThirdPageComponent },
+  { path: 'my-profile', component: MyProfileComponent },
+  { path: 'portfolio/:name', component: PortfolioComponent }
 ];
 
 @NgModule({

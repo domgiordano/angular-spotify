@@ -5,16 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FormsModule } from '@angular/forms';
-import { SecondPageComponent } from './second-page/second-page.component';
-import { ThirdPageComponent } from './third-page/third-page.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    SecondPageComponent,
-    ThirdPageComponent
+    MyProfileComponent,
+    PortfolioComponent
   ],
   imports: [
     BrowserModule,
