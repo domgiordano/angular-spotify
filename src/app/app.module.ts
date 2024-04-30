@@ -6,7 +6,11 @@ import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FormsModule } from '@angular/forms';
 import { MyProfileComponent } from './my-profile/my-profile.component';
-import { PortfolioComponent } from './portfolio/portfolio.component';
+import { TopSongsComponent } from './top-songs/top-songs.component';
+import { TopArtistsComponent } from './top-artists/top-artists.component';
+import { TopGenresComponent } from './top-genres/top-genres.component';
+import { PlaylistGeneratorComponent } from './playlist-generator/playlist-generator.component';
+import { WrappedComponent } from './wrapped/wrapped.component';
 
 
 @NgModule({
@@ -14,7 +18,11 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
     AppComponent,
     ToolbarComponent,
     MyProfileComponent,
-    PortfolioComponent
+    TopSongsComponent,
+    TopArtistsComponent,
+    TopGenresComponent,
+    PlaylistGeneratorComponent,
+    WrappedComponent
   ],
   imports: [
     BrowserModule,

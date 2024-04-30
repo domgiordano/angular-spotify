@@ -1,13 +1,13 @@
 <div class="toolbar">
-  <h2 class="app-title">SCB</h2>
+  <h2 class="app-title">XOMIFY
+  </h2>
   <div class="tabs">
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
     <a routerLink="/my-profile" routerLinkActive="active">My Profile</a>
-    <div class="dropdown" (click)="toggleDropdown()" (mouseleave)="hideDropdown()">
-      <span class="dropdown-text">Portfolios</span>
-      <div class="dropdown-content" [style.display]="dropdownVisible ? 'block' : 'none'">
-        <a *ngFor="let portfolio of portfolios" (click)="selectPortfolio(portfolio)" routerLinkActive="active">{{ portfolio.name }}</a>
-      </div>
-    </div>
+    <a routerLink="/top-songs" routerLinkActive="active">Top Songs</a>
+    <a routerLink="/top-artists" routerLinkActive="active">Top Artists</a>
+    <a routerLink="/top-genres" routerLinkActive="active">Top Genres</a>
+    <a routerLink="/playlist-generator" routerLinkActive="active">Playlist Generator</a>
+    <a routerLink="/wrapped" routerLinkActive="active">Wrapped</a>
   </div>
 </div>
