@@ -8,7 +8,7 @@ import { SpotifyService } from './spotify-service/spotify.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-skeleton';
+  title = 'XOMIFY';
   username: string = '';
   password: string = '';
 
