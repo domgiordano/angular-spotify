@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,7 @@ import { TopGenresComponent } from './top-genres/top-genres.component';
 import { PlaylistGeneratorComponent } from './playlist-generator/playlist-generator.component';
 import { WrappedComponent } from './wrapped/wrapped.component';
 
+import { SpotifyService } from './spotify-service/spotify.service';
 
 @NgModule({
   declarations: [
@@ -27,9 +29,10 @@ import { WrappedComponent } from './wrapped/wrapped.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [SpotifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
