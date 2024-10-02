@@ -1,6 +1,7 @@
 // Main
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ export class AppComponent {
 
   constructor(private AuthService: AuthService) {}
 
-  login() {
+  login(): void {
     this.AuthService.login();
   }
+
 }
