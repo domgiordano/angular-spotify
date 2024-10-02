@@ -1,6 +1,6 @@
 // Main
 import { Component } from '@angular/core';
-import { SpotifyService } from './spotify-service/spotify.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,19 +12,9 @@ export class AppComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private spotifyService: SpotifyService) {}
+  constructor(private AuthService: AuthService) {}
 
   login() {
-    this.spotifyService.login(this.username, this.password)
-      .subscribe(
-        (response: any) => { // Explicitly specifying 'response' as 'any'
-          console.log('Login successful:', response);
-          // Handle successful login, e.g., store access token in local storage
-        },
-        (error: any) => {
-          console.error('Login failed:', error);
-          // Handle login error
-        }
-      );
+    this.AuthService.login();
   }
 }
