@@ -4,7 +4,6 @@ import { SongService } from 'src/app/services/song.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { forkJoin, take } from 'rxjs';
-import * as localforage from 'localforage';
 
 @Component({
   selector: 'app-playlist-generator-page',
@@ -25,7 +24,15 @@ export class PlaylistGeneratorComponent implements OnInit {
     ) {}
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
-    this.loadTracks();
+    this.tracks = this.SongService.getTracks();
+    if ( this.tracks.length === 0){
+      console.log("Need Tracks.");
+      this.loadTracks();
+    }
+    else{
+      console.log("We got dem tracks.");
+    }
+
   }
 
   loadTracks() {
@@ -47,7 +54,6 @@ export class PlaylistGeneratorComponent implements OnInit {
         console.log('Tracks--------');
         console.log(this.tracks);
         this.loading = false;
-        localStorage.setItem('tracks', JSON.stringify(this.tracks));
       },
       error: err => {
         console.error('Error fetching user tracks', err);
@@ -55,7 +61,6 @@ export class PlaylistGeneratorComponent implements OnInit {
       },
       complete: () => {
         console.log('Tracks Loaded.');
-        this.router.navigate(['/my-profile']); // Navigate after login
       }
     });
   }

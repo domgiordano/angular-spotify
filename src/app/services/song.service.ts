@@ -10,6 +10,10 @@ import { AuthService } from './auth.service';
 })
 export class SongService implements OnInit {
   accessToken: string;
+  tracks = [];
+  topTracksShortTerm = [];
+  topTracksMedTerm = [];
+  topTracksLongTerm = [];
   private baseUrl = 'https://api.spotify.com/v1';
 
   constructor(
@@ -47,6 +51,7 @@ export class SongService implements OnInit {
             fetchTracks(); // Fetch next batch
           } else {
             observer.next(allTracks);
+            this.tracks = allTracks;
             observer.complete();
           }
         });
@@ -54,6 +59,38 @@ export class SongService implements OnInit {
 
       fetchTracks();
     });
+  }
+
+  getTopTracks(term: string): Observable<any> {
+    this.accessToken = this.AuthService.getAccessToken();
+    return this.http.get(`${this.baseUrl}/me/top/tracks?limit=50&time_range=${term}`, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      }
+    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+  }
+
+  getShortTermTopTracks(): any[] {
+    return this.topTracksShortTerm;
+  }
+  getMedTermTopTracks(): any[] {
+    return this.topTracksMedTerm;
+  }
+  getLongTermTopTracks(): any[] {
+    return this.topTracksLongTerm;
+  }
+  setShortTermTopTracks(tracks: any[]): void {
+    this.topTracksShortTerm = tracks;
+  }
+  setMedTermTopTracks(tracks: any[]): void {
+    this.topTracksMedTerm = tracks;
+  }
+  setLongTermTopTracks(tracks: any[]): void {
+    this.topTracksLongTerm = tracks;
+  }
+
+  getTracks(): any[] {
+    return this.tracks;
   }
 
 }
