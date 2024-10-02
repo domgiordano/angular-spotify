@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import * as localforage from 'localforage';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,12 @@ export class AuthService {
   private readonly clientId = '1c79964c237042fe88b87da133a231fc';
   private readonly clientSecret = '1e89558785f64b75b41dc83206355048'; // Not secure
   private readonly redirectUri = 'http://localhost:4200/callback';
-  private readonly scope = 'user-read-private user-read-email';
+  private readonly scope = 'user-read-private user-read-email user-library-read';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+    ) {}
 
   login() {
     const authUrl = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&redirect_uri=${encodeURIComponent(this.redirectUri)}&scope=${encodeURIComponent(this.scope)}&response_type=code`;
@@ -52,7 +56,6 @@ export class AuthService {
           },
         }).subscribe({
           next: (response: any) => {
-            console.log('USER---------- ',response);
             localStorage.setItem('user', response);
             console.log('User saved.');
             this.router.navigate(['/my-profile']); // Navigate after login
