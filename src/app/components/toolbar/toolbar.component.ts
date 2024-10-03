@@ -11,7 +11,7 @@ export class ToolbarComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    console.log("INITIALIZED!!!!")
+    console.log("Toolbar locked n loaded.")
   }
 
   isLoggedIn(): boolean {

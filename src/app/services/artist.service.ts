@@ -26,7 +26,7 @@ export class ArtistService implements OnInit {
 
   getTopArtists(term: string): Observable<any> {
     this.accessToken = this.AuthService.getAccessToken();
-    return this.http.get(`${this.baseUrl}/me/top/Artists?limit=50&time_range=${term}`, {
+    return this.http.get(`${this.baseUrl}/me/top/artists?limit=50&time_range=${term}`, {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       }
