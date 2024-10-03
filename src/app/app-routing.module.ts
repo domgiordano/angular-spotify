@@ -9,9 +9,10 @@ import { PlaylistGeneratorComponent } from './pages/playlist-generator/playlist-
 import { WrappedComponent } from './pages/wrapped/wrapped.component';
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './components/callback/callback.component';
+import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-  { path: 'home', component: AppComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'my-profile', component: MyProfileComponent },
   { path: 'top-songs', component: TopSongsComponent },
   { path: 'top-artists', component: TopArtistsComponent },
