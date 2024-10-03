@@ -71,3 +71,9 @@
   .active {
     color: blue; /* Example of active link color */
   }
+  .banner-icon {
+    width: 50px;  /* Set desired width */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Space between image and text */
+    vertical-align: middle; /* Align the image with text */
+  }

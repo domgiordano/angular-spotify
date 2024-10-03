@@ -1,12 +1,7 @@
 <div class="app-container">
-  <app-toolbar></app-toolbar>
+  <app-toolbar></app-toolbar> <!-- Toolbar should stay above the content -->
+
   <div class="content">
-    <router-outlet></router-outlet>
-    <h1>Welcome to the Home Page!</h1>
-    <div class="form-container">
-      <form (ngSubmit)="login()">
-        <button type="submit">Sign In pls</button>
-      </form>
-    </div>
+    <router-outlet></router-outlet> <!-- This will display the routed component -->
   </div>
 </div>
