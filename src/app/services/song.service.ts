@@ -1,25 +1,22 @@
-// song.service.ts
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, expand, takeWhile } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SongService implements OnInit {
-  accessToken: string;
-  tracks = [];
-  topTracksShortTerm = [];
-  topTracksMedTerm = [];
-  topTracksLongTerm = [];
+  private accessToken: string;
+  private tracks = [];
+  private topTracksShortTerm: any[] = [];
+  private topTracksMedTerm: any[] = [];
+  private topTracksLongTerm: any[] = [];
   private baseUrl = 'https://api.spotify.com/v1';
 
-  constructor(
-      private http: HttpClient,
-      private AuthService: AuthService
-    ) {}
+  constructor(private http: HttpClient, private AuthService: AuthService) {}
+
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
   }
@@ -70,27 +67,24 @@ export class SongService implements OnInit {
     }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
   }
 
-  getShortTermTopTracks(): any[] {
-    return this.topTracksShortTerm;
-  }
-  getMedTermTopTracks(): any[] {
-    return this.topTracksMedTerm;
-  }
-  getLongTermTopTracks(): any[] {
-    return this.topTracksLongTerm;
-  }
-  setShortTermTopTracks(tracks: any[]): void {
-    this.topTracksShortTerm = tracks;
-  }
-  setMedTermTopTracks(tracks: any[]): void {
-    this.topTracksMedTerm = tracks;
-  }
-  setLongTermTopTracks(tracks: any[]): void {
-    this.topTracksLongTerm = tracks;
+  setTopTracks(short: any[], med: any[], long: any[]): void {
+    this.topTracksShortTerm = short;
+    this.topTracksMedTerm = med;
+    this.topTracksLongTerm = long;
   }
 
+  getShortTermTopTracks(): any[] {
+    return this.topTracksShortTerm;  // Return a copy
+  }
+
+  getMedTermTopTracks(): any[] {
+    return this.topTracksMedTerm;    // Return a copy
+  }
+
+  getLongTermTopTracks(): any[] {
+    return this.topTracksLongTerm;   // Return a copy
+  }
   getTracks(): any[] {
     return this.tracks;
   }
-
 }
