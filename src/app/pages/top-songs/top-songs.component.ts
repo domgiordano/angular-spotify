@@ -58,10 +58,10 @@ export class TopSongsComponent implements OnInit {
     });
   }
 
-  updateTopTracks(short: any[], med: any[], long: any[]): void {
-    this.topTracksShortTerm = short;
-    this.topTracksMedTerm = med;
-    this.topTracksLongTerm = long;
+  updateTopTracks(short: any, med: any, long: any): void {
+    this.topTracksShortTerm = short.items;
+    this.topTracksMedTerm = med.items;
+    this.topTracksLongTerm = long.items;
     this.SongService.setShortTermTopTracks(this.topTracksShortTerm);
     this.SongService.setMedTermTopTracks(this.topTracksMedTerm);
     this.SongService.setLongTermTopTracks(this.topTracksLongTerm);
