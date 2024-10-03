@@ -1,9 +1,15 @@
-
-<div class="app-container">
-    <app-toolbar></app-toolbar>
-    <div class="content">
-      <h1>Welcome to the My Profile Page!</h1>
-      <div class="form-container">
+<div class="profile-page">
+  <div class="profile-container">
+    <div class="profile-header">
+      <img [src]="profilePicture" alt="User Profile Picture" class="profile-pic">
+      <h1 class="user-name">{{ userName }}</h1>
+      <p class="user-email">{{ email }}</p>
+    </div>
+    <div class="profile-stats">
+      <div class="stat-item">
+        <span class="stat-count">{{ followersCount }}</span>
+        <span class="stat-label"> Followers</span>
       </div>
     </div>
+  </div>
 </div>
