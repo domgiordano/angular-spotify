@@ -10,7 +10,7 @@ import { GenresService } from 'src/app/services/genre.service';
   styleUrls: ['./top-genres.component.css']
 })
 export class TopGenresComponent implements OnInit {
-  private loading: boolean;
+  loading: boolean;
   private topArtistsShortTerm: any[];
   private topArtistsMedTerm: any[];
   private topArtistsLongTerm: any[];
@@ -38,7 +38,9 @@ export class TopGenresComponent implements OnInit {
     }
     else if ( Object.entries(this.topGenresShortTerm).length === 0 ){
       console.log("Need top Genres");
+      this.loading = true;
       this.loadTopGenres();
+      this.loading = false;
     }
     else{
       console.log("We got dem top genres.");
@@ -47,8 +49,6 @@ export class TopGenresComponent implements OnInit {
   }
 
   loadTopGenres(){
-    console.log("SHORT TERM ARTISTS----", this.topArtistsShortTerm);
-    console.log(typeof this.topArtistsShortTerm);
     this.topGenresShortTerm = this.sortGenres(this.GenreService.getTopGenres(this.topArtistsShortTerm, 'short_term'));
     this.topGenresMedTerm = this.sortGenres(this.GenreService.getTopGenres(this.topArtistsMedTerm, 'medium_term'));
     this.topGenresLongTerm = this.sortGenres(this.GenreService.getTopGenres(this.topArtistsLongTerm, 'long_term'));

@@ -13,6 +13,7 @@ import { TopGenresComponent } from './pages/top-genres/top-genres.component';
 import { PlaylistGeneratorComponent } from './pages/playlist-generator/playlist-generator.component';
 import { WrappedComponent } from './pages/wrapped/wrapped.component';
 import { AuthService } from './services/auth.service';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AuthService } from './services/auth.service';
     TopArtistsComponent,
     TopGenresComponent,
     PlaylistGeneratorComponent,
-    WrappedComponent
+    WrappedComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@ import { forkJoin, take } from 'rxjs';
   styleUrls: ['./top-songs.component.css']
 })
 export class TopSongsComponent implements OnInit {
-  private loading: boolean;
+  loading: boolean;
   private topTracksShortTerm: any[];
   private topTracksMedTerm: any[];
   private topTracksLongTerm: any[];
