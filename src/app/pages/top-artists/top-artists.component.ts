@@ -9,7 +9,7 @@ import { ArtistService } from 'src/app/services/artist.service';
   styleUrls: ['./top-artists.component.css']
 })
 export class TopArtistsComponent implements OnInit {
-  private loading: boolean;
+  loading: boolean;
   private topArtistsShortTerm: any[];
   private topArtistsMedTerm: any[];
   private topArtistsLongTerm: any[];

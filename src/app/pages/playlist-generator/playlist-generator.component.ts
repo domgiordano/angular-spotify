@@ -11,7 +11,7 @@ import { forkJoin, take } from 'rxjs';
   styleUrls: ['./playlist-generator.component.css']
 })
 export class PlaylistGeneratorComponent implements OnInit {
-  private loading: boolean;
+  loading: boolean;
   private tracks: any[];
   accessToken: string;
   private baseUrl = 'https://api.spotify.com/v1';
