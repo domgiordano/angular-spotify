@@ -57,10 +57,10 @@ export class TopArtistsComponent implements OnInit {
     });
   }
 
-  updateTopArtists(short: any[], med: any[], long: any[]): void {
-    this.topArtistsShortTerm = short;
-    this.topArtistsMedTerm = med;
-    this.topArtistsLongTerm = long;
+  private updateTopArtists(short: any, med: any, long: any): void {
+    this.topArtistsShortTerm = short.items;
+    this.topArtistsMedTerm = med.items;
+    this.topArtistsLongTerm = long.items;
     this.ArtistService.setShortTermTopArtists(this.topArtistsShortTerm);
     this.ArtistService.setMedTermTopArtists(this.topArtistsMedTerm);
     this.ArtistService.setLongTermTopArtists(this.topArtistsLongTerm);
