@@ -8,13 +8,13 @@ import { AuthService } from '../../services/auth.service'; // Adjust the path as
   styleUrls: ['./toolbar.component.css'],
 })
 export class ToolbarComponent implements OnInit {
-  constructor(private authService: AuthService) {}
+  constructor(private AuthService: AuthService) {}
 
   ngOnInit(): void {
     console.log("Toolbar locked n loaded.")
   }
 
   isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
+    return this.AuthService.isLoggedIn();
   }
 }

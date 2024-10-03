@@ -1,5 +1,6 @@
 // Main file - Angular Spotify
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -9,12 +10,4 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'XOMIFY';
-
-  constructor(
-    private AuthService: AuthService
-  ) {}
-
-  login(): void {
-    this.AuthService.login();
-  }
 }
