@@ -1,14 +1,28 @@
 <div class="toolbar">
-  <h2 class="app-title">XOMIFY
+  <h2 class="app-title">
+    <img class="banner-icon" src="assets/img/banner-ico.png" alt="spotify image">
+    XOMIFY
   </h2>
   <div class="tabs">
     <div *ngIf="isLoggedIn()">
-      <a routerLink="/my-profile" routerLinkActive="active">My Profile</a>
-      <a routerLink="/top-songs" routerLinkActive="active">Top Songs</a>
-      <a routerLink="/top-artists" routerLinkActive="active">Top Artists</a>
-      <a routerLink="/top-genres" routerLinkActive="active">Top Genres</a>
-      <a routerLink="/playlist-generator" routerLinkActive="active">Playlist Generator</a>
-      <a routerLink="/wrapped" routerLinkActive="active">Wrapped</a>
+      <a routerLink="/my-profile" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
+        My Profile
+      </a>
+      <a routerLink="/top-songs" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-songs')}">
+        Top Songs
+      </a>
+      <a routerLink="/top-artists" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-artists')}">
+        Top Artists
+      </a>
+      <a routerLink="/top-genres" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-genres')}">
+        Top Genres
+      </a>
+      <a routerLink="/playlist-generator" routerLinkActive="active" [ngClass]="{'selected': isSelected('/playlist-generator')}">
+        Playlist Generator
+      </a>
+      <a routerLink="/wrapped" routerLinkActive="active" [ngClass]="{'selected': isSelected('/wrapped')}">
+        Wrapped
+      </a>
     </div>
   </div>
 </div>

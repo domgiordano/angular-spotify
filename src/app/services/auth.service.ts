@@ -49,20 +49,7 @@ export class AuthService {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
         console.log('Tokens saved.');
-        this.http.get('https://api.spotify.com/v1/me', {
-          headers: {
-            Authorization: `Bearer ${response.access_token}`,
-          },
-        }).subscribe({
-          next: (response: any) => {
-            localStorage.setItem('user', response);
-            console.log('User saved.');
-            this.router.navigate(['/my-profile']); // Navigate after login
-          },
-          error: (err) => {
-            console.error('Get User Profile Failed', err);
-          },
-        });
+        this.router.navigate(['/my-profile']); // Navigate after login
       },
       error: (err) => {
         console.error('Token exchange failed', err);
@@ -81,6 +68,6 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('user');
+    return !!localStorage.getItem('access_token');
   }
 }

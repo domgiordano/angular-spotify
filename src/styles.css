@@ -7,6 +7,13 @@
     height: 100vh;
   }
 
+  body {
+    background-color: #121212; /* Black background for entire app */
+    color: #ffffff; /* Default white text color */
+    margin: 0; /* Remove default margin */
+    font-family: Arial, sans-serif; /* Example font family */
+  }
+
   .content {
     margin-top: 20px;
     text-align: center;

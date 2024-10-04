@@ -1,0 +1,16 @@
+.toast {
+    position: fixed;
+    bottom: 50px; // Position it at the bottom
+    left: 50%;
+    transform: translateX(-50%); // Center it horizontally
+    background-color: red; // Red background
+    color: white; // White text
+    padding: 15px 30px; // Increased padding for a bigger size
+    border-radius: 25px; // Rounded corners
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); // Shadow for depth
+    z-index: 1000; // High z-index to appear above other elements
+    transition: opacity 0.5s ease; // Smooth transition for visibility
+    font-size: 1.2rem; // Increased font size for better readability
+    width: 350px; // Set a specific width
+    text-align: center; // Center text alignment
+  }
