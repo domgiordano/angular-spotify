@@ -87,4 +87,7 @@ export class SongService implements OnInit {
   getTracks(): any[] {
     return this.tracks;
   }
+  setTracks(tracks: any[]){
+    this.tracks = tracks;
+  }
 }

@@ -14,6 +14,7 @@ import { PlaylistGeneratorComponent } from './pages/playlist-generator/playlist-
 import { WrappedComponent } from './pages/wrapped/wrapped.component';
 import { AuthService } from './services/auth.service';
 import { LoaderComponent } from './components/loader/loader.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     TopGenresComponent,
     PlaylistGeneratorComponent,
     WrappedComponent,
-    LoaderComponent
+    LoaderComponent,
+    ToastComponent
   ],
   imports: [
     BrowserModule,
