@@ -56,11 +56,17 @@ export class TopSongsComponent implements OnInit, OnDestroy {
     }
     else{
       this.selectedSong.flipped = true;
+
     }
 
     this.getSongStats(this.selectedSong);
     this.currentSong = this.selectedSong;
 
+  }
+  flipCardBack(song){
+    this.currentSong.flipped = false;
+    this.selectedSong = song;
+    this.selectedSong.flipped = false;
   }
   onTermChange() {
     this.updateDisplayedSongs();

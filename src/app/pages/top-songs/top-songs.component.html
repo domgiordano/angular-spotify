@@ -41,16 +41,17 @@
       <div class="card-back">
         <span class="song-ranking">#{{ i + 1 }}</span>
         <h3 class="song-title">{{ selectedSong.name }}</h3>
+        <p class="song-stats">Duration: {{ selectedSong.duration }}</p>
         <p class="song-stats">Acousticness: {{ selectedSong.acousticness }}</p>
-        <p class="song-stats">danceability: {{ selectedSong.danceability }}</p>
-        <p class="song-stats">energy: {{ selectedSong.energy }}</p>
-        <p class="song-stats">instrumentalness: {{ selectedSong.instrumentalness }}</p>
-        <p class="song-stats">liveness: {{ selectedSong.liveness }}</p>
-        <p class="song-stats">loudness: {{ selectedSong.loudness }}</p>
-        <p class="song-stats">speechiness: {{ selectedSong.speechiness }}</p>
-        <p class="song-stats">tempo: {{ selectedSong.tempo }}</p>
-        <p class="song-stats">valence: {{ selectedSong.valence }}</p>
-        <button class="see-more-button" (click)="flipCard(song)">Go Back</button>
+        <p class="song-stats">Danceability: {{ selectedSong.danceability }}</p>
+        <p class="song-stats">Energy: {{ selectedSong.energy }}</p>
+        <p class="song-stats">Instrumentalness: {{ selectedSong.instrumentalness }}</p>
+        <p class="song-stats">Liveness: {{ selectedSong.liveness }}</p>
+        <p class="song-stats">Loudness: {{ selectedSong.loudness }}</p>
+        <p class="song-stats">Speechiness: {{ selectedSong.speechiness }}</p>
+        <p class="song-stats">Tempo: {{ selectedSong.tempo }}</p>
+        <p class="song-stats">Valence: {{ selectedSong.valence }}</p>
+        <button class="see-more-button" (click)="flipCardBack(song)">Go Back</button>
       </div>
     </div>
   </div>
