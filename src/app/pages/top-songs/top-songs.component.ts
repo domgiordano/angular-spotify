@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { SongService } from 'src/app/services/song.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { forkJoin, take } from 'rxjs';
@@ -8,9 +8,13 @@ import { forkJoin, take } from 'rxjs';
   templateUrl: './top-songs.component.html',
   styleUrls: ['./top-songs.component.scss']
 })
-export class TopSongsComponent implements OnInit {
+export class TopSongsComponent implements OnInit, OnDestroy {
   @ViewChild('audioPlayer', { static: false }) audioPlayer!: ElementRef<HTMLAudioElement>;
   selectedTerm = 'short_term';
+  selectedSong: any;
+  currentSong = {
+    flipped: false
+  };
   loading: boolean;
   displayedSongs = [];
   private topTracksShortTerm: any[];
@@ -40,6 +44,30 @@ export class TopSongsComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.currentSong.flipped = false;
+  }
+
+  flipCard(song) {
+    this.currentSong.flipped = false;
+    this.selectedSong = song;
+    if('flipped' in this.selectedSong){
+      this.selectedSong.flipped = !this.selectedSong.flipped;
+    }
+    else{
+      this.selectedSong.flipped = true;
+
+    }
+
+    this.getSongStats(this.selectedSong);
+    this.currentSong = this.selectedSong;
+
+  }
+  flipCardBack(song){
+    this.currentSong.flipped = false;
+    this.selectedSong = song;
+    this.selectedSong.flipped = false;
+  }
   onTermChange() {
     this.updateDisplayedSongs();
     console.log(this.displayedSongs);
@@ -54,16 +82,19 @@ export class TopSongsComponent implements OnInit {
         switch (this.selectedTerm) {
           case 'short_term':
             this.displayedSongs = this.topTracksShortTerm;
+            this.selectedSong = this.displayedSongs[0];
             break;
           case 'medium_term':
             this.displayedSongs = this.SongService.getMedTermTopTracks(); // Use the stored array
+            this.selectedSong = this.displayedSongs[0];
             break;
           case 'long_term':
             this.displayedSongs = this.topTracksLongTerm;
+            this.selectedSong = this.displayedSongs[0];
             break;
         }
         songsGrid.classList.remove('fade-out'); // Remove fade-out class after content is updated
-      }, 400);
+      }, 500);
     }
   }
 
@@ -79,6 +110,42 @@ export class TopSongsComponent implements OnInit {
     this.audioPlayer.nativeElement.currentTime = 0; // Reset playback
   }
 
+  getSongStats(song){
+
+    this.SongService.getSongStats(song.id).pipe(take(1)).subscribe({
+      next: stats => {
+        console.log('stats', stats);
+        this.updateSelectedSong(stats);
+      },
+      error: err => {
+        console.error('Error fetching song stats', err);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('Song Stats Loaded.');
+      }
+    })
+  }
+
+  private updateSelectedSong(stats): void {
+    this.selectedSong.duration = this.convertMillisecondsToMinutesSeconds(stats.duration_ms);
+    this.selectedSong.acousticness = stats.acousticness;
+    this.selectedSong.danceability = stats.danceability;
+    this.selectedSong.energy = stats.energy;
+    this.selectedSong.instrumentalness = stats.instrumentalness;
+    this.selectedSong.liveness = stats.liveness;
+    this.selectedSong.loudness = stats.loudness;
+    this.selectedSong.speechiness = stats.speechiness;
+    this.selectedSong.tempo = stats.tempo;
+    this.selectedSong.valence = stats.valence;
+
+  }
+
+  private convertMillisecondsToMinutesSeconds(ms: number): string {
+    const minutes = Math.floor(ms / 60000);  // Get the total minutes
+    const seconds = Math.floor((ms % 60000) / 1000);  // Get the remaining seconds
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;  // Format seconds as two digits
+  }
   loadTopTracks() {
     this.loading = true;
     const getTracksCalls = forkJoin({

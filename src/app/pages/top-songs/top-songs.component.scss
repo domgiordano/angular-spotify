@@ -45,27 +45,123 @@
 }
 
 .song-card {
-  opacity: 1; /* Default opacity */
+  perspective: 1000px;
+  width: calc(20% - 20px);  // Increase card width for more space (4 cards per row)
+  height: 350px;  // Increase height to allow for more content
+  position: relative;
+  opacity: 1;
   transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  background-color: #282828; /* Dark card background */
+  flex-direction: column;
+  background-color: #282828;
   border-radius: 10px;
-  padding: 10px; /* Padding inside the card */
+  padding: 10px;
   text-align: center;
   justify-content: space-between;
   margin: 10px;
-  flex: 0 1 calc(20% - 20px); /* Set width to 20% minus margins for 5 cards */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
-  max-width: calc(20% - 20px); /* Maximum width for each card */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  &:hover {
-    background-color: #1db954; /* Change background on hover */
-    transform: scale(1.05); /* Slightly enlarge the card */
-    cursor: pointer; /* Change cursor to pointer */
-    .song-ranking {
-      color: black; /* Change rank text color to black on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: calc(20% - 20px);  // Adjust for larger size (4 cards per row)
+  max-height: 350px;
+  box-sizing: border-box;
+  overflow: hidden;  // Prevent content from overflowing outside the card
+
+  .card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  // Ensure even spacing between content and button
+    flex-grow: 1;  // Allow content area to expand and keep button fixed
+  }
+
+  &.flipped .card-content {
+    transform: rotateY(180deg);
+  }
+
+  .card-front,
+  .card-back {
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #282828;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    background-color: #282828;
+  }
+
+  .song-image {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    align-self: center;
+  }
+  .song-stats {
+    font-size: 12px;  // Make the font smaller for the stats
+    color: white;  // Use a lighter grey for stats text
+    margin: 2px 0;  // Reduce spacing between stats
+    line-height: 1.2;  // Adjust line height for tighter spacing
+  }
+
+  .song-title {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+
+  .song-artists {
+    font-size: 12px;
+    color: white;
+  }
+
+  .song-ranking {
+    font-size: 14px;
+    color: #1db954;
+    margin-bottom: 10px;
+  }
+
+  .see-more-button {
+    background-color: #1db954;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-top: auto;  // Ensure button stays at the bottom
+    transition: background-color 0.3s;
+    align-self: center;  // Center the button on the card
+
+    &:hover {
+      background-color: #1aa34a;
     }
+  }
+
+  &:hover {
+    background-color: #1db954;
+    transform: scale(1.05);
+
+    .card-front,
+    .card-back {
+      background-color: #1db954;
+    }
+
+    .song-ranking {
+      color: black;
+    }
+
     .see-more-button {
       background-color: black;
     }
@@ -140,4 +236,3 @@
     color: #1aa34a; /* Darker green on hover */
   }
 }
-

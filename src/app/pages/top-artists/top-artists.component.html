@@ -27,7 +27,7 @@
       <span class="artist-ranking">#{{ i + 1 }}</span>
       <img [src]="artist.images[0].url" alt="{{ artist.name }}" class="artist-image">
       <h2 class="artist-title">{{ artist.name }}</h2>
-      <button class="see-more-button" (click)="viewArtistDetails(artist)">See More</button>
+      <button class="see-more-button" [routerLink]="['/artist']" [queryParams]="{ id: artist.id }">See More</button>
     </div>
   </div>
 </div>

@@ -15,6 +15,7 @@ import { WrappedComponent } from './pages/wrapped/wrapped.component';
 import { AuthService } from './services/auth.service';
 import { LoaderComponent } from './components/loader/loader.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { ArtistProfileComponent } from './pages/artist-profile/artist-profile.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ToastComponent } from './components/toast/toast.component';
     PlaylistGeneratorComponent,
     WrappedComponent,
     LoaderComponent,
-    ToastComponent
+    ToastComponent,
+    ArtistProfileComponent
   ],
   imports: [
     BrowserModule,
