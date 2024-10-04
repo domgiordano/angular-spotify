@@ -36,6 +36,7 @@ export class TopSongsComponent implements OnInit {
     }
     else{
       console.log("We got dem top tracks.");
+      this.updateDisplayedSongs();
     }
   }
 
@@ -46,16 +47,23 @@ export class TopSongsComponent implements OnInit {
   }
 
   updateDisplayedSongs() {
-    switch (this.selectedTerm) {
-      case 'short_term':
-        this.displayedSongs = this.topTracksShortTerm;
-        break;
-      case 'medium_term':
-        this.displayedSongs = this.SongService.getMedTermTopTracks(); // Use the stored array
-        break;
-      case 'long_term':
-        this.displayedSongs = this.topTracksLongTerm;
-        break;
+    const songsGrid = document.querySelector('.songs-grid');
+    if (songsGrid) {
+      songsGrid.classList.add('fade-out'); // Apply fade-out class
+      setTimeout(() => {
+        switch (this.selectedTerm) {
+          case 'short_term':
+            this.displayedSongs = this.topTracksShortTerm;
+            break;
+          case 'medium_term':
+            this.displayedSongs = this.SongService.getMedTermTopTracks(); // Use the stored array
+            break;
+          case 'long_term':
+            this.displayedSongs = this.topTracksLongTerm;
+            break;
+        }
+        songsGrid.classList.remove('fade-out'); // Remove fade-out class after content is updated
+      }, 400);
     }
   }
 
@@ -85,7 +93,7 @@ export class TopSongsComponent implements OnInit {
         this.topTracksShortTerm = data.shortTermResp.items; // Set directly for immediate use
         this.topTracksMedTerm = data.medTermResp.items;     // Set directly for immediate use
         this.topTracksLongTerm = data.longTermResp.items;   // Set directly for immediate use
-        this.displayedSongs = this.topTracksShortTerm; // Default to short-term
+        this.updateDisplayedSongs();
         this.loading = false;
       },
       error: err => {

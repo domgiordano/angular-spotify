@@ -33,6 +33,7 @@ export class TopArtistsComponent implements OnInit {
     }
     else{
       console.log("We got dem top artists.");
+      this.updateDisplayedArtists();
     }
 
   }
@@ -44,16 +45,23 @@ export class TopArtistsComponent implements OnInit {
   }
 
   updateDisplayedArtists() {
-    switch (this.selectedTerm) {
-      case 'short_term':
-        this.displayedArtists = this.topArtistsShortTerm;
-        break;
-      case 'medium_term':
-        this.displayedArtists = this.topArtistsMedTerm;
-        break;
-      case 'long_term':
-        this.displayedArtists = this.topArtistsLongTerm;
-        break;
+    const artistsGrid = document.querySelector('.artists-grid');
+    if (artistsGrid) {
+      artistsGrid.classList.add('fade-out'); // Apply fade-out class
+      setTimeout(() => {
+        switch (this.selectedTerm) {
+          case 'short_term':
+            this.displayedArtists = this.topArtistsShortTerm;
+            break;
+          case 'medium_term':
+            this.displayedArtists = this.topArtistsMedTerm;
+            break;
+          case 'long_term':
+            this.displayedArtists = this.topArtistsLongTerm;
+            break;
+        }
+        artistsGrid.classList.remove('fade-out'); // Remove fade-out class after content is updated
+      }, 400);
     }
   }
 
@@ -85,7 +93,7 @@ export class TopArtistsComponent implements OnInit {
     this.topArtistsShortTerm = short.items;
     this.topArtistsMedTerm = med.items;
     this.topArtistsLongTerm = long.items;
-    this.displayedArtists = this.topArtistsShortTerm;
+    this.updateDisplayedArtists();
     this.ArtistService.setShortTermTopArtists(this.topArtistsShortTerm);
     this.ArtistService.setMedTermTopArtists(this.topArtistsMedTerm);
     this.ArtistService.setLongTermTopArtists(this.topArtistsLongTerm);
