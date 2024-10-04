@@ -30,11 +30,23 @@
 
 .songs-grid {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping */
-  justify-content: space-between; /* Space between cards */
+  flex-wrap: wrap;
+  justify-content: space-between;
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+}
+
+// Class to fade out cards
+.fade-out {
+  opacity: 0; /* Fade out effect */
+}
+
+.fade-in {
+  opacity: 1; /* Fade in effect */
 }
 
 .song-card {
+  opacity: 1; /* Default opacity */
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
   display: flex;
   flex-direction: column; /* Stack elements vertically */
   background-color: #282828; /* Dark card background */
