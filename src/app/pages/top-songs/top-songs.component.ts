@@ -26,7 +26,17 @@ export class TopSongsComponent implements OnInit {
 
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
-    this.loadTopTracks(); // Call this initially to load tracks
+    this.topTracksShortTerm = this.SongService.getShortTermTopTracks();
+    this.topTracksMedTerm = this.SongService.getMedTermTopTracks();
+    this.topTracksLongTerm = this.SongService.getLongTermTopTracks();
+    this.displayedSongs = this.topTracksShortTerm;
+    if ( this.topTracksShortTerm.length === 0){
+      console.log("Need Top Tracks.");
+      this.loadTopTracks();
+    }
+    else{
+      console.log("We got dem top tracks.");
+    }
   }
 
   onTermChange() {
