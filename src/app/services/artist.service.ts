@@ -33,6 +33,42 @@ export class ArtistService implements OnInit {
     }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
   }
 
+  getArtistDetails(artistId: string): Observable<any> {
+    this.accessToken = this.AuthService.getAccessToken();
+    return this.http.get(`${this.baseUrl}/artists/${artistId}`, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      }
+    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+  }
+
+  getArtistAlbums(artistId: string): Observable<any> {
+    this.accessToken = this.AuthService.getAccessToken();
+    return this.http.get(`${this.baseUrl}/artists/${artistId}/albums`, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      }
+    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+  }
+
+  getArtistTopTracks(artistId: string): Observable<any> {
+    this.accessToken = this.AuthService.getAccessToken();
+    return this.http.get(`${this.baseUrl}/artists/${artistId}/top-tracks`, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      }
+    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+  }
+
+  getArtistRelatedArtists(artistId: string): Observable<any> {
+    this.accessToken = this.AuthService.getAccessToken();
+    return this.http.get(`${this.baseUrl}/artists/${artistId}/related-artists`, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      }
+    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+  }
+
   getShortTermTopArtists(): any[] {
     return this.topArtistsShortTerm;
   }

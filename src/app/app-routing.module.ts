@@ -10,6 +10,7 @@ import { WrappedComponent } from './pages/wrapped/wrapped.component';
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './components/callback/callback.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ArtistProfileComponent } from './pages/artist-profile/artist-profile.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'playlist-generator', component: PlaylistGeneratorComponent },
   { path: 'wrapped', component: WrappedComponent },
   { path: 'callback', component: CallbackComponent },
+  { path: 'artist', component: ArtistProfileComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect empty path to /home
   { path: '**', redirectTo: '/home' } // Redirect all other paths to /home
 ];
