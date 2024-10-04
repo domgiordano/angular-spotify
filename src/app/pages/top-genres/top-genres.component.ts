@@ -7,9 +7,12 @@ import { GenresService } from 'src/app/services/genre.service';
 @Component({
   selector: 'app-top-genres-page',
   templateUrl: './top-genres.component.html',
-  styleUrls: ['./top-genres.component.css']
+  styleUrls: ['./top-genres.component.scss']
 })
 export class TopGenresComponent implements OnInit {
+  selectedTerm: string = 'short_term'; // Default term
+  displayedGenres: string[] = [];
+  hoveredIndex: number = -1; // To track the hovered genre
   loading: boolean;
   private topArtistsShortTerm: any[];
   private topArtistsMedTerm: any[];
@@ -44,7 +47,10 @@ export class TopGenresComponent implements OnInit {
     }
     else{
       console.log("We got dem top genres.");
+      this.updateDisplayedGenres();
     }
+
+    console.log('shortterm gnere', this.topGenresShortTerm);
 
   }
 
@@ -58,8 +64,27 @@ export class TopGenresComponent implements OnInit {
     console.log(this.topGenresLongTerm);
 
     console.log('Top Genres Loaded.');
+    this.updateDisplayedGenres();
   }
 
+  selectTerm(term: string) {
+    this.selectedTerm = term;
+    this.updateDisplayedGenres();
+  }
+
+  updateDisplayedGenres() {
+    switch (this.selectedTerm) {
+      case 'short_term':
+        this.displayedGenres = Object.keys(this.topGenresShortTerm);
+        break;
+      case 'medium_term':
+        this.displayedGenres = Object.keys(this.topGenresMedTerm);
+        break;
+      case 'long_term':
+        this.displayedGenres = Object.keys(this.topGenresLongTerm);
+        break;
+    }
+  }
   private sortGenres(genres){
     let sorted = [];
     for (let genre in genres) {
