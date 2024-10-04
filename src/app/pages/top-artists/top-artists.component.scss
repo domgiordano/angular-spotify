@@ -1,4 +1,4 @@
-.top-songs-page {
+.top-artists-page {
   padding: 20px;
   background-color: #121212; /* Black background */
   color: #ffffff; /* White text color */
@@ -28,45 +28,47 @@
   transition: background-color 0.3s;
 }
 
-.songs-grid {
+.artists-grid {
   display: flex;
   flex-wrap: wrap; /* Allow wrapping */
   justify-content: space-between; /* Space between cards */
 }
 
-.song-card {
+.artist-card {
   background-color: #282828; /* Dark card background */
   border-radius: 10px;
-  padding: 10px; /* Smaller padding */
+  padding: 10px; /* Padding inside the card */
   text-align: center;
   margin: 10px;
-  flex: 1 1 calc(20% - 20px); /* 5 items per row, adjust spacing */
+  flex: 0 1 calc(20% - 20px); /* Set width to 20% minus margins for 5 cards */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
-  max-width: 150px; /* Limit width for smaller cards */
+  max-width: calc(20% - 20px); /* Maximum width for each card */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.song-image {
-  width: 100%; /* Full width of the card */
-  height: 150px; /* Set a fixed height */
-  object-fit: cover; /* Maintain aspect ratio while filling the space */
+.artist-image {
+  width: 150px; /* Full width of the card */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 150px; /* Set a maximum height */
+  object-fit: cover; /* Cover the space without distortion */
   border-radius: 5px; /* Rounded corners for the image */
 }
 
-.song-title {
+.artist-title {
   font-size: 16px; /* Adjust title font size */
   margin: 5px 0; /* Spacing around title */
 }
 
-.song-artists {
+.artist-artists {
   font-size: 12px; /* Adjust artists font size */
   color: #b3b3b3; /* Light gray color */
 }
 
-.song-ranking {
+.artist-ranking {
   display: block; /* Make it a block element */
   font-size: 14px; /* Adjust ranking font size */
   color: #1db954; /* Spotify green color */
-  margin-bottom: 10px; /* Increase space below the ranking */
+  margin-bottom: 10px; /* Space below the ranking */
 }
 
 .term-buttons {

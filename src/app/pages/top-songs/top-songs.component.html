@@ -24,10 +24,10 @@
 
   <div class="songs-grid">
     <div class="song-card" *ngFor="let song of displayedSongs; let i = index">
+      <span class="song-ranking">#{{ i + 1 }}</span>
       <img [src]="song.album.images[0].url" alt="{{ song.name }}" class="song-image">
       <h2 class="song-title">{{ song.name }}</h2>
       <p class="song-artists">{{ formatArtists(song.artists) }}</p>
-      <span class="song-ranking">#{{ i + 1 }}</span>
     </div>
   </div>
 </div>

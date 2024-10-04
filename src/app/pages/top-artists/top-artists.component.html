@@ -1,8 +1,32 @@
-<div class="app-container">
-    <app-loader [loading]="loading"></app-loader>
-    <div class="content">
-      <h1>Welcome to the My Top Artists Page!</h1>
-      <div class="form-container">
-      </div>
+<div class="top-artists-page">
+  <div class="switch-container">
+    <div class="term-buttons">
+      <button
+        class="term-button"
+        [ngClass]="{'selected': selectedTerm === 'short_term'}"
+        (click)="selectedTerm = 'short_term'; onTermChange()">
+        Last Month
+      </button>
+      <button
+        class="term-button"
+        [ngClass]="{'selected': selectedTerm === 'medium_term'}"
+        (click)="selectedTerm = 'medium_term'; onTermChange()">
+        Last 6 Months
+      </button>
+      <button
+        class="term-button"
+        [ngClass]="{'selected': selectedTerm === 'long_term'}"
+        (click)="selectedTerm = 'long_term'; onTermChange()">
+        Last Year
+      </button>
     </div>
   </div>
+
+  <div class="artists-grid">
+    <div class="artist-card" *ngFor="let artist of displayedArtists; let i = index">
+      <span class="artist-ranking">#{{ i + 1 }}</span>
+      <img [src]="artist.images[0].url" alt="{{ artist.name }}" class="artist-image">
+      <h2 class="artist-title">{{ artist.name }}</h2>
+    </div>
+  </div>
+</div>
