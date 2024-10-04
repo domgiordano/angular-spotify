@@ -1,4 +1,4 @@
-.top-songs-page {
+.top-artists-page {
   padding: 20px;
   background-color: #121212; /* Black background */
   color: #ffffff; /* White text color */
@@ -28,13 +28,13 @@
   transition: background-color 0.3s;
 }
 
-.songs-grid {
+.artists-grid {
   display: flex;
   flex-wrap: wrap; /* Allow wrapping */
   justify-content: space-between; /* Space between cards */
 }
 
-.song-card {
+.artist-card {
   display: flex;
   flex-direction: column; /* Stack elements vertically */
   background-color: #282828; /* Dark card background */
@@ -51,7 +51,7 @@
     background-color: #1db954; /* Change background on hover */
     transform: scale(1.05); /* Slightly enlarge the card */
     cursor: pointer; /* Change cursor to pointer */
-    .song-ranking {
+    .artist-ranking {
       color: black; /* Change rank text color to black on hover */
     }
     .see-more-button {
@@ -60,30 +60,30 @@
   }
 }
 
-.song-image {
+.artist-image {
   width: auto; /* Full width of the card */
   height: auto; /* Maintain aspect ratio */
   max-width: 150px;
-  max-height: 150px; /* Set a maximum height */
+  max-height: 150px;
   object-fit: cover; /* Cover the space without distortion */
   border-radius: 5px; /* Rounded corners for the image */
   align-self: center;
 }
 
-.song-title {
+.artist-title {
   font-size: 16px; /* Adjust title font size */
   margin: 5px 0; /* Spacing around title */
 }
 
-.song-artists {
+.artist-artists {
   font-size: 12px; /* Adjust artists font size */
-  color: white; /* Always white */
+  color: #b3b3b3; /* Light gray color */
 }
 
-.song-ranking {
+.artist-ranking {
   display: block; /* Make it a block element */
   font-size: 14px; /* Adjust ranking font size */
-  color: #1db954; /* Default ranking color */
+  color: #1db954; /* Spotify green color */
   margin-bottom: 10px; /* Space below the ranking */
 }
 
@@ -122,7 +122,6 @@
   margin-top: 10px; /* Space from the content above */
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: auto;
 
   &:hover {
     color: #1aa34a; /* Darker green on hover */

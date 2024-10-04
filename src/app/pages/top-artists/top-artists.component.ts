@@ -6,9 +6,11 @@ import { ArtistService } from 'src/app/services/artist.service';
 @Component({
   selector: 'app-top-artists-page',
   templateUrl: './top-artists.component.html',
-  styleUrls: ['./top-artists.component.css']
+  styleUrls: ['./top-artists.component.scss']
 })
 export class TopArtistsComponent implements OnInit {
+  selectedTerm = 'short_term';
+  displayedArtists: any[] = [];
   loading: boolean;
   private topArtistsShortTerm: any[];
   private topArtistsMedTerm: any[];
@@ -24,6 +26,7 @@ export class TopArtistsComponent implements OnInit {
     this.topArtistsShortTerm = this.ArtistService.getShortTermTopArtists();
     this.topArtistsMedTerm = this.ArtistService.getMedTermTopArtists();
     this.topArtistsLongTerm = this.ArtistService.getLongTermTopArtists();
+    this.displayedArtists = this.topArtistsShortTerm;
     if ( this.topArtistsShortTerm.length === 0){
       console.log("Need Top Artists.");
       this.loadTopArtists();
@@ -33,6 +36,27 @@ export class TopArtistsComponent implements OnInit {
     }
 
   }
+
+  onTermChange() {
+    this.updateDisplayedArtists();
+    console.log(this.displayedArtists);
+    console.log('Selected term:', this.selectedTerm);
+  }
+
+  updateDisplayedArtists() {
+    switch (this.selectedTerm) {
+      case 'short_term':
+        this.displayedArtists = this.topArtistsShortTerm;
+        break;
+      case 'medium_term':
+        this.displayedArtists = this.topArtistsMedTerm;
+        break;
+      case 'long_term':
+        this.displayedArtists = this.topArtistsLongTerm;
+        break;
+    }
+  }
+
   loadTopArtists() {
     this.loading = true;
     const getArtistsCalls = forkJoin({
@@ -61,9 +85,14 @@ export class TopArtistsComponent implements OnInit {
     this.topArtistsShortTerm = short.items;
     this.topArtistsMedTerm = med.items;
     this.topArtistsLongTerm = long.items;
+    this.displayedArtists = this.topArtistsShortTerm;
     this.ArtistService.setShortTermTopArtists(this.topArtistsShortTerm);
     this.ArtistService.setMedTermTopArtists(this.topArtistsMedTerm);
     this.ArtistService.setLongTermTopArtists(this.topArtistsLongTerm);
+  }
+
+  viewArtistDetails(artist: any){
+    console.log('Aritst', artist);
   }
 }
 
