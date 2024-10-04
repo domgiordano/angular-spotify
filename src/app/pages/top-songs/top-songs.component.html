@@ -23,11 +23,16 @@
   </div>
 
   <div class="songs-grid">
-    <div class="song-card" *ngFor="let song of displayedSongs; let i = index">
+    <div class="song-card" *ngFor="let song of displayedSongs; let i = index"
+      (mouseenter)="playSong(song.preview_url)"
+      (mouseleave)="stopSong()"
+    >
       <span class="song-ranking">#{{ i + 1 }}</span>
       <img [src]="song.album.images[0].url" alt="{{ song.name }}" class="song-image">
       <h2 class="song-title">{{ song.name }}</h2>
       <p class="song-artists">{{ formatArtists(song.artists) }}</p>
+      <button class="see-more-button" (click)="viewSongDetails(song)">See More</button>
     </div>
   </div>
 </div>
+<audio #audioPlayer></audio>

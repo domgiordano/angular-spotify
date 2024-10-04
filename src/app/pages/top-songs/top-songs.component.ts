@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SongService } from 'src/app/services/song.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { forkJoin, take } from 'rxjs';
@@ -9,6 +9,7 @@ import { forkJoin, take } from 'rxjs';
   styleUrls: ['./top-songs.component.scss']
 })
 export class TopSongsComponent implements OnInit {
+  @ViewChild('audioPlayer', { static: false }) audioPlayer!: ElementRef<HTMLAudioElement>;
   selectedTerm = 'short_term';
   loading: boolean;
   displayedSongs = [];
@@ -48,6 +49,18 @@ export class TopSongsComponent implements OnInit {
     }
   }
 
+  playSong(previewUrl: string) {
+    if (this.audioPlayer.nativeElement.src !== previewUrl) {
+      this.audioPlayer.nativeElement.src = previewUrl;
+    }
+    this.audioPlayer.nativeElement.play();
+  }
+
+  stopSong() {
+    this.audioPlayer.nativeElement.pause();
+    this.audioPlayer.nativeElement.currentTime = 0; // Reset playback
+  }
+
   loadTopTracks() {
     this.loading = true;
     const getTracksCalls = forkJoin({
@@ -76,5 +89,8 @@ export class TopSongsComponent implements OnInit {
   }
   formatArtists(artists: any[]): string {
     return artists.map(artist => artist.name).join(', ');
+  }
+  viewSongDetails(song: any){
+    console.log('Song', song);
   }
 }

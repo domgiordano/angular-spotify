@@ -35,21 +35,39 @@
 }
 
 .song-card {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
   background-color: #282828; /* Dark card background */
   border-radius: 10px;
-  padding: 10px; /* Smaller padding */
+  padding: 10px; /* Padding inside the card */
   text-align: center;
+  justify-content: space-between;
   margin: 10px;
-  flex: 1 1 calc(20% - 20px); /* 5 items per row, adjust spacing */
+  flex: 0 1 calc(20% - 20px); /* Set width to 20% minus margins for 5 cards */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
-  max-width: 150px; /* Limit width for smaller cards */
+  max-width: calc(20% - 20px); /* Maximum width for each card */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  &:hover {
+    background-color: #1db954; /* Change background on hover */
+    transform: scale(1.05); /* Slightly enlarge the card */
+    cursor: pointer; /* Change cursor to pointer */
+    .song-ranking {
+      color: black; /* Change rank text color to black on hover */
+    }
+    .see-more-button {
+      background-color: black;
+    }
+  }
 }
 
 .song-image {
-  width: 100%; /* Full width of the card */
-  height: 150px; /* Set a fixed height */
-  object-fit: cover; /* Maintain aspect ratio while filling the space */
+  width: auto; /* Full width of the card */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 150px;
+  max-height: 150px; /* Set a maximum height */
+  object-fit: cover; /* Cover the space without distortion */
   border-radius: 5px; /* Rounded corners for the image */
+  align-self: center;
 }
 
 .song-title {
@@ -59,14 +77,14 @@
 
 .song-artists {
   font-size: 12px; /* Adjust artists font size */
-  color: #b3b3b3; /* Light gray color */
+  color: white; /* Always white */
 }
 
 .song-ranking {
   display: block; /* Make it a block element */
   font-size: 14px; /* Adjust ranking font size */
-  color: #1db954; /* Spotify green color */
-  margin-bottom: 10px; /* Increase space below the ranking */
+  color: #1db954; /* Default ranking color */
+  margin-bottom: 10px; /* Space below the ranking */
 }
 
 .term-buttons {
@@ -94,5 +112,20 @@
 .selected {
   background-color: green; // Color for selected button
   color: white; // Change text color for visibility
+}
+.see-more-button {
+  background-color: #1db954; /* Spotify green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  margin-top: 10px; /* Space from the content above */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: auto;
+
+  &:hover {
+    color: #1aa34a; /* Darker green on hover */
+  }
 }
 

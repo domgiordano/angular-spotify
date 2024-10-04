@@ -90,5 +90,9 @@ export class TopArtistsComponent implements OnInit {
     this.ArtistService.setMedTermTopArtists(this.topArtistsMedTerm);
     this.ArtistService.setLongTermTopArtists(this.topArtistsLongTerm);
   }
+
+  viewArtistDetails(artist: any){
+    console.log('Aritst', artist);
+  }
 }
 
