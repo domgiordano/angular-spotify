@@ -92,6 +92,7 @@
       </div>
     </div>
 
-    <button type="submit" [disabled]="isButtonInactive">Generate Playlist</button>
+    <button type="submit" [ngClass]="{'inactive': isButtonInactive()}">Generate Playlist</button>
   </form>
+  <app-toast></app-toast>
 </div>

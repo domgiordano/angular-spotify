@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { SongService } from 'src/app/services/song.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { forkJoin, take } from 'rxjs';
+import { ToastComponent } from 'src/app/components/toast/toast.component';
 
 @Component({
   selector: 'app-playlist-generator-page',
@@ -11,6 +12,7 @@ import { forkJoin, take } from 'rxjs';
   styleUrls: ['./playlist-generator.component.scss']
 })
 export class PlaylistGeneratorComponent implements OnInit {
+  @ViewChild(ToastComponent) toast: ToastComponent;
   loading: boolean;
   tracksLoaded = false;
   tracks: any[];
@@ -55,12 +57,16 @@ export class PlaylistGeneratorComponent implements OnInit {
   generatePlaylist() {
     // Logic to filter tracks based on input values
     // This would likely involve calling a service that interacts with your music API
+    if (this.isButtonInactive()) {
+      this.toast.showToast('Still Loading in all your tracks, chill man.');
+    } else {
+      console.log('Generating playlist with:', {
+        trackDateRange: { releaseStartDate: this.releaseStartDate, releaseEndDate: this.releaseEndDate },
+        savedDateRange: { savedStartDate: this.savedStartDate, savedEndDate: this.savedEndDate },
+        filters: this.filters
+      });
+    }
 
-    console.log('Generating playlist with:', {
-      trackDateRange: { releaseStartDate: this.releaseStartDate, releaseEndDate: this.releaseEndDate },
-      savedDateRange: { savedStartDate: this.savedStartDate, savedEndDate: this.savedEndDate },
-      filters: this.filters
-    });
   }
 
   isButtonInactive(): boolean {
