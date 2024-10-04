@@ -67,6 +67,15 @@ export class SongService implements OnInit {
     }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
   }
 
+  getSongStats(songId: string): Observable<any> {
+    this.accessToken = this.AuthService.getAccessToken();
+    return this.http.get(`${this.baseUrl}/audio-features/${songId}`, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      }
+    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+  }
+
   setTopTracks(short: any[], med: any[], long: any[]): void {
     this.topTracksShortTerm = short;
     this.topTracksMedTerm = med;

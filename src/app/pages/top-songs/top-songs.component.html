@@ -22,16 +22,36 @@
     </div>
   </div>
 
-  <div class="songs-grid">
-    <div class="song-card" *ngFor="let song of displayedSongs; let i = index"
-      (mouseenter)="playSong(song.preview_url)"
-      (mouseleave)="stopSong()"
-    >
-      <span class="song-ranking">#{{ i + 1 }}</span>
-      <img [src]="song.album.images[0].url" alt="{{ song.name }}" class="song-image">
-      <h2 class="song-title">{{ song.name }}</h2>
-      <p class="song-artists">{{ formatArtists(song.artists) }}</p>
-      <button class="see-more-button" (click)="viewSongDetails(song)">See More</button>
+<div class="songs-grid">
+  <div class="song-card" *ngFor="let song of displayedSongs; let i = index"
+    [ngClass]="{ 'flipped': song.flipped }" (mouseenter)="playSong(song.preview_url)"
+    (mouseleave)="stopSong()"
+  >
+    <div class="card-content">
+      <!-- Front of the card -->
+      <div class="card-front">
+        <span class="song-ranking">#{{ i + 1 }}</span>
+        <img [src]="song.album.images[0].url" alt="{{ song.name }}" class="song-image">
+        <h2 class="song-title">{{ song.name }}</h2>
+        <p class="song-artists">{{ formatArtists(song.artists) }}</p>
+        <button class="see-more-button" (click)="flipCard(song)">See More</button>
+      </div>
+
+      <!-- Back of the card -->
+      <div class="card-back">
+        <span class="song-ranking">#{{ i + 1 }}</span>
+        <h3 class="song-title">{{ selectedSong.name }}</h3>
+        <p class="song-stats">Acousticness: {{ selectedSong.acousticness }}</p>
+        <p class="song-stats">danceability: {{ selectedSong.danceability }}</p>
+        <p class="song-stats">energy: {{ selectedSong.energy }}</p>
+        <p class="song-stats">instrumentalness: {{ selectedSong.instrumentalness }}</p>
+        <p class="song-stats">liveness: {{ selectedSong.liveness }}</p>
+        <p class="song-stats">loudness: {{ selectedSong.loudness }}</p>
+        <p class="song-stats">speechiness: {{ selectedSong.speechiness }}</p>
+        <p class="song-stats">tempo: {{ selectedSong.tempo }}</p>
+        <p class="song-stats">valence: {{ selectedSong.valence }}</p>
+        <button class="see-more-button" (click)="flipCard(song)">Go Back</button>
+      </div>
     </div>
   </div>
 </div>
