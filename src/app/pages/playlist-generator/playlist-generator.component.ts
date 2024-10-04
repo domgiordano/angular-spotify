@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SongService } from 'src/app/services/song.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
@@ -8,19 +8,34 @@ import { forkJoin, take } from 'rxjs';
 @Component({
   selector: 'app-playlist-generator-page',
   templateUrl: './playlist-generator.component.html',
-  styleUrls: ['./playlist-generator.component.css']
+  styleUrls: ['./playlist-generator.component.scss']
 })
 export class PlaylistGeneratorComponent implements OnInit {
   loading: boolean;
-  private tracks: any[];
+  tracksLoaded = false;
+  tracks: any[];
   accessToken: string;
-  private baseUrl = 'https://api.spotify.com/v1';
+  releaseStartDate = '1900-01-01';
+  releaseEndDate = new Date().toISOString().split('T')[0];
+  savedStartDate = '1900-01-01';
+  savedEndDate = new Date().toISOString().split('T')[0];
+  filters = {
+    acousticness: { min: 0.00, max: 1.00 },
+    danceability: { min: 0.00, max: 1.00 },
+    energy: { min: 0.00, max: 1.00 },
+    instrumentalness: { min: 0.00, max: 1.00 },
+    liveness: { min: 0.00, max: 1.00 },
+    loudness: { min: -60.00, max: 0.00 },
+    speechiness: { min: 0.00, max: 1.00 },
+    tempo: { min: 0.00, max: 200.00 }
+  };
 
   constructor(
       private http: HttpClient,
       private router: Router,
       private AuthService: AuthService,
-      private SongService: SongService
+      private SongService: SongService,
+      private cdr: ChangeDetectorRef
     ) {}
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
@@ -31,8 +46,25 @@ export class PlaylistGeneratorComponent implements OnInit {
     }
     else{
       console.log("We got dem tracks.");
+      this.tracksLoaded = true;
+      this.cdr.detectChanges();
     }
 
+  }
+
+  generatePlaylist() {
+    // Logic to filter tracks based on input values
+    // This would likely involve calling a service that interacts with your music API
+
+    console.log('Generating playlist with:', {
+      trackDateRange: { releaseStartDate: this.releaseStartDate, releaseEndDate: this.releaseEndDate },
+      savedDateRange: { savedStartDate: this.savedStartDate, savedEndDate: this.savedEndDate },
+      filters: this.filters
+    });
+  }
+
+  isButtonInactive(): boolean {
+    return !this.tracksLoaded;
   }
 
   loadTracks() {
@@ -49,10 +81,7 @@ export class PlaylistGeneratorComponent implements OnInit {
       next: data => {
         this.tracks = [...data.oneResp, ...data.twoResp, ...data.threeResp,
           ...data.fourResp, ...data.fiveResp, ...data.sixResp]
-        // Remove Empty values
-        this.tracks = this.tracks.filter(e => e);
-        console.log('Tracks--------');
-        console.log(this.tracks);
+        this.SongService.setTracks(this.tracks);
         this.loading = false;
       },
       error: err => {
@@ -61,6 +90,8 @@ export class PlaylistGeneratorComponent implements OnInit {
       },
       complete: () => {
         console.log('Tracks Loaded.');
+        this.tracksLoaded = true;
+        this.cdr.detectChanges();
       }
     });
   }
