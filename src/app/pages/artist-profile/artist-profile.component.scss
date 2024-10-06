@@ -80,10 +80,20 @@
 /* Fading effect for carousel */
 .carousel {
   position: relative;
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
   overflow: hidden;
+
+  .carousel-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .related-artist-card {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
+  }
 }
 
 .carousel-container {
@@ -186,11 +196,21 @@
 }
 
 button {
-  background: none; /* No background */
-  border: none; /* Remove borders */
-  cursor: pointer; /* Show pointer on hover */
-  color: white; /* Arrow color */
-  font-size: 24px; /* Size of the arrow */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+
+  &.inactive {
+    opacity: 0.3; /* Faded out look for inactive buttons */
+    cursor: default; /* Change cursor for inactive buttons */
+  }
+
+  &:hover:not(.inactive) {
+    color: #1db954;
+  }
 }
 
 button:hover {

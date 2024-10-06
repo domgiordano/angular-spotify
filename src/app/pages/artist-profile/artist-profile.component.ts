@@ -86,14 +86,12 @@ export class ArtistProfileComponent implements OnInit {
     this.artist.followers = details.followers.total;
     this.artist.popularity = details.popularity;
     this.artist.albums = albums.items;
-
     this.artist.topTracks = tracks.tracks.map(track => ({
       name: track.name,
       image: track.album.images[0].url,
       artists: track.artists,
       previewUrl: track.preview_url
     }));
-
     this.artist.relatedArtists = relatedArtists.artists.map(artist => ({
       name: artist.name,
       image: artist.images[0].url,
@@ -106,20 +104,30 @@ export class ArtistProfileComponent implements OnInit {
   }
 
   get visibleRelatedArtists() {
-    const totalArtists = this.artist.relatedArtists.length;
-    return [
-      this.artist.relatedArtists[(this.currentRelatedArtistIndex) % totalArtists],
-      this.artist.relatedArtists[(this.currentRelatedArtistIndex + 1) % totalArtists],
-      this.artist.relatedArtists[(this.currentRelatedArtistIndex + 2) % totalArtists]
-    ];
+    return this.artist.relatedArtists.slice(this.currentRelatedArtistIndex, this.currentRelatedArtistIndex + 3);
   }
 
   nextRelatedArtists() {
-    this.currentRelatedArtistIndex = (this.currentRelatedArtistIndex + 1) % this.artist.relatedArtists.length;
+    if (this.currentRelatedArtistIndex < this.artist.relatedArtists.length - 3) {
+      this.currentRelatedArtistIndex++;
+    } else {
+      this.currentRelatedArtistIndex = 0; // Reset to the beginning for infinite scroll
+    }
   }
 
   previousRelatedArtists() {
-    const totalArtists = this.artist.relatedArtists.length;
-    this.currentRelatedArtistIndex = (this.currentRelatedArtistIndex - 1 + totalArtists) % totalArtists;
+    if (this.currentRelatedArtistIndex > 0) {
+      this.currentRelatedArtistIndex--;
+    } else {
+      this.currentRelatedArtistIndex = this.artist.relatedArtists.length - 3; // Reset to the end for infinite scroll
+    }
+  }
+
+  isNextDisabled() {
+    return this.artist.relatedArtists.length <= 3;
+  }
+
+  isPreviousDisabled() {
+    return this.artist.relatedArtists.length <= 3;
   }
 }
