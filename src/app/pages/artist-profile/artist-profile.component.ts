@@ -17,6 +17,7 @@ export class ArtistProfileComponent implements OnInit {
   topSongs: any[] = [];
   currentImageIndex: number = 0; // To track the currently displayed image
   audio = new Audio();
+  currentRelatedArtistIndex = 0;
 
   constructor(
     private router: Router,
@@ -82,6 +83,7 @@ export class ArtistProfileComponent implements OnInit {
 
   private buildArtist(details: any, albums: any, tracks: any, relatedArtists: any){
     this.artist.image = details.images[0].url;
+    this.artist.images = details.images;
     this.artist.name = details.name;
     this.artist.genres = details.genres;
     this.artist.followers = details.followers.total;
@@ -110,5 +112,21 @@ export class ArtistProfileComponent implements OnInit {
   }
   formatArtists(artists: any[]): string {
     return artists.map(artist => artist.name).join(', ');
+  }
+
+  get visibleRelatedArtists() {
+    return this.artist.relatedArtists.slice(this.currentRelatedArtistIndex, this.currentRelatedArtistIndex + 3);
+  }
+
+  nextRelatedArtists() {
+    if (this.currentRelatedArtistIndex < this.artist.relatedArtists.length - 3) {
+      this.currentRelatedArtistIndex += 1;
+    }
+  }
+
+  previousRelatedArtists() {
+    if (this.currentRelatedArtistIndex > 0) {
+      this.currentRelatedArtistIndex -= 1;
+    }
   }
 }

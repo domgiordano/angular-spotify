@@ -12,7 +12,7 @@
 
       <div class="top-songs">
         <h2>Top Tracks</h2>
-        <div *ngFor="let song of artist.topTracks | slice:0:5; let i = index" class="song-card"  (mouseover)="playPreview(song.previewUrl)" (mouseleave)="stopPreview()">
+        <div *ngFor="let song of artist.topTracks | slice:0:5; let i = index" class="song-card" (mouseover)="playPreview(song.previewUrl)" (mouseleave)="stopPreview()">
           <span class="song-ranking">{{ i + 1 }}.</span>
           <img [src]="song.image" alt="{{ song.name }} cover" class="song-cover" />
           <div class="song-details">
@@ -25,14 +25,20 @@
 
     <div class="related-artists">
       <h2>Related Artists</h2>
-      <div class="related-artists-list">
-        <div *ngFor="let related of artist.relatedArtists | slice:0:3;" class="related-artist" (click)="goToArtist(related.id)">
-          <img [src]="related.image" alt="{{ related.name }}" class="related-artist-image" />
-          <p class="related-artist-name">{{ related.name }}</p>
+      <div class="carousel">
+        <button (click)="previousRelatedArtists()" *ngIf="currentRelatedArtistIndex > 0">&#10094;</button>
+        <div class="carousel-container">
+          <div class="related-artist-card" *ngFor="let artist of visibleRelatedArtists; let i = index">
+            <img [src]="artist.image" alt="{{ artist.name }}" class="related-artist-image" />
+            <p class="related-artist-name">{{ artist.name }}</p>
+            <button class="see-more-button" (click)="goToArtist(artist.id)">See More</button>
+          </div>
         </div>
+        <button (click)="nextRelatedArtists()" *ngIf="currentRelatedArtistIndex < (artist.relatedArtists.length - 3)">&#10095;</button>
       </div>
     </div>
 
+    <!-- Go Back Button -->
     <button class="go-back-button" (click)="goBack()">Go Back</button>
   </div>
 </div>

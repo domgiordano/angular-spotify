@@ -16,7 +16,7 @@ import { AuthService } from './services/auth.service';
 import { LoaderComponent } from './components/loader/loader.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ArtistProfileComponent } from './pages/artist-profile/artist-profile.component';
-
+import { SwiperModule } from 'swiper/angular';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +35,8 @@ import { ArtistProfileComponent } from './pages/artist-profile/artist-profile.co
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SwiperModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

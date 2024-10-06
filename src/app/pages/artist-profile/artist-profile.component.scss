@@ -49,7 +49,6 @@
   display: flex; /* Align items horizontally */
   align-items: center; /* Center vertically */
   min-height: 70px; /* Set a minimum height for song cards */
-
   transition: background-color 0.3s; /* Smooth transition for hover effect */
 
   &:hover {
@@ -78,29 +77,77 @@
 
 .related-artists {
   margin-top: 20px; /* Space above related artists section */
+  height: 220px; /* Adjust height to fit cards and arrows */
+
+  h2 {
+    text-align: center; /* Center the heading */
+    margin-bottom: 20px;
+  }
 }
 
-.related-artists-list {
-  display: flex; /* Use flexbox for horizontal alignment */
-  justify-content: space-around; /* Distribute related artists evenly */
-}
-
-.related-artist {
+.carousel {
   display: flex;
-  flex-direction: column; /* Stack image and name vertically */
-  align-items: center; /* Center items horizontally */
-  margin-right: 10px; /* Space between related artists */
-  cursor: pointer; /* Indicate clickable item */
+  align-items: center;
+  justify-content: center; /* Center the carousel */
+  position: relative; /* For positioning the buttons */
+  width: 100%; /* Full width of the parent */
+  overflow: hidden; /* Prevent overflow of content */
+}
+
+.carousel-container {
+  display: flex; /* Align children in a row */
+  transition: transform 0.5s ease; /* Smooth transition for sliding effect */
+  width: calc(100% * 3); /* Total width for 3 cards */
+  justify-content: center; /* Center the cards in the carousel */
+}
+
+.related-artist-card {
+  background-color: #333;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 5px; /* Smaller margin for fitting cards */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px; /* Set a fixed width for related artist cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.related-artist-card:hover {
+  background-color: #1db954; /* Spotify green on card hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .related-artist-image {
-  width: 100px; /* Fixed width for related artist images */
-  height: 100px; /* Maintain aspect ratio */
-  border-radius: 5px; /* Rounded corners for the image */
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .related-artist-name {
-  margin-top: 5px; /* Space to the top of the name */
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+}
+
+.see-more-btn {
+  margin-top: auto;
+  padding: 10px 20px;
+  background-color: #1db954; /* Ensure it's a button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center; /* Center text */
+}
+
+.see-more-btn:hover {
+  background-color: #333; /* Dark grey on button hover */
+  color: white;
 }
 
 .go-back-button {
@@ -116,4 +163,16 @@
   &:hover {
     background-color: #1aa34a; /* Darker green on hover */
   }
+}
+
+button {
+  background: none; /* No background */
+  border: none; /* Remove borders */
+  cursor: pointer; /* Show pointer on hover */
+  color: white; /* Arrow color */
+  font-size: 24px; /* Size of the arrow */
+}
+
+button:hover {
+  color: #1db954; /* Change arrow color on hover */
 }
