@@ -21,6 +21,7 @@
     "angular-oauth2-oidc": "^17.0.2",
     "localStorage": "^1.10.0",
     "rxjs": "~7.8.0",
+    "swiper": "^8.4.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },
