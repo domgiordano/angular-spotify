@@ -31,7 +31,7 @@
           <div class="related-artist-card" *ngFor="let artist of visibleRelatedArtists; let i = index">
             <img [src]="artist.image" alt="{{ artist.name }}" class="related-artist-image" />
             <p class="related-artist-name">{{ artist.name }}</p>
-            <button class="see-more-button" (click)="goToArtist(artist.id)">See More</button>
+            <button class="see-more-btn" (click)="goToArtist(artist.id)">See More</button>
           </div>
         </div>
         <button (click)="nextRelatedArtists()" *ngIf="currentRelatedArtistIndex < (artist.relatedArtists.length - 3)">&#10095;</button>

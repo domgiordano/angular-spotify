@@ -3,7 +3,8 @@
   background-color: #121212; /* Black background */
   color: #ffffff; /* White text color */
   display: flex;
-  justify-content: center; /* Center the card */
+  flex-direction: column; /* Stack everything vertically */
+  align-items: center; /* Center the content horizontally */
 }
 
 .artist-card {
@@ -50,13 +51,6 @@
   align-items: center; /* Center vertically */
   min-height: 70px; /* Set a minimum height for song cards */
   transition: background-color 0.3s; /* Smooth transition for hover effect */
-
-  &:hover {
-    background-color: #1db954; /* Highlight green on hover */
-    .song-ranking {
-      color: black; /* Change rank text color to black on hover */
-    }
-  }
 }
 
 .song-ranking {
@@ -77,28 +71,50 @@
 
 .related-artists {
   margin-top: 20px; /* Space above related artists section */
-  height: 220px; /* Adjust height to fit cards and arrows */
-
-  h2 {
-    text-align: center; /* Center the heading */
-    margin-bottom: 20px;
-  }
+  height: auto; /* Adjust height to fit cards and arrows */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* Fading effect for carousel */
 .carousel {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center; /* Center the carousel */
-  position: relative; /* For positioning the buttons */
-  width: 100%; /* Full width of the parent */
-  overflow: hidden; /* Prevent overflow of content */
+  justify-content: center;
+  overflow: hidden;
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel::before,
+.carousel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.carousel::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(18, 18, 18, 1), rgba(18, 18, 18, 0));
+}
+
+.carousel::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(18, 18, 18, 1), rgba(18, 18, 18, 0));
 }
 
 .carousel-container {
   display: flex; /* Align children in a row */
   transition: transform 0.5s ease; /* Smooth transition for sliding effect */
-  width: calc(100% * 3); /* Total width for 3 cards */
-  justify-content: center; /* Center the cards in the carousel */
 }
 
 .related-artist-card {
@@ -133,22 +149,29 @@
   text-align: center;
 }
 
+.related-artist-card:hover .see-more-btn {
+  background-color: #000; /* Black button on card hover */
+  color: #fff; /* Ensure the text color remains visible */
+}
+
 .see-more-btn {
-  margin-top: auto;
-  padding: 10px 20px;
-  background-color: #1db954; /* Ensure it's a button */
+  display: inline-block; /* Make it an inline-block element */
+  padding: 8px 16px; /* Smaller padding for a compact look */
+  background-color: #1db954; /* Spotify green */
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  text-align: center; /* Center text */
+  font-size: 14px; /* Smaller font size */
+  transition: background-color 0.3s, color 0.3s;
+  text-align: center; /* Center the text */
 }
 
 .see-more-btn:hover {
-  background-color: #333; /* Dark grey on button hover */
-  color: white;
+  background-color: #333; /* Dark background on hover */
+  color: #1db954; /* Keep text green */
 }
+
 
 .go-back-button {
   background-color: #1db954; /* Spotify green */
@@ -159,10 +182,7 @@
   margin-top: 20px; /* Space from the content above */
   cursor: pointer;
   transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #1aa34a; /* Darker green on hover */
-  }
+  align-self: center; /* Center the button below everything */
 }
 
 button {
@@ -175,4 +195,8 @@ button {
 
 button:hover {
   color: #1db954; /* Change arrow color on hover */
+}
+
+button:disabled {
+  color: grey; /* Inactive state for arrows */
 }

@@ -15,7 +15,7 @@ export class ArtistProfileComponent implements OnInit {
   artistId: string;
   artist: any = {};
   topSongs: any[] = [];
-  currentImageIndex: number = 0; // To track the currently displayed image
+  currentImageIndex: number = 0;
   audio = new Audio();
   currentRelatedArtistIndex = 0;
 
@@ -31,13 +31,11 @@ export class ArtistProfileComponent implements OnInit {
       this.loadArtistDetails(this.artistId);
       this.artist.id = this.artistId;
     });
-
   }
 
   loadArtistDetails(artistId: string) {
     this.loading = true;
     if (artistId) {
-      // Fetch artist details and top songs
       const artistCalls = forkJoin({
         detailsResp: this.ArtistService.getArtistDetails(artistId),
         albumsResp: this.ArtistService.getArtistAlbums(artistId),
@@ -48,8 +46,6 @@ export class ArtistProfileComponent implements OnInit {
       return artistCalls.pipe(take(1)).subscribe({
         next: data => {
           this.loading = false;
-          console.log("Artist Data FOUND ------");
-          console.log(data);
           this.buildArtist(data.detailsResp, data.albumsResp, data.tracksResp, data.relatedResp);
         },
         error: err => {
@@ -62,26 +58,27 @@ export class ArtistProfileComponent implements OnInit {
       });
     }
   }
+
   goBack() {
     this.router.navigate(['/top-artists']);
   }
+
   goToArtist(relatedArtistId: string) {
-    // Navigate to the related artist profile page with artistId as a query param
     this.router.navigate(['/artist'], { queryParams: { id: relatedArtistId } });
   }
 
   playPreview(previewUrl: string) {
-    this.stopPreview(); // Stop any currently playing track
-    this.audio.src = previewUrl; // Set the new source
-    this.audio.play(); // Start playing
+    this.stopPreview();
+    this.audio.src = previewUrl;
+    this.audio.play();
   }
 
   stopPreview() {
-    this.audio.pause(); // Pause the audio
-    this.audio.currentTime = 0; // Reset playback position
+    this.audio.pause();
+    this.audio.currentTime = 0;
   }
 
-  private buildArtist(details: any, albums: any, tracks: any, relatedArtists: any){
+  private buildArtist(details: any, albums: any, tracks: any, relatedArtists: any) {
     this.artist.image = details.images[0].url;
     this.artist.images = details.images;
     this.artist.name = details.name;
@@ -89,44 +86,40 @@ export class ArtistProfileComponent implements OnInit {
     this.artist.followers = details.followers.total;
     this.artist.popularity = details.popularity;
     this.artist.albums = albums.items;
-    let topTracks = [];
-    for(let track of tracks.tracks){
-      topTracks.push({
-        name: track.name,
-        image: track.album.images[0].url,
-        artists: track.artists,
-        previewUrl: track.preview_url
-      })
-    }
-    this.artist.topTracks = topTracks;
-    let relArtists = [];
-    for(let artist of relatedArtists.artists){
-      relArtists.push({
-        name: artist.name,
-        image: artist.images[0].url,
-        id: artist.id
-      })
-    }
-    this.artist.relatedArtists = relArtists;
-    console.log("ARTIST--------", this.artist);
+
+    this.artist.topTracks = tracks.tracks.map(track => ({
+      name: track.name,
+      image: track.album.images[0].url,
+      artists: track.artists,
+      previewUrl: track.preview_url
+    }));
+
+    this.artist.relatedArtists = relatedArtists.artists.map(artist => ({
+      name: artist.name,
+      image: artist.images[0].url,
+      id: artist.id
+    }));
   }
+
   formatArtists(artists: any[]): string {
     return artists.map(artist => artist.name).join(', ');
   }
 
   get visibleRelatedArtists() {
-    return this.artist.relatedArtists.slice(this.currentRelatedArtistIndex, this.currentRelatedArtistIndex + 3);
+    const totalArtists = this.artist.relatedArtists.length;
+    return [
+      this.artist.relatedArtists[(this.currentRelatedArtistIndex) % totalArtists],
+      this.artist.relatedArtists[(this.currentRelatedArtistIndex + 1) % totalArtists],
+      this.artist.relatedArtists[(this.currentRelatedArtistIndex + 2) % totalArtists]
+    ];
   }
 
   nextRelatedArtists() {
-    if (this.currentRelatedArtistIndex < this.artist.relatedArtists.length - 3) {
-      this.currentRelatedArtistIndex += 1;
-    }
+    this.currentRelatedArtistIndex = (this.currentRelatedArtistIndex + 1) % this.artist.relatedArtists.length;
   }
 
   previousRelatedArtists() {
-    if (this.currentRelatedArtistIndex > 0) {
-      this.currentRelatedArtistIndex -= 1;
-    }
+    const totalArtists = this.artist.relatedArtists.length;
+    this.currentRelatedArtistIndex = (this.currentRelatedArtistIndex - 1 + totalArtists) % totalArtists;
   }
 }
