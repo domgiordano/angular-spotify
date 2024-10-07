@@ -6,7 +6,7 @@ resource "aws_route53_zone" "web_zone"{
 
 resource "aws_route53_record" "web_app" {
   zone_id = aws_route53_zone.web_zone.zone_id
-  name = aws_route53_zone.web_zone.name
+  name = local.domain_name
   type = "A"
   alias {
       name = aws_cloudfront_distribution.web_app.domain_name
