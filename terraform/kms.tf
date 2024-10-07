@@ -41,7 +41,7 @@ resource "aws_kms_key" "web_app" {
           "Condition": {
             "StringEquals": {
               "kms:CallerAccount": local.web_app_account_id,
-              "kms:ViaService": "s3.${data.aws_region.web_app_account.name}.amazonaws.com"
+              "kms:ViaService": "s3.${var.aws_region}.amazonaws.com"
             }
           }
         },
@@ -68,6 +68,6 @@ resource "aws_kms_key" "web_app" {
   )
 }
 resource "aws_kms_alias" "web_app" {
-  name          = "alias/kms-for-${local.domain_name}"  # this should be unique for teams that use the module multiple times
+  name          = "alias/kms-for-${var.app_name}"  # this should be unique for teams that use the module multiple times
   target_key_id = aws_kms_key.web_app.key_id
 }
