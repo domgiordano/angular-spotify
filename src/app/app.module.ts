@@ -17,6 +17,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ArtistProfileComponent } from './pages/artist-profile/artist-profile.component';
 import { SwiperModule } from 'swiper/angular';
+import { FooterComponent } from './components/footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { SwiperModule } from 'swiper/angular';
     WrappedComponent,
     LoaderComponent,
     ToastComponent,
-    ArtistProfileComponent
+    ArtistProfileComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

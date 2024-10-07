@@ -1,0 +1,92 @@
+/* Application-wide Styles */
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+h2, h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+body {
+  margin: 0; /* Remove default margin */
+}
+
+body, input[type="text"], button {
+  color: #333;
+  font-family: Cambria, Georgia, serif;
+}
+button {
+  background-color: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: black;
+  font-size: 1.2rem;
+  padding: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+button:hover {
+  background-color: black;
+  color: white;
+}
+button:disabled {
+  background-color: #eee;
+  color: #aaa;
+  cursor: auto;
+}
+
+/* Set html and body to full height */
+html, body {
+  height: 100%;
+  margin: 0; /* Remove default margin */
+}
+
+/* App container styles */
+.app-container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  height: 100vh;         /* Take full height of the viewport */
+}
+
+.content {
+  flex: 1;               /* Allow content to take up remaining space */
+  padding: 20px;        /* Add padding as needed */
+}
+
+/* The app-footer should already have the required styles */
+
+
+/* Styles for the footer */
+app-footer {
+  width: 100%;          /* Make sure it stretches full width */
+  height: 60px;        /* Set a fixed height for the footer */
+  background-color: green; /* Footer background color */
+  display: flex;       /* Flexbox for centering */
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+}
+
+/* Footer button styles */
+.footer-button {
+  display: inline-block;   /* Make the link behave like a block element */
+  padding: 10px 20px;     /* Add padding to make it look like a button */
+  background-color: darkgreen; /* Button background color */
+  color: white;           /* Button text color */
+  text-decoration: none;  /* Remove underline */
+  border-radius: 5px;    /* Round the corners */
+  font-size: 16px;       /* Font size */
+  transition: background-color 0.3s; /* Smooth background change */
+}
+
+.footer-button:hover {
+  background-color: lightgreen; /* Change color on hover */
+}
+
+/* Global font family for other elements */
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
