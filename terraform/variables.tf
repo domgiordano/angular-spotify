@@ -2,8 +2,15 @@ variable "app_name" {
   description = "The name for the application."
   default = "xomify"
 }
-variable "environment" {
-  description = "App Environment."
+
+variable "access_key" {
+  description = "AWS access key."
+  sensitive = true
+}
+
+variable "secret_key" {
+  description = "AWS secret key."
+  sensitive = true
 }
 
 variable "domain_suffix"{
