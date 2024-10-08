@@ -66,6 +66,9 @@ export class AuthService {
   getAccessToken() {
     return localStorage.getItem('access_token');
   }
+  getRefreshToken() {
+    return localStorage.getItem('refresh_token');
+  }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('access_token');
