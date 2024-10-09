@@ -11,6 +11,8 @@ export class AuthService {
   private readonly clientSecret = '1e89558785f64b75b41dc83206355048'; // Not secure
   private readonly redirectUri = 'http://localhost:4200/callback';
   private readonly scope = 'user-read-private user-read-email user-library-read user-top-read';
+  accessToken: string = '';
+  refreshToken: string = '';
 
   constructor(
     private http: HttpClient,
@@ -46,8 +48,8 @@ export class AuthService {
       },
     }).subscribe({
       next: (response: any) => {
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
+        this.accessToken = response.access_token;
+        this.refreshToken = response.refresh_token;
         console.log('Tokens saved.');
         this.router.navigate(['/my-profile']); // Navigate after login
       },
@@ -58,19 +60,24 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    this.accessToken = '';
+    this.refreshToken = '';
     // Optionally navigate to login or home page
   }
 
   getAccessToken() {
-    return localStorage.getItem('access_token');
+    return this.accessToken;
   }
   getRefreshToken() {
-    return localStorage.getItem('refresh_token');
+    return this.refreshToken;
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('access_token');
+    if (!this.accessToken || this.accessToken.trim() === '') {
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 }
