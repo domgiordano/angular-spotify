@@ -1,43 +1,42 @@
-.footer {
+footer {
   background-color: #333;
-  height: 75px;          /* Set a fixed height for the footer */
-  display: flex;         /* Use flexbox for layout */
-  align-items: center;   /* Center content vertically */
-  padding: 0 20px;      /* Add horizontal padding */
-  position: fixed;       /* Fix the footer to the bottom */
-  bottom: 0;             /* Position at the bottom */
-  left: 0;               /* Align to the left */
-  right: 0;              /* Align to the right */
-  z-index: 1000;        /* Ensure it stays on top of other elements */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px; /* Increased height */
+  padding: 0 40px; /* Adds padding to the left and right */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  .footer-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .spacer {
+    flex: 1; /* Spacer takes up available space */
+  }
+
+  .footer-button {
+    background-color: #1db954; /* Spotify green */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+
+    &:hover {
+      background-color: darken(#1db954, 10%); /* Darker green on hover */
+    }
+  }
+
+  a.footer-button {
+    text-decoration: none; /* Remove underline from link */
+  }
 }
 
-.footer-content {
-  display: flex;         /* Flex container for footer content */
-  width: 100%;          /* Take full width */
-  justify-content: space-between; /* Space between left and right items */
-  align-items: center;   /* Center items vertically */
-}
-
-.github-username {
-  color: white;         /* Text color for the GitHub username */
-  margin: 0;            /* Remove default margin */
-}
-
-.spacer {
-  flex: 1;              /* Take up remaining space */
-}
-
-.footer-button {
-  display: inline-block;   /* Make the link behave like a block element */
-  padding: 10px 20px;     /* Add padding to make it look like a button */
-  background-color: darkgreen; /* Button background color */
-  color: white;           /* Button text color */
-  text-decoration: none;  /* Remove underline */
-  border-radius: 5px;    /* Round the corners */
-  font-size: 16px;       /* Font size */
-  transition: background-color 0.3s; /* Smooth background change */
-}
-
-.footer-button:hover {
-  background-color: lightgreen; /* Change color on hover */
-}
