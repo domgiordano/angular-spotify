@@ -19,7 +19,6 @@
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "angular-oauth2-oidc": "^17.0.2",
-    "localStorage": "^1.10.0",
     "rxjs": "~7.8.0",
     "swiper": "^8.4.7",
     "tslib": "^2.3.0",

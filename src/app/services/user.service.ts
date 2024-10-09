@@ -2,7 +2,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, expand, takeWhile } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 })
 export class UserService implements OnInit {
   accessToken: string;
+  refreshToken: string;
   user: any;
   userName = '';
   private baseUrl = 'https://api.spotify.com/v1';
@@ -21,6 +22,7 @@ export class UserService implements OnInit {
 
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
+    this.refreshToken = this.AuthService.getRefreshToken();
   }
 
   getUserData(): Observable<any> {
@@ -53,6 +55,13 @@ export class UserService implements OnInit {
 
   getFollowers(): number {
       return this.user.followers.total;
+  }
+
+  getAccessToken(): string {
+    return this.accessToken;
+  }
+  getRefreshToken(): string {
+    return this.refreshToken;
   }
 
 }
