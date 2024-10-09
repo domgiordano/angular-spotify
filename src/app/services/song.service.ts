@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
@@ -31,7 +31,15 @@ export class SongService implements OnInit {
         limit: "50",
         offset: offset.toString(),
       },
-    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    })
+  }
+
+  getTracksByIds(ids: string): Observable<any>{
+    this.accessToken = this.AuthService.getAccessToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.accessToken}`,
+    });
+    return this.http.get(`${this.baseUrl}/tracks?ids=${ids}`, { headers });
   }
 
   getAllUserTracks(offset: number): Observable<any[]> {
@@ -65,7 +73,7 @@ export class SongService implements OnInit {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       }
-    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    })
   }
 
   getSongStats(songId: string): Observable<any> {
@@ -74,7 +82,7 @@ export class SongService implements OnInit {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       }
-    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    })
   }
 
   setTopTracks(short: any[], med: any[], long: any[]): void {
@@ -83,6 +91,13 @@ export class SongService implements OnInit {
     this.topTracksLongTerm = long;
   }
 
+  getAllTermsTopTracksIds(): any {
+    return {
+      short_term: this.topTracksShortTerm.map(item => item.id),
+      medium_term: this.topTracksMedTerm.map(item => item.id),
+      long_term: this.topTracksLongTerm.map(item => item.id),
+    }
+  }
   getShortTermTopTracks(): any[] {
     return this.topTracksShortTerm;  // Return a copy
   }

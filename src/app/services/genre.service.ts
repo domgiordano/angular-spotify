@@ -35,6 +35,13 @@ export class GenresService {
     return topGenres;
   }
 
+  getAllTermsTopGenress(): any {
+    return {
+      short_term: this.topGenresShortTerm,
+      medium_term: this.topGenresMedTerm,
+      long_term: this.topGenresLongTerm,
+    }
+  }
   getShortTermTopGenres(): any {
     return this.topGenresShortTerm;
   }

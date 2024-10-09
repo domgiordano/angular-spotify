@@ -32,7 +32,7 @@ export class UserService implements OnInit {
         headers: {
           Authorization: `Bearer ${this.accessToken}`,
         },
-      }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+      })
   }
 
   setUser(data): void{

@@ -1,6 +1,6 @@
 // song.service.ts
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, expand, takeWhile } from 'rxjs/operators';
 import { AuthService } from './auth.service';
@@ -24,13 +24,21 @@ export class ArtistService implements OnInit {
     this.accessToken = this.AuthService.getAccessToken();
   }
 
+  getArtistsByIds(ids: string): Observable<any>{
+    this.accessToken = this.AuthService.getAccessToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.accessToken}`,
+    });
+    return this.http.get(`${this.baseUrl}/artists?ids=${ids}`, { headers });
+  }
+
   getTopArtists(term: string): Observable<any> {
     this.accessToken = this.AuthService.getAccessToken();
     return this.http.get(`${this.baseUrl}/me/top/artists?limit=50&time_range=${term}`, {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       }
-    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    })
   }
 
   getArtistDetails(artistId: string): Observable<any> {
@@ -39,7 +47,7 @@ export class ArtistService implements OnInit {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       }
-    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    })
   }
 
   getArtistAlbums(artistId: string): Observable<any> {
@@ -48,7 +56,7 @@ export class ArtistService implements OnInit {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       }
-    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    })
   }
 
   getArtistTopTracks(artistId: string): Observable<any> {
@@ -57,7 +65,7 @@ export class ArtistService implements OnInit {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       }
-    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    })
   }
 
   getArtistRelatedArtists(artistId: string): Observable<any> {
@@ -66,9 +74,16 @@ export class ArtistService implements OnInit {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       }
-    }).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    })
   }
 
+  getAllTermsTopArtistsIds(): any {
+    return {
+      short_term: this.topArtistsShortTerm.map(item => item.id),
+      medium_term: this.topArtistsMedTerm.map(item => item.id),
+      long_term: this.topArtistsLongTerm.map(item => item.id),
+    }
+  }
   getShortTermTopArtists(): any[] {
     return this.topArtistsShortTerm;
   }

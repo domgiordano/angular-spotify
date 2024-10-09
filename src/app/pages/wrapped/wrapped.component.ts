@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin, take } from 'rxjs';
+import { ArtistService } from 'src/app/services/artist.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { GenresService } from 'src/app/services/genre.service';
+import { SongService } from 'src/app/services/song.service';
 import { UserService } from 'src/app/services/user.service'; // Service to handle user info and authentication
 import { WrappedService } from 'src/app/services/wrapped.service';
 
@@ -9,18 +13,36 @@ import { WrappedService } from 'src/app/services/wrapped.service';
   styleUrls: ['./wrapped.component.scss'],
 })
 export class WrappedComponent implements OnInit {
+  loading: boolean;
   userEmail: string;
   refreshToken: string;
   hasOptedIn: boolean = false;
   hasData: boolean = false;
   firstMonth: boolean = false;
-  topSongs: any[] = [];
-  topArtists: any[] = [];
+
+  // Objects
+  topSongIdsLastMonth: any = {};
+  topArtistIdsLastMonth: any = {};
+  topGenresLastMonth: any = {};
+  topSongIdsTwoMonthsAgo: any = {};
+  topArtistIdsTwoMonthsAgo: any = {};
+  topGenresTwoMonthsAgo: any = {};
+
+  // The Actual Songs
+  topSongShortLastMonth: any[] = [];
+  topSongMedLastMonth: any[] = [];
+  topSongLongLastMonth: any[] = [];
+  topArtistShortLastMonth: any[] = [];
+  topArtistMedLastMonth: any[] = [];
+  topArtistLongLastMonth: any[] = [];
 
   constructor(
     private UserService: UserService,
     private WrappedService: WrappedService,
-    private AuthService: AuthService
+    private AuthService: AuthService,
+    private SongService: SongService,
+    private ArtistService: ArtistService,
+    private GenreService: GenresService
     ) {}
 
   ngOnInit() {
@@ -30,20 +52,74 @@ export class WrappedComponent implements OnInit {
   }
 
   loadUserData() {
+    this.loading = true;
     // Check if the user has opted in
     this.WrappedService.getUserWrappedData(this.userEmail).subscribe({
-      next: (status) => {
-        this.hasOptedIn = status;
+      next: (userData) => {
+        this.hasOptedIn = userData.active;
+        console.log('userData', userData);
+        if (this.hasOptedIn){
+          this.updateSongs(userData);
+        }
       },
       error: (err) => {
+        this.loading = false;
         console.error('Error fetching opt-in status:', err);
+      }
+    });
+  }
+
+  private updateSongs(userData: any){
+    if(userData.topSongIdsTwoMonthsAgo.short_term.length == 0){
+      this.hasData = false;
+      return;
+    }
+
+    this.userEmail = userData.email;
+    this.refreshToken = userData.refreshToken;
+    this.topSongIdsLastMonth = userData.topSongIdsLastMonth;
+    this.topArtistIdsLastMonth = userData.topArtistIdsLastMonth;
+    this.topGenresLastMonth = userData.topGenresLastMonth;
+    this.topSongIdsTwoMonthsAgo = userData.topSongIdsTwoMonthsAgo;
+    this.topArtistIdsTwoMonthsAgo = userData.topArtistIdsTwoMonthsAgo;
+    this.topGenresTwoMonthsAgo = userData.topGenresTwoMonthsAgo;
+    this.hasData = true;
+
+    const wrappedCalls = forkJoin({
+      songsShortTermResp: this.SongService.getTracksByIds(this.topSongIdsLastMonth.short_term.join(',')),
+      songsMedTermResp: this.SongService.getTracksByIds(this.topSongIdsLastMonth.medium_term.join(',')),
+      songsLongTermResp: this.SongService.getTracksByIds(this.topSongIdsLastMonth.long_term.join(',')),
+      artistsShortTermResp: this.ArtistService.getArtistsByIds(this.topArtistIdsLastMonth.short_term.join(',')),
+      artistsMedTermResp: this.ArtistService.getArtistsByIds(this.topArtistIdsLastMonth.medium_term.join(',')),
+      artistsLongTermResp: this.ArtistService.getArtistsByIds(this.topArtistIdsLastMonth.long_term.join(',')),
+    });
+    this.loading = true;
+    wrappedCalls.pipe(take(1)).subscribe({
+      next: data => {
+        this.topSongShortLastMonth = data.songsShortTermResp.tracks;
+        this.topSongMedLastMonth = data.songsMedTermResp.tracks;
+        this.topSongLongLastMonth = data.songsLongTermResp.tracks;
+        this.topArtistShortLastMonth = data.artistsShortTermResp.artists;
+        this.topArtistMedLastMonth = data.artistsMedTermResp.artists;
+        this.topArtistLongLastMonth = data.artistsLongTermResp.artists;
+        console.log("DATA------------", data);
+      },
+      error: err => {
+        console.error('Error fetching Wrapped Data', err);
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
+        console.log('Wrapped Data Loaded.');
       }
     });
   }
 
   signUpForWrapped() {
     // Call the API to sign the user up for monthly wrapped
-    this.WrappedService.optInUserForWrapped(this.userEmail, this.refreshToken).subscribe({
+    this.WrappedService.optInOrOutUserForWrapped(this.userEmail, this.refreshToken, true,
+      this.SongService.getAllTermsTopTracksIds(), this.ArtistService.getAllTermsTopArtistsIds(), this.GenreService.getAllTermsTopGenress(),
+      this.SongService.getAllTermsTopTracksIds(), this.ArtistService.getAllTermsTopArtistsIds(), this.GenreService.getAllTermsTopGenress()).subscribe({
       next: () => {
         this.hasOptedIn = true;
       },
