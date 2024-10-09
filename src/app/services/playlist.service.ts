@@ -19,19 +19,20 @@ export class PlaylistService implements OnInit {
 
   createPlaylist(userId: string, playlistName: string, playlistDesc: string): Observable<any> {
     this.accessToken = this.AuthService.getAccessToken();
-    return this.http.post(
-        `${this.baseUrl}/users/${userId}/playlists`,
-        {
+
+    const url = `${this.baseUrl}/users/${userId}/playlists`;
+    const body =  {
           name: playlistName,
           description: playlistDesc,
           public: true
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`,
-          },
-        }
-    ).pipe(catchError(() => of({ items: [] }))); // Handle errors gracefully
+    };
+    const headers = new HttpHeaders({
+        Authorization: `Bearer ${this.accessToken}`,
+        'Content-Type': 'application/json'
+    });
+    return this.http.post(url, body, { headers }).pipe(
+        catchError(() => of({ items: [] })) // Handle errors gracefully
+    );
   }
 
   addPlaylistSongs(playlist: any, uriList: string[]): Observable<any> {
