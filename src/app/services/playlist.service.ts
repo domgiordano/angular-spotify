@@ -30,9 +30,7 @@ export class PlaylistService implements OnInit {
         Authorization: `Bearer ${this.accessToken}`,
         'Content-Type': 'application/json'
     });
-    return this.http.post(url, body, { headers }).pipe(
-        catchError(() => of({ items: [] })) // Handle errors gracefully
-    );
+    return this.http.post(url, body, { headers });
   }
 
   addPlaylistSongs(playlist: any, uriList: string[]): Observable<any> {
@@ -48,9 +46,7 @@ export class PlaylistService implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(url, body, { headers }).pipe(
-        catchError(() => of({ items: [] })) // Handle errors gracefully
-    );
+    return this.http.post(url, body, { headers });
   }
 
 
