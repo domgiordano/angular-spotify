@@ -69,6 +69,7 @@ export class TopSongsComponent implements OnInit, OnDestroy {
     this.selectedSong.flipped = false;
   }
   onTermChange() {
+    this.SongService.setCurrentTerm(this.selectedTerm);
     this.updateDisplayedSongs();
     console.log(this.displayedSongs);
     console.log('Selected term:', this.selectedTerm);
@@ -85,7 +86,7 @@ export class TopSongsComponent implements OnInit, OnDestroy {
             this.selectedSong = this.displayedSongs[0];
             break;
           case 'medium_term':
-            this.displayedSongs = this.SongService.getMedTermTopTracks(); // Use the stored array
+            this.displayedSongs = this.topTracksMedTerm; // Use the stored array
             this.selectedSong = this.displayedSongs[0];
             break;
           case 'long_term':

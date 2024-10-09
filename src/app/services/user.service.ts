@@ -13,6 +13,7 @@ export class UserService implements OnInit {
   refreshToken: string;
   user: any;
   userName = '';
+  id = '';
   private baseUrl = 'https://api.spotify.com/v1';
 
   constructor(
@@ -36,6 +37,7 @@ export class UserService implements OnInit {
 
   setUser(data): void{
       this.userName = data.display_name;
+      this.id = data.id;
       this.user = data;
   }
   getUser(): any {
@@ -62,6 +64,9 @@ export class UserService implements OnInit {
   }
   getRefreshToken(): string {
     return this.refreshToken;
+  }
+  getUserId(): string {
+    return this.id;
   }
 
 }

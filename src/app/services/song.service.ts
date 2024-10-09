@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 export class SongService implements OnInit {
   private accessToken: string;
   private tracks = [];
+  private currentTerm: string = "short_term";
   private topTracksShortTerm: any[] = [];
   private topTracksMedTerm: any[] = [];
   private topTracksLongTerm: any[] = [];
@@ -98,5 +99,12 @@ export class SongService implements OnInit {
   }
   setTracks(tracks: any[]){
     this.tracks = tracks;
+  }
+
+  setCurrentTerm(term: string){
+    this.currentTerm = term;
+  }
+  getCurrentTerm(): string {
+    return this.currentTerm;
   }
 }
