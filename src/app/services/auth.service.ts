@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private readonly clientId = '1c79964c237042fe88b87da133a231fc';
   private readonly clientSecret = '1e89558785f64b75b41dc83206355048'; // Not secure
-  private readonly redirectUri = 'https://xomify.com/callback';
+  private readonly redirectUri = 'http://localhost:4200/callback';
   private readonly scope = 'user-read-private user-read-email user-library-read user-top-read';
   accessToken: string = '';
   refreshToken: string = '';
