@@ -33,6 +33,9 @@
   flex-wrap: wrap;
   justify-content: space-between;
   transition: opacity 0.5s ease; /* Smooth transition for opacity */
+  max-height: calc(100vh - 150px); /* Adjust based on your toolbar height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Optional: Add padding to avoid clipping scrollbar */
 }
 
 // Class to fade out cards
