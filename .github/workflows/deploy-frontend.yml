@@ -19,25 +19,28 @@ jobs:
 
       - name: Retrieve SSM Parameters
         run: |
-          echo "SPOTIFY_CLIENT_ID=$(aws ssm get-parameter --name "/xomify/spotify/CLIENT_ID" --with-decryption --query "Parameter.Value" --output text)" >> $GITHUB_ENV
-          echo "SPOTIFY_CLIENT_SECRET=$(aws ssm get-parameter --name "/xomify/spotify/CLIENT_SECRET" --with-decryption --query "Parameter.Value" --output text)" >> $GITHUB_ENV
+          echo "SPOTIFY_CLIENT_ID=$(aws ssm get-parameter --name "/xomify/spotify/CLIENT_ID" --with-decryption --query "Parameter.Value" --output text)" >> spotify_credentials.env
+          echo "SPOTIFY_CLIENT_SECRET=$(aws ssm get-parameter --name "/xomify/spotify/CLIENT_SECRET" --with-decryption --query "Parameter.Value" --output text)" >> spotify_credentials.env
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
 
+      - name: Load Environment Variables
+        run: source spotify_credentials.env
+
       - name: Mask sensitive values
         run: |
-          echo "::add-mask::${{ env.SPOTIFY_CLIENT_ID }}"
-          echo "::add-mask::${{ env.SPOTIFY_CLIENT_SECRET }}"
+          echo "::add-mask::$(grep 'SPOTIFY_CLIENT_ID' spotify_credentials.env | cut -d'=' -f2)"
+          echo "::add-mask::$(grep 'SPOTIFY_CLIENT_SECRET' spotify_credentials.env | cut -d'=' -f2)"
 
       - name: Install dependencies
         run: npm install
 
       - name: Inject environment variables into Angular
         run: |
-          sed -i "s|SPOTIFY_CLIENT_ID_PLACEHOLDER|${{ env.SPOTIFY_CLIENT_ID }}|g" src/environments/environment.prod.ts
-          sed -i "s|SPOTIFY_CLIENT_SECRET_PLACEHOLDER|${{ env.SPOTIFY_CLIENT_SECRET }}|g" src/environments/environment.prod.ts
+          sed -i "s|spotifyClientId: '---'|spotifyClientId: '$(grep 'SPOTIFY_CLIENT_ID' spotify_credentials.env | cut -d'=' -f2)'|g" src/environments/environment.prod.ts
+          sed -i "s|spotifyClientSecret: '---'|spotifyClientSecret: '$(grep 'SPOTIFY_CLIENT_SECRET' spotify_credentials.env | cut -d'=' -f2)'|g" src/environments/environment.prod.ts
 
       - name: Build the project
         run: npm run build -- --configuration production
