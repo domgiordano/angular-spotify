@@ -26,12 +26,12 @@
   font-size: 16px; // Adjust font size as needed
 
   &:hover {
-    background-color: lightgray; // Highlight on hover
+    background-color: #9c0abf; // Highlight on hover
   }
 }
 
 .selected {
-  background-color: green; // Color for selected button
+  background-color: #1bdc6f; // Color for selected button
   color: white; // Change text color for visibility
 }
 
