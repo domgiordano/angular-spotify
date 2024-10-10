@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { SongService } from 'src/app/services/song.service';
 import { UserService } from 'src/app/services/user.service';
 import { forkJoin, take } from 'rxjs';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'app-footer',
@@ -11,6 +12,7 @@ import { forkJoin, take } from 'rxjs';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+  @ViewChild(ToastComponent) toast!: ToastComponent;
   showDynamicButton: boolean = false;
   footerButtonText: string = '';
   githubRepoUrl: string = 'https://github.com/domgiordano/angular-spotify'
@@ -20,7 +22,7 @@ export class FooterComponent implements OnInit {
     private router: Router,
     private SongService: SongService,
     private PlaylistService: PlaylistService,
-    private UserService: UserService
+    private UserService: UserService,
   ) {}
 
   ngOnInit() {
@@ -83,6 +85,8 @@ export class FooterComponent implements OnInit {
             },
             complete: () => {
                 console.log("Adding Items to Playlist Complete.")
+                this.toast.toastType = 'positive';
+                this.toast.showToast('Playlist successfully added to your spotify account!');
             },
           })
         },

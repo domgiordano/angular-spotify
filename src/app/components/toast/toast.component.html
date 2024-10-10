@@ -1,3 +1,3 @@
-<div class="toast" *ngIf="isVisible">
+<div *ngIf="isVisible" class="toast" [ngClass]="toastType">
     {{ message }}
-</div>
+  </div>

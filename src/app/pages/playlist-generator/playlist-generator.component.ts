@@ -58,6 +58,7 @@ export class PlaylistGeneratorComponent implements OnInit {
     // Logic to filter tracks based on input values
     // This would likely involve calling a service that interacts with your music API
     if (this.isButtonInactive()) {
+      this.toast.toastType = 'negative';
       this.toast.showToast('Still Loading in all your tracks, chill man.');
     } else {
       console.log('Generating playlist with:', {
