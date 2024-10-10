@@ -22,7 +22,7 @@
 }
 
 .slider {
-  background-color: #1db954; /* Spotify green */
+  background-color: #9c0abf; /* New Purp */
   border-radius: 25px;
   padding: 10px 20px;
   transition: background-color 0.3s;
@@ -132,12 +132,12 @@
 
   .song-ranking {
     font-size: 14px;
-    color: #1db954;
+    color: #1bdc6f;
     margin-bottom: 10px;
   }
 
   .see-more-button {
-    background-color: #1db954;
+    background-color: #9c0abf;
     color: white;
     border: none;
     border-radius: 5px;
@@ -148,21 +148,22 @@
     align-self: center;  // Center the button on the card
 
     &:hover {
-      background-color: #1aa34a;
+      background-color: black;
+      color: #1bdc6f
     }
   }
 
   &:hover {
-    background-color: #1db954;
+    background-color: #9c0abf;
     transform: scale(1.05);
 
     .card-front,
     .card-back {
-      background-color: #1db954;
+      background-color: #9c0abf;
     }
 
     .song-ranking {
-      color: black;
+      color: white;
     }
 
     .see-more-button {
@@ -194,7 +195,7 @@
 .song-ranking {
   display: block; /* Make it a block element */
   font-size: 14px; /* Adjust ranking font size */
-  color: #1db954; /* Default ranking color */
+  color: #9c0abf; /* Default ranking color */
   margin-bottom: 10px; /* Space below the ranking */
 }
 
@@ -216,16 +217,17 @@
   font-size: 16px; // Adjust font size as needed
 
   &:hover {
-    background-color: lightgray; // Highlight on hover
+    background-color: #9c0abf; // Highlight on hover
+    color: white;
   }
 }
 
 .selected {
-  background-color: green; // Color for selected button
+  background-color: #1bdc6f; // Color for selected button
   color: white; // Change text color for visibility
 }
 .see-more-button {
-  background-color: #1db954; /* Spotify green */
+  background-color: #9c0abf; /* New Purp */
   color: white;
   border: none;
   border-radius: 5px;
@@ -236,6 +238,6 @@
   margin-top: auto;
 
   &:hover {
-    color: #1aa34a; /* Darker green on hover */
+    color: darken(#9c0abf, 10%); /* Darker purp on hover */
   }
 }

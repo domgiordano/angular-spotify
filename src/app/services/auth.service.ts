@@ -2,13 +2,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly clientId = '1c79964c237042fe88b87da133a231fc';
-  private readonly clientSecret = '1e89558785f64b75b41dc83206355048'; // Not secure
+  private readonly clientId = environment.spotifyClientId;
+  private readonly clientSecret = environment.spotifyClientSecret;
   private readonly redirectUri = 'https://xomify.com/callback';
   private readonly scope = 'user-read-private user-read-email user-library-read user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
   accessToken: string = '';

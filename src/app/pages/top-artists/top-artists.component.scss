@@ -22,7 +22,7 @@
 }
 
 .slider {
-  background-color: #1db954; /* Spotify green */
+  background-color: #9c0abf; /* New Purp */
   border-radius: 25px;
   padding: 10px 20px;
   transition: background-color 0.3s;
@@ -62,11 +62,11 @@
   max-width: calc(20% - 20px); /* Maximum width for each card */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
   &:hover {
-    background-color: #1db954; /* Change background on hover */
+    background-color: #9c0abf; /* Change background on hover */
     transform: scale(1.05); /* Slightly enlarge the card */
     cursor: pointer; /* Change cursor to pointer */
     .artist-ranking {
-      color: black; /* Change rank text color to black on hover */
+      color: white; /* Change rank text color to black on hover */
     }
     .see-more-button {
       background-color: black;
@@ -97,7 +97,7 @@
 .artist-ranking {
   display: block; /* Make it a block element */
   font-size: 14px; /* Adjust ranking font size */
-  color: #1db954; /* Spotify green color */
+  color: #1bdc6f; /* New Purp color */
   margin-bottom: 10px; /* Space below the ranking */
 }
 
@@ -119,16 +119,17 @@
   font-size: 16px; // Adjust font size as needed
 
   &:hover {
-    background-color: lightgray; // Highlight on hover
+    background-color: #9c0abf; // Highlight on hover
+    color: white;
   }
 }
 
 .selected {
-  background-color: green; // Color for selected button
+  background-color: #1bdc6f; // Color for selected button
   color: white; // Change text color for visibility
 }
 .see-more-button {
-  background-color: #1db954; /* Spotify green */
+  background-color: #9c0abf; /* New Purp */
   color: white;
   border: none;
   border-radius: 5px;
@@ -138,7 +139,7 @@
   transition: background-color 0.3s;
 
   &:hover {
-    color: #1aa34a; /* Darker green on hover */
+    color: #1bdc6f
   }
 }
 

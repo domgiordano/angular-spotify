@@ -1,6 +1,6 @@
 <div class="toolbar">
   <h2 class="app-title">
-    <img class="banner-icon" src="assets/img/banner-logo-x-1.png" alt="spotify image">
+    <img class="banner-icon" src="assets/img/banner-logo-x-rework.png" alt="spotify image">
   </h2>
   <div class="tabs">
     <div *ngIf="isLoggedIn()">
@@ -16,9 +16,9 @@
       <a routerLink="/top-genres" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-genres')}">
         Top Genres
       </a>
-      <a routerLink="/playlist-generator" routerLinkActive="active" [ngClass]="{'selected': isSelected('/playlist-generator')}">
+      <!-- <a routerLink="/playlist-generator" routerLinkActive="active" [ngClass]="{'selected': isSelected('/playlist-generator')}">
         Playlist Generator
-      </a>
+      </a> -->
       <a routerLink="/wrapped" routerLinkActive="active" [ngClass]="{'selected': isSelected('/wrapped')}">
         Monthly Wrapped
       </a>

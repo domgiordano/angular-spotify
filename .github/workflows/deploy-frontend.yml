@@ -17,11 +17,25 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Retrieve SSM Parameters
+        run: |
+          echo "SPOTIFY_CLIENT_ID=$(aws ssm get-parameter --name "/xomify/spotify/CLIENT_ID" --with-decryption --query "Parameter.Value" --output text)" >> $GITHUB_ENV
+          echo "SPOTIFY_CLIENT_SECRET=$(aws ssm get-parameter --name "/xomify/spotify/CLIENT_SECRET" --with-decryption --query "Parameter.Value" --output text)" >> $GITHUB_ENV
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+
       - name: Install dependencies
         run: npm install
 
+      - name: Inject environment variables into Angular
+        run: |
+          sed -i 's|SPOTIFY_CLIENT_ID_PLACEHOLDER|${{ env.SPOTIFY_CLIENT_ID }}|g' src/environments/environment.prod.ts
+          sed -i 's|SPOTIFY_CLIENT_SECRET_PLACEHOLDER|${{ env.SPOTIFY_CLIENT_SECRET }}|g' src/environments/environment.prod.ts
+
       - name: Build the project
-        run: npm run build
+        run: npm run build -- --configuration production
 
       - name: Deploy to S3
         env:

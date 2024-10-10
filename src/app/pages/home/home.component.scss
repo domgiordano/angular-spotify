@@ -15,7 +15,7 @@
 }
 
 .login-button {
-  background-color: #1db954; /* Spotify green */
+  background-color: #9c0abf; /* New Purp */
   color: #ffffff; /* White text */
   border: none;
   border-radius: 25px; /* Rounded button */
@@ -25,6 +25,6 @@
   transition: background-color 0.3s; /* Transition for hover effect */
 
   &:hover {
-    background-color: darken(#1db954, 10%); /* Darker green on hover */
+    background-color: darken(#9c0abf, 10%); /* Darker purp on hover */
   }
 }
