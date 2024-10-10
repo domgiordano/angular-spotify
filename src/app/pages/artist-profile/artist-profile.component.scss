@@ -55,18 +55,18 @@
   min-height: 70px; /* Set a minimum height for song cards */
   transition: background-color 0.3s; /* Smooth transition for hover effect */
   &:hover {
-    background-color: #1db954; /* Change background on hover */
+    background-color: #9c0abf; /* Change background on hover */
     transform: scale(1.05); /* Slightly enlarge the card */
     cursor: pointer; /* Change cursor to pointer */
     .song-ranking {
-      color: black; /* Change rank text color to black on hover */
+      color: white; /* Change rank text color to black on hover */
     }
   }
 }
 
 .song-ranking {
   font-size: 16px; /* Ranking font size */
-  color: #1db954; /* Spotify green color */
+  color: #9c0abf; /* New Purp color */
   margin-right: 10px; /* Space to the right of the ranking */
 }
 
@@ -153,7 +153,7 @@
 }
 
 .related-artist-card:hover {
-  background-color: #1db954; /* Spotify green on card hover */
+  background-color: #9c0abf; /* New Purp on card hover */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   transform: scale(1.05); /* Slightly enlarge the card */
   cursor: pointer; /* Change cursor to pointer */
@@ -174,13 +174,13 @@
 
 .related-artist-card:hover .see-more-btn {
   background-color: #000; /* Black button on card hover */
-  color: #fff; /* Ensure the text color remains visible */
+  color: #1bdc6f; /* Ensure the text color remains visible */
 }
 
 .see-more-btn {
   display: inline-block; /* Make it an inline-block element */
   padding: 8px 16px; /* Smaller padding for a compact look */
-  background-color: #1db954; /* Spotify green */
+  background-color: #9c0abf; /* New Purp */
   color: white;
   border: none;
   border-radius: 5px;
@@ -191,13 +191,13 @@
 }
 
 .see-more-btn:hover {
-  background-color: #333; /* Dark background on hover */
-  color: #1db954; /* Keep text green */
+  background-color: black; /* Dark background on hover */
+  color: #1bdc6f; /* Keep text purp */
 }
 
 
 .go-back-button {
-  background-color: #1db954; /* Spotify green */
+  background-color: #9c0abf; /* New Purp */
   color: white;
   border: none;
   border-radius: 5px;
@@ -222,12 +222,12 @@ button {
   }
 
   &:hover:not(.inactive) {
-    color: #1db954;
+    color: #9c0abf;
   }
 }
 
 button:hover {
-  color: #1db954; /* Change arrow color on hover */
+  color: #9c0abf; /* Change arrow color on hover */
 }
 
 button:disabled {

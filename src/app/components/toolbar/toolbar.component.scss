@@ -30,8 +30,8 @@
   }
 
   .tabs a.active {
-    background-color: white;
-    color: green;
+    background-color: black;
+    color: #1bdc6f;
   }
 
   .dropdown {
@@ -80,6 +80,6 @@
   }
 
   .selected {
-    color: green; // Text color for the selected tab
+    color: #1bdc6f; // Text color for the selected tab
     font-weight: bold; // Optional: make selected tab bold
   }

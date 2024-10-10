@@ -45,7 +45,6 @@ export class ArtistProfileComponent implements OnInit {
 
       return artistCalls.pipe(take(1)).subscribe({
         next: data => {
-          this.loading = false;
           this.buildArtist(data.detailsResp, data.albumsResp, data.tracksResp, data.relatedResp);
         },
         error: err => {
@@ -53,6 +52,7 @@ export class ArtistProfileComponent implements OnInit {
           this.loading = false;
         },
         complete: () => {
+          this.loading = false
           console.log('Artist Loaded.');
         }
       });

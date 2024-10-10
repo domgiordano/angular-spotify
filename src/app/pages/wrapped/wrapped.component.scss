@@ -8,7 +8,7 @@
     text-align: center;
     margin: 20px auto;
     padding: 20px;
-    border: 1px solid #1db954;
+    border: 1px solid #9c0abf;
     border-radius: 10px;
     max-width: 600px;
 
@@ -23,7 +23,7 @@
     }
 
     .opt-in-button {
-      background-color: #1db954;
+      background-color: #9c0abf;
       color: white;
       border: none;
       border-radius: 5px;
@@ -61,12 +61,12 @@
           transition: background-color 0.3s;
 
           &:hover {
-            background-color: #1db954; /* Green on hover */
+            background-color: #9c0abf; /* Green on hover */
           }
 
           .ranking {
             font-size: 16px;
-            color: #1db954;
+            color: #9c0abf;
           }
 
           .name {

@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'top-songs', component: TopSongsComponent, canActivate: [AuthGuard]},
   { path: 'top-artists', component: TopArtistsComponent, canActivate: [AuthGuard]},
   { path: 'top-genres', component: TopGenresComponent, canActivate: [AuthGuard]},
-  { path: 'playlist-generator', component: PlaylistGeneratorComponent, canActivate: [AuthGuard]},
+  //{ path: 'playlist-generator', component: PlaylistGeneratorComponent, canActivate: [AuthGuard]},
   { path: 'wrapped', component: WrappedComponent, canActivate: [AuthGuard]},
   { path: 'callback', component: CallbackComponent },
   { path: 'artist', component: ArtistProfileComponent, canActivate: [AuthGuard]},
