@@ -3,7 +3,6 @@
     bottom: 50px; // Position it at the bottom
     left: 50%;
     transform: translateX(-50%); // Center it horizontally
-    background-color: red; // Red background
     color: white; // White text
     padding: 15px 30px; // Increased padding for a bigger size
     border-radius: 25px; // Rounded corners
@@ -13,4 +12,14 @@
     font-size: 1.2rem; // Increased font size for better readability
     width: 350px; // Set a specific width
     text-align: center; // Center text alignment
-  }
+}
+
+.toast.positive {
+  background-color: #1bdc6f;
+  color: white;
+}
+
+.toast.negative {
+  background-color: red;
+  color: white;
+}
