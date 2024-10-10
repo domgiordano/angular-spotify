@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-toast',
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./toast.component.scss']
 })
 export class ToastComponent {
+  @Input() toastType: 'positive' | 'negative' = 'positive';
   message: string = '';
   isVisible: boolean = false;
 
