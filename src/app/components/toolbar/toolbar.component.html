@@ -4,24 +4,24 @@
   </h2>
   <div class="tabs">
     <div *ngIf="isLoggedIn()">
-      <a routerLink="/my-profile" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
-        My Profile
-      </a>
-      <a routerLink="/top-songs" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-songs')}">
-        Top Songs
-      </a>
-      <a routerLink="/top-artists" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-artists')}">
-        Top Artists
-      </a>
-      <a routerLink="/top-genres" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-genres')}">
-        Top Genres
-      </a>
-      <!-- <a routerLink="/playlist-generator" routerLinkActive="active" [ngClass]="{'selected': isSelected('/playlist-generator')}">
-        Playlist Generator
-      </a> -->
-      <a routerLink="/wrapped" routerLinkActive="active" [ngClass]="{'selected': isSelected('/wrapped')}">
-        Monthly Wrapped
-      </a>
+      <div class="hamburger" (click)="toggleDropdown()">&#9776;</div> <!-- Hamburger icon -->
+      <div [ngClass]="{'dropdown-open': dropdownOpen}" class="dropdown-menu">
+        <a routerLink="/my-profile" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
+          My Profile
+        </a>
+        <a routerLink="/top-songs" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-songs')}">
+          Top Songs
+        </a>
+        <a routerLink="/top-artists" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-artists')}">
+          Top Artists
+        </a>
+        <a routerLink="/top-genres" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-genres')}">
+          Top Genres
+        </a>
+        <a routerLink="/wrapped" routerLinkActive="active" [ngClass]="{'selected': isSelected('/wrapped')}">
+          Monthly Wrapped
+        </a>
+      </div>
     </div>
   </div>
 </div>

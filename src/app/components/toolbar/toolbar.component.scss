@@ -1,85 +1,54 @@
 .toolbar {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-  }
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between; // Space between title and tabs
+  align-items: center; // Center vertically
+}
 
-  .app-title {
-    margin-right: 10px;
+.hamburger {
+  cursor: pointer;
+  font-size: 24px; // Size of the hamburger icon
+  display: none; // Hide by default
+}
+
+.dropdown-menu {
+  display: flex; // Default to flex for larger screens
+  flex-direction: row; // Horizontally align the tabs
+}
+
+.dropdown-menu a {
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+
+.dropdown-open {
+  display: flex; // Show dropdown when open
+  flex-direction: column; // Stack links vertically
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block; // Show hamburger icon on mobile
   }
 
   .tabs {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
+    display: none; // Hide tabs on mobile
   }
 
-  .tabs a {
-    color: #fff;
-    text-decoration: none;
-    padding: 5px 10px;
-    margin-right: 10px;
-    border-radius: 5px;
+  .dropdown-menu {
+    display: none; // Hide dropdown menu by default
+    background-color: #333; // Match the toolbar background
+    position: absolute; // Position the dropdown menu
+    top: 50px; // Position below the toolbar
+    left: 0;
+    right: 0;
+    z-index: 10; // Ensure it's above other content
   }
 
-  .tabs a:hover {
-    background-color: #555;
+  .dropdown-open {
+    display: flex; // Show dropdown when toggled
   }
-
-  .tabs a.active {
-    background-color: black;
-    color: #1bdc6f;
-  }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  .dropdown-content a {
-    font-size: 14px; /* Adjust the font size as needed */
-    text-align: left; /* Align the text to the left */
-    padding: 8px 2px; /* Adjust padding as needed */
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  .dropdown-content a:hover {
-    background-color: #f1f1f1;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-  .active {
-    color: blue; /* Example of active link color */
-  }
-  .banner-icon {
-    width: 175px;  /* Set desired width */
-    height: auto; /* Maintain aspect ratio */
-    margin-right: 10px; /* Space between image and text */
-    vertical-align: middle; /* Align the image with text */
-  }
-
-  .selected {
-    color: #1bdc6f; // Text color for the selected tab
-    font-weight: bold; // Optional: make selected tab bold
-  }
+}
