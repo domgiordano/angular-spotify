@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { take } from 'rxjs';
 import { NONE_TYPE } from '@angular/compiler';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-my-profile-page',
@@ -20,7 +21,8 @@ export class MyProfileComponent implements OnInit {
 
   constructor(
     private AuthService: AuthService,
-    private UserService: UserService
+    private UserService: UserService,
+    private ToastService: ToastService
   ) {
   }
 
@@ -57,6 +59,7 @@ export class MyProfileComponent implements OnInit {
       },
       error: err => {
         console.error('Error fetching User', err);
+        this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
       complete: () => {

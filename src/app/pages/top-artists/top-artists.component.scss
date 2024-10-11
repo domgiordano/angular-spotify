@@ -143,3 +143,11 @@
   }
 }
 
+@media (max-width: 768px) {
+  .artist-card {
+    flex: 0 1 100%; /* Ensure full width for one card per row */
+    max-width: none; /* Remove maximum width constraints */
+    margin: 10px 0; /* Add some margin for spacing */
+  }
+}
+

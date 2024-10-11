@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { forkJoin, take } from 'rxjs';
 import { ToastComponent } from 'src/app/components/toast/toast.component';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-playlist-generator-page',
@@ -37,7 +38,8 @@ export class PlaylistGeneratorComponent implements OnInit {
       private router: Router,
       private AuthService: AuthService,
       private SongService: SongService,
-      private cdr: ChangeDetectorRef
+      private cdr: ChangeDetectorRef,
+      private ToastService: ToastService
     ) {}
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
@@ -93,11 +95,13 @@ export class PlaylistGeneratorComponent implements OnInit {
       },
       error: err => {
         console.error('Error fetching user tracks', err);
+        this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
       complete: () => {
         console.log('Tracks Loaded.');
         this.tracksLoaded = true;
+        this.ToastService.showPositiveToast('Successfully downloaded all your tracks.');
         this.cdr.detectChanges();
       }
     });

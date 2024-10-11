@@ -8,13 +8,14 @@
   align-items: center;
   min-height: calc(100vh - 60px); /* Ensure the page takes up the full height minus the header/footer */
   box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .artist-card {
   background-color: #282828; /* Dark card background */
   border-radius: 10px;
   padding: 20px; /* Padding inside the card */
-  width: 900px; /* Set the width of the card to 90% of the parent */
+  width: 90%; /* Set the width of the card to 90% of the parent */
   max-width: 1200px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
 }
@@ -26,6 +27,8 @@
 .artist-content {
   display: flex; /* Use flexbox to arrange artist image and songs */
   margin-top: 20px; /* Space above the content */
+  flex-wrap: wrap; /* Allow wrapping for small screens */
+  justify-content: center; /* Center content on smaller screens */
 }
 
 .artist-image-container {
@@ -36,7 +39,8 @@
 }
 
 .artist-image {
-  width: 400px; /* Set a fixed width for the artist image */
+  width: 100%; /* Make the image responsive */
+  max-width: 400px; /* Set a maximum width for the artist image */
   height: auto; /* Maintain aspect ratio */
 }
 
@@ -54,12 +58,14 @@
   align-items: center; /* Center vertically */
   min-height: 70px; /* Set a minimum height for song cards */
   transition: background-color 0.3s; /* Smooth transition for hover effect */
+
   &:hover {
     background-color: #9c0abf; /* Change background on hover */
     transform: scale(1.05); /* Slightly enlarge the card */
     cursor: pointer; /* Change cursor to pointer */
+
     .song-ranking {
-      color: white; /* Change rank text color to black on hover */
+      color: white; /* Change rank text color to white on hover */
     }
   }
 }
@@ -82,7 +88,6 @@
 
 .related-artists {
   margin-top: 20px; /* Space above related artists section */
-  height: auto; /* Adjust height to fit cards and arrows */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,8 +113,8 @@
 }
 
 .carousel-container {
-  display: flex;
-  transition: transform 0.5s ease;
+  display: flex; /* Align children in a row */
+  transition: transform 0.5s ease; /* Smooth transition for sliding effect */
 }
 
 .carousel::before,
@@ -125,17 +130,10 @@
 
 .carousel::before {
   left: 0;
-  //background: linear-gradient(to right, rgba(18, 18, 18, 1), rgba(18, 18, 18, 0));
 }
 
 .carousel::after {
   right: 0;
-  //background: linear-gradient(to left, rgba(18, 18, 18, 1), rgba(18, 18, 18, 0));
-}
-
-.carousel-container {
-  display: flex; /* Align children in a row */
-  transition: transform 0.5s ease; /* Smooth transition for sliding effect */
 }
 
 .related-artist-card {
@@ -150,13 +148,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
-}
 
-.related-artist-card:hover {
-  background-color: #9c0abf; /* New Purp on card hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  transform: scale(1.05); /* Slightly enlarge the card */
-  cursor: pointer; /* Change cursor to pointer */
+  &:hover {
+    background-color: #9c0abf; /* New Purp on card hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05); /* Slightly enlarge the card */
+    cursor: pointer; /* Change cursor to pointer */
+  }
 }
 
 .related-artist-image {
@@ -195,7 +193,6 @@
   color: #1bdc6f; /* Keep text purp */
 }
 
-
 .go-back-button {
   background-color: #9c0abf; /* New Purp */
   color: white;
@@ -224,12 +221,39 @@ button {
   &:hover:not(.inactive) {
     color: #9c0abf;
   }
+
+  &:disabled {
+    color: grey; /* Inactive state for arrows */
+  }
 }
 
-button:hover {
-  color: #9c0abf; /* Change arrow color on hover */
-}
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+  .artist-profile-page {
+    padding: 10px; /* Adjust padding for mobile */
+  }
 
-button:disabled {
-  color: grey; /* Inactive state for arrows */
+  .artist-card {
+    width: 100%; /* Make card width 100% on mobile */
+    padding: 10px; /* Adjust padding inside the card for mobile */
+  }
+
+  .artist-content {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    align-items: center; /* Center items */
+  }
+
+  .top-songs {
+    margin-left: 0; /* Remove margin on smaller screens */
+    width: 100%; /* Allow songs to take full width */
+  }
+
+  .artist-image {
+    max-width: 100%; /* Ensure image fits well on smaller screens */
+  }
+
+  .related-artist-card {
+    width: 100%; /* Allow related artist cards to be responsive */
+    margin: 10px 0; /* Adjust margins */
+  }
 }

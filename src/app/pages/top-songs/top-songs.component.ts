@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/co
 import { SongService } from 'src/app/services/song.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { forkJoin, take } from 'rxjs';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-top-songs-page',
@@ -24,7 +25,8 @@ export class TopSongsComponent implements OnInit, OnDestroy {
 
   constructor(
       private AuthService: AuthService,
-      private SongService: SongService
+      private SongService: SongService,
+      private ToastService: ToastService
     ) {
   }
 
@@ -120,6 +122,7 @@ export class TopSongsComponent implements OnInit, OnDestroy {
       },
       error: err => {
         console.error('Error fetching song stats', err);
+        this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
       complete: () => {
@@ -166,6 +169,7 @@ export class TopSongsComponent implements OnInit, OnDestroy {
       },
       error: err => {
         console.error('Error fetching user tracks', err);
+        this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
       complete: () => {

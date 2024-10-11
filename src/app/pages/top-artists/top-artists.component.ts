@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { forkJoin, take } from 'rxjs';
 import { ArtistService } from 'src/app/services/artist.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-top-artists-page',
@@ -19,7 +20,8 @@ export class TopArtistsComponent implements OnInit {
 
   constructor(
       private AuthService: AuthService,
-      private ArtistService: ArtistService
+      private ArtistService: ArtistService,
+      private ToastService: ToastService
     ) {}
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
@@ -81,6 +83,7 @@ export class TopArtistsComponent implements OnInit {
       },
       error: err => {
         console.error('Error fetching user artists', err);
+        this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
       complete: () => {

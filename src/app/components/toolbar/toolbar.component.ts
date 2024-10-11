@@ -1,5 +1,5 @@
 // toolbar.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service'; // Adjust the path as necessary
 
@@ -9,18 +9,43 @@ import { AuthService } from '../../services/auth.service'; // Adjust the path as
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
-  dropdownOpen = false; // Track the state of the dropdown menu
+  dropdownVisible = false;
+  isMobile: boolean;
   constructor(
     private AuthService: AuthService,
     private router: Router
-    ) {}
+    ) {
+      this.checkIfMobile();
+      window.addEventListener('resize', this.checkIfMobile.bind(this));
+    }
 
   ngOnInit(): void {
     console.log("Toolbar locked n loaded.")
   }
 
+  // Toggle dropdown visibility
   toggleDropdown() {
-    this.dropdownOpen = !this.dropdownOpen; // Toggle dropdown visibility
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  // Handle item selection and close dropdown
+  selectItem(route: string) {
+    this.dropdownVisible = false; // Close the dropdown
+    // Optionally, navigate to the selected route
+    this.router.navigate([route]); // Make sure to import Router
+  }
+
+  // Close dropdown if clicked outside
+  @HostListener('document:click', ['$event'])
+  closeDropdown(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown') && !target.closest('.dropdown-button')) {
+      this.dropdownVisible = false;
+    }
+  }
+
+  checkIfMobile() {
+    this.isMobile = window.innerWidth <= 768; // Adjust this threshold as needed
   }
 
   isLoggedIn(): boolean {

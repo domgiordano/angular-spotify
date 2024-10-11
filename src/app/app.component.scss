@@ -55,18 +55,24 @@ html, body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; // Ensure the container takes the full height of the viewport
+  padding: 0; // Ensure no padding around the container
 }
 
 app-toolbar {
   flex: 0 0 auto; /* Toolbar takes its own height */
   width: 100%;
+  margin: 0; // Ensure no margin
 }
 
 .content {
-  padding-top: 20px;
+  padding: 0; // Removed padding to ensure tight fit
   flex: 1; // This will take all available space
-  padding-bottom: 90px; // Increase this value for more space below the content
+  margin: 0; // Ensure no margin
   overflow-y: auto; // Allow vertical scrolling if needed
+}
+
+.content > * {
+  margin: 0; // Reset margins on all direct child elements of content
 }
 
 app-footer {
