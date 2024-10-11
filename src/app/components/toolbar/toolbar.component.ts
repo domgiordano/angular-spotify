@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service'; // Adjust the path as
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
+  dropdownOpen = false; // Track the state of the dropdown menu
   constructor(
     private AuthService: AuthService,
     private router: Router
@@ -16,6 +17,10 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("Toolbar locked n loaded.")
+  }
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen; // Toggle dropdown visibility
   }
 
   isLoggedIn(): boolean {
