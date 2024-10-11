@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { forkJoin, take } from 'rxjs';
 import { ArtistService } from 'src/app/services/artist.service';
 import { GenresService } from 'src/app/services/genre.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-top-genres-page',
@@ -25,7 +26,8 @@ export class TopGenresComponent implements OnInit {
   constructor(
       private AuthService: AuthService,
       private ArtistService: ArtistService,
-      private GenreService: GenresService
+      private GenreService: GenresService,
+      private ToastService: ToastService
     ) {}
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
@@ -118,6 +120,7 @@ export class TopGenresComponent implements OnInit {
       },
       error: err => {
         console.error('Error fetching user artists', err);
+        this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
       complete: () => {

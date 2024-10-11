@@ -4,6 +4,7 @@ import { ArtistService } from 'src/app/services/artist.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { GenresService } from 'src/app/services/genre.service';
 import { SongService } from 'src/app/services/song.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service'; // Service to handle user info and authentication
 import { WrappedService } from 'src/app/services/wrapped.service';
 
@@ -42,7 +43,8 @@ export class WrappedComponent implements OnInit {
     private AuthService: AuthService,
     private SongService: SongService,
     private ArtistService: ArtistService,
-    private GenreService: GenresService
+    private GenreService: GenresService,
+    private ToastService: ToastService
     ) {}
 
   ngOnInit() {
@@ -64,6 +66,7 @@ export class WrappedComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
+        this.ToastService.showNegativeToast('Error Fetching your opt-in status.');
         console.error('Error fetching opt-in status:', err);
       }
     });
@@ -106,6 +109,7 @@ export class WrappedComponent implements OnInit {
       },
       error: err => {
         console.error('Error fetching Wrapped Data', err);
+        this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
       complete: () => {
@@ -122,9 +126,11 @@ export class WrappedComponent implements OnInit {
       this.SongService.getAllTermsTopTracksIds(), this.ArtistService.getAllTermsTopArtistsIds(), this.GenreService.getAllTermsTopGenress()).subscribe({
       next: () => {
         this.hasOptedIn = true;
+        this.ToastService.showPositiveToast('Successfully Opted-in for Monthly Wrapped :)');
       },
       error: (err) => {
         console.error('Error opting in:', err);
+        this.ToastService.showNegativeToast("Error Opting you into Monthly Wrapped :(");
       }
     });
   }

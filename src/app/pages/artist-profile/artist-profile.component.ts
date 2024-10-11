@@ -4,6 +4,7 @@ import { ArtistService } from 'src/app/services/artist.service';
 import { Router } from '@angular/router';
 
 import { forkJoin, take } from 'rxjs';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-artist-profile',
@@ -22,7 +23,8 @@ export class ArtistProfileComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private ArtistService: ArtistService
+    private ArtistService: ArtistService,
+    private ToastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -49,6 +51,7 @@ export class ArtistProfileComponent implements OnInit {
         },
         error: err => {
           console.error('Error fetching artist', err);
+          this.ToastService.showNegativeToast('Error adding songs to playlist');
           this.loading = false;
         },
         complete: () => {

@@ -21,10 +21,10 @@ export class ToastComponent implements OnInit {
   message: string = '';
   isVisible: boolean = false;
 
-  constructor(private toastService: ToastService) {}
+  constructor(private ToastService: ToastService) {}
 
   ngOnInit() {
-    this.toastService.registerToast(this);
+    this.ToastService.registerToast(this);
   }
 
   showToast(msg: string) {

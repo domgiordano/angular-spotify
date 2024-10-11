@@ -22,7 +22,7 @@ export class FooterComponent implements OnInit {
     private SongService: SongService,
     private PlaylistService: PlaylistService,
     private UserService: UserService,
-    private toastService: ToastService,
+    private ToastService: ToastService,
   ) {}
 
   ngOnInit() {
@@ -78,17 +78,17 @@ export class FooterComponent implements OnInit {
             },
             error: err => {
               console.error('Error Adding Items to Playlist', err);
-              this.toastService.showNegativeToast('Error adding songs to playlist');
+              this.ToastService.showNegativeToast('Error adding songs to playlist');
             },
             complete: () => {
               console.log("Adding Items to Playlist Complete.");
-              this.toastService.showPositiveToast('Playlist successfully added to your Spotify account!');
+              this.ToastService.showPositiveToast('Playlist successfully added to your Spotify account!');
             },
           });
         },
         error: err => {
           console.error('Error Creating Playlist', err);
-          this.toastService.showNegativeToast('Error creating playlist');
+          this.ToastService.showNegativeToast('Error creating playlist');
         },
         complete: () => {
           console.log('Playlist Created.');

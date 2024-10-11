@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private ToastService: ToastService
     ) {}
 
   login() {
@@ -55,6 +57,7 @@ export class AuthService {
         this.router.navigate(['/my-profile']); // Navigate after login
       },
       error: (err) => {
+        this.ToastService.showNegativeToast('Token exchange failed.')
         console.error('Token exchange failed', err);
       },
     });
