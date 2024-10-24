@@ -34,7 +34,7 @@ export class WrappedService {
     const url = `${this.baseUrl}/wrapped/data`;
     const body =  {
           email: email,
-          user_id: id,
+          userId: id,
           refreshToken: refreshToken,
           active: optIn,
           topSongIdsLastMonth: topSongIdsLastMonth,
