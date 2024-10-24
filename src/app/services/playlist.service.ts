@@ -62,8 +62,12 @@ export class PlaylistService implements OnInit {
       'Content-Type': 'image/jpeg', // Change this if the image is a different format
     });
 
+    const body = {
+      images: [base64Image] // Wrap the base64 string in an array
+    };
+
     // Make the PUT request to upload the image
-    return this.http.put(url, base64Image, { headers });
+    return this.http.put(url, body, { headers });
   }
 
 
