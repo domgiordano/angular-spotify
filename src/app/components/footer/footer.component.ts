@@ -45,7 +45,7 @@ export class FooterComponent implements OnInit {
   }
 
   private uploadImage$(playlistId: string): Observable<any> {
-    const imagePath = 'src/assets/img/logo-x-rework.png';
+    const imagePath = 'src/assets/img/logo-x-rework.jpg';
     return new Observable(observer => {
       fetch(imagePath)
         .then(response => response.blob())

@@ -59,7 +59,7 @@ export class PlaylistService implements OnInit {
     // Set the headers
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.accessToken}`,
-      'Content-Type': 'image/png', // Change this if the image is a different format
+      'Content-Type': 'image/jpeg', // Change this if the image is a different format
     });
 
     // Make the PUT request to upload the image
