@@ -62,14 +62,18 @@ export class WrappedComponent implements OnInit {
       next: (userData) => {
         this.hasOptedIn = userData.active;
         console.log('userData', userData);
-        if (this.hasOptedIn){
-          this.updateSongs(userData);
-        }
+        // if (this.hasOptedIn){
+        //   this.updateSongs(userData);
+        // }
       },
       error: (err) => {
         this.loading = false;
         this.ToastService.showNegativeToast('Error Fetching your opt-in status.');
         console.error('Error fetching opt-in status:', err);
+      },
+      complete: () => {
+        this.loading = false;
+        console.log('User Wrapped Table Data Loaded.');
       }
     });
   }
@@ -124,9 +128,7 @@ export class WrappedComponent implements OnInit {
 
   signUpForWrapped() {
     // Call the API to sign the user up for monthly wrapped
-    this.WrappedService.optInOrOutUserForWrapped(this.userEmail, this.userId, this.refreshToken, true,
-      this.SongService.getAllTermsTopTracksIds(), this.ArtistService.getAllTermsTopArtistsIds(), this.GenreService.getAllTermsTopGenress(),
-      this.SongService.getAllTermsTopTracksIds(), this.ArtistService.getAllTermsTopArtistsIds(), this.GenreService.getAllTermsTopGenress()).subscribe({
+    this.WrappedService.optInOrOutUserForWrapped(this.userEmail, this.userId, this.refreshToken, true).subscribe({
       next: () => {
         this.hasOptedIn = true;
         this.ToastService.showPositiveToast('Successfully Opted-in for Monthly Wrapped :)');
