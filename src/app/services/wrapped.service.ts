@@ -23,7 +23,7 @@ export class WrappedService {
   }
 
   // Optional method to sign up the user for monthly wrapped (if not opted in)
-  optInOrOutUserForWrapped(email: string, refreshToken: string, optIn: boolean,
+  optInOrOutUserForWrapped(email: string, id: string, refreshToken: string, optIn: boolean,
     topSongIdsLastMonth: any = {'short_term': [], 'med_term': [], 'long_term': []},
     topArtistIdsLastMonth: any = {'short_term': [], 'med_term': [], 'long_term': []},
     topGenresLastMonth: any = {'short_term': [], 'med_term': [], 'long_term': []},
@@ -34,6 +34,7 @@ export class WrappedService {
     const url = `${this.baseUrl}/wrapped/data`;
     const body =  {
           email: email,
+          user_id: id,
           refreshToken: refreshToken,
           active: optIn,
           topSongIdsLastMonth: topSongIdsLastMonth,
