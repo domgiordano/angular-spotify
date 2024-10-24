@@ -5,6 +5,7 @@ import { SongService } from 'src/app/services/song.service';
 import { UserService } from 'src/app/services/user.service';
 import { Observable, take } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-footer',
@@ -44,31 +45,20 @@ export class FooterComponent implements OnInit {
     });
   }
 
-  private uploadImage$(playlistId: string): Observable<any> {
-    const imagePath = 'src/assets/img/logo-x-rework.jpg';
+  private uploadImage$(playlistId: string, base64Image: string): Observable<any> {
     return new Observable(observer => {
-      fetch(imagePath)
-        .then(response => response.blob())
-        .then(blob => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const base64Image = reader.result as string;
-            const base64String = base64Image.split(',')[1];
-            this.PlaylistService.uploadPlaylistImage(playlistId, base64String).subscribe({
-              next: (data) => {
-                observer.next(data);
-                observer.complete();
-              },
-              error: (err) => {
-                observer.error(err);
-              },
-            });
-          };
-          reader.readAsDataURL(blob);
-        })
-        .catch(error => {
-          observer.error(error);
-        });
+      // Extract the base64 string if it includes the data URL prefix
+      //const base64String = base64Image.split(',')[1];
+
+      this.PlaylistService.uploadPlaylistImage(playlistId, base64Image).subscribe({
+        next: (data) => {
+          observer.next(data);
+          observer.complete();
+        },
+        error: (err) => {
+          observer.error(err);
+        },
+      });
     });
   }
 
@@ -105,7 +95,7 @@ export class FooterComponent implements OnInit {
             next: data => {
               console.log(data);
               // Now upload the image
-              this.uploadImage$(playlist.id).subscribe({
+              this.uploadImage$(playlist.id, environment.logoBase64).subscribe({
                 next: (imageData) => {
                   console.log('Image uploaded successfully:', imageData);
                 },
