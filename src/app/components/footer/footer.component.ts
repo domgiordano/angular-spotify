@@ -48,9 +48,9 @@ export class FooterComponent implements OnInit {
   private uploadImage$(playlistId: string, base64Image: string): Observable<any> {
     return new Observable(observer => {
       // Extract the base64 string if it includes the data URL prefix
-      //const base64String = base64Image.split(',')[1];
+      const base64String = base64Image.split(',')[1];
 
-      this.PlaylistService.uploadPlaylistImage(playlistId, base64Image).subscribe({
+      this.PlaylistService.uploadPlaylistImage(playlistId, base64String).subscribe({
         next: (data) => {
           observer.next(data);
           observer.complete();

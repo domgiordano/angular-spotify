@@ -56,6 +56,8 @@ export class PlaylistService implements OnInit {
     // Prepare the API URL
     const url = `${this.baseUrl}/playlists/${playlistId}/images`;
 
+    const body = base64Image;
+
     // Set the headers
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.accessToken}`,
@@ -63,7 +65,7 @@ export class PlaylistService implements OnInit {
     });
 
     // Make the PUT request to upload the image
-    return this.http.put(url, base64Image, { headers });
+    return this.http.put(url, body, { headers });
   }
 
 
