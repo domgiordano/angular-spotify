@@ -53,7 +53,8 @@ export class FooterComponent implements OnInit {
           const reader = new FileReader();
           reader.onloadend = () => {
             const base64Image = reader.result as string;
-            this.PlaylistService.uploadPlaylistImage(playlistId, base64Image).subscribe({
+            const base64String = base64Image.split(',')[1];
+            this.PlaylistService.uploadPlaylistImage(playlistId, base64String).subscribe({
               next: (data) => {
                 observer.next(data);
                 observer.complete();
