@@ -16,6 +16,7 @@ import { WrappedService } from 'src/app/services/wrapped.service';
 export class WrappedComponent implements OnInit {
   loading: boolean;
   userEmail: string;
+  userId: string;
   refreshToken: string;
   hasOptedIn: boolean = false;
   hasData: boolean = false;
@@ -49,6 +50,7 @@ export class WrappedComponent implements OnInit {
 
   ngOnInit() {
     this.userEmail = this.UserService.getEmail()
+    this.userId = this.UserService.getUserId();
     this.refreshToken = this.AuthService.getRefreshToken();
     this.loadUserData();
   }
@@ -79,6 +81,7 @@ export class WrappedComponent implements OnInit {
     }
 
     this.userEmail = userData.email;
+    this.userId = userData.id;
     this.refreshToken = userData.refreshToken;
     this.topSongIdsLastMonth = userData.topSongIdsLastMonth;
     this.topArtistIdsLastMonth = userData.topArtistIdsLastMonth;
@@ -121,7 +124,7 @@ export class WrappedComponent implements OnInit {
 
   signUpForWrapped() {
     // Call the API to sign the user up for monthly wrapped
-    this.WrappedService.optInOrOutUserForWrapped(this.userEmail, this.refreshToken, true,
+    this.WrappedService.optInOrOutUserForWrapped(this.userEmail, this.userId, this.refreshToken, true,
       this.SongService.getAllTermsTopTracksIds(), this.ArtistService.getAllTermsTopArtistsIds(), this.GenreService.getAllTermsTopGenress(),
       this.SongService.getAllTermsTopTracksIds(), this.ArtistService.getAllTermsTopArtistsIds(), this.GenreService.getAllTermsTopGenress()).subscribe({
       next: () => {
