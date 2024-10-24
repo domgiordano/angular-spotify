@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { SongService } from 'src/app/services/song.service';
 import { UserService } from 'src/app/services/user.service';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class FooterComponent implements OnInit {
   footerButtonText: string = '';
   githubRepoUrl: string = 'https://github.com/domgiordano/angular-spotify';
   userId: string;
+
 
   constructor(
     private router: Router,
@@ -40,6 +41,33 @@ export class FooterComponent implements OnInit {
       } else {
         this.showDynamicButton = false;
       }
+    });
+  }
+
+  private uploadImage$(playlistId: string): Observable<any> {
+    const imagePath = 'src/assets/img/logo-x-rework.png';
+    return new Observable(observer => {
+      fetch(imagePath)
+        .then(response => response.blob())
+        .then(blob => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64Image = reader.result as string;
+            this.PlaylistService.uploadPlaylistImage(playlistId, base64Image).subscribe({
+              next: (data) => {
+                observer.next(data);
+                observer.complete();
+              },
+              error: (err) => {
+                observer.error(err);
+              },
+            });
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch(error => {
+          observer.error(error);
+        });
     });
   }
 
@@ -75,6 +103,19 @@ export class FooterComponent implements OnInit {
           this.PlaylistService.addPlaylistSongs(playlist, currentTopSongsUriList).pipe(take(1)).subscribe({
             next: data => {
               console.log(data);
+              // Now upload the image
+              this.uploadImage$(playlist.id).subscribe({
+                next: (imageData) => {
+                  console.log('Image uploaded successfully:', imageData);
+                },
+                error: (err) => {
+                  console.error('Error uploading image:', err);
+                  this.ToastService.showNegativeToast('Error uploading playlist image');
+                },
+                complete: () => {
+                  console.log("Image upload complete.");
+                }
+              });
             },
             error: err => {
               console.error('Error Adding Items to Playlist', err);

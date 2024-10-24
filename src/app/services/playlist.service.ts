@@ -49,6 +49,23 @@ export class PlaylistService implements OnInit {
     return this.http.post(url, body, { headers });
   }
 
+  uploadPlaylistImage(playlistId: string, base64Image: string): Observable<any> {
+    // Get the access token from AuthService
+    this.accessToken = this.AuthService.getAccessToken();
+
+    // Prepare the API URL
+    const url = `${this.baseUrl}/playlists/${playlistId}/images`;
+
+    // Set the headers
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.accessToken}`,
+      'Content-Type': 'image/png', // Change this if the image is a different format
+    });
+
+    // Make the PUT request to upload the image
+    return this.http.put(url, base64Image, { headers });
+  }
+
 
 
 }
