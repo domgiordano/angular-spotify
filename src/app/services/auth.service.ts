@@ -12,7 +12,7 @@ export class AuthService {
   private readonly clientId = environment.spotifyClientId;
   private readonly clientSecret = environment.spotifyClientSecret;
   private readonly redirectUri = 'https://xomify.com/callback';
-  private readonly scope = 'user-read-private user-read-email user-library-read user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative';
+  private readonly scope = 'user-read-private user-read-email user-library-read user-top-read playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative ugc-image-upload';
   accessToken: string = '';
   refreshToken: string = '';
 
