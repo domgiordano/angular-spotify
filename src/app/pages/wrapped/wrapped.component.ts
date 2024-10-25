@@ -79,7 +79,7 @@ export class WrappedComponent implements OnInit {
   }
 
   private updateSongs(userData: any){
-    if(userData.topSongIdsTwoMonthsAgo.short_term.length == 0){
+    if(userData.topSongIdsLastMonth.short_term.length == 0){
       this.hasData = false;
       return;
     }
