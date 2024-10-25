@@ -62,9 +62,9 @@ export class WrappedComponent implements OnInit {
       next: (userData) => {
         this.hasOptedIn = userData.active;
         console.log('userData', userData);
-        // if (this.hasOptedIn){
-        //   this.updateSongs(userData);
-        // }
+        if (this.hasOptedIn){
+          this.updateSongs(userData);
+        }
       },
       error: (err) => {
         this.loading = false;
