@@ -25,7 +25,7 @@
 
   <div class="songs-grid">
     <div class="song-card" *ngFor="let song of displayedSongs; let i = index"
-      [ngClass]="{ 'flipped': song.flipped }" (mouseenter)="playSong(song.preview_url)"
+      [ngClass]="{ 'flipped': song.flipped }" (mouseenter)="playSong(song.id)"
       (mouseleave)="stopSong()"
     >
       <div class="card-content">

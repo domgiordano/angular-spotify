@@ -13,7 +13,7 @@
 
       <div class="top-songs">
         <h2>Top Tracks</h2>
-        <div *ngFor="let song of artist.topTracks | slice:0:5; let i = index" class="song-card" (mouseover)="playPreview(song.previewUrl)" (mouseleave)="stopPreview()">
+        <div *ngFor="let song of artist.topTracks | slice:0:5; let i = index" class="song-card" (mouseover)="playSong(song.id)" (mouseleave)="stopSong()">
           <span class="song-ranking">{{ i + 1 }}.</span>
           <img [src]="song.image" alt="{{ song.name }} cover" class="song-cover" />
           <div class="song-details">
