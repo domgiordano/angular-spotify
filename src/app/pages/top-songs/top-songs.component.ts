@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { SongService } from 'src/app/services/song.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { PlayerService } from 'src/app/services/player.service';
 import { forkJoin, take } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -26,12 +27,14 @@ export class TopSongsComponent implements OnInit, OnDestroy {
   constructor(
       private AuthService: AuthService,
       private SongService: SongService,
-      private ToastService: ToastService
+      private ToastService: ToastService,
+      private PlayerService: PlayerService
     ) {
   }
 
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
+    this.PlayerService.transferPlaybackHere()
     this.topTracksShortTerm = this.SongService.getShortTermTopTracks();
     this.topTracksMedTerm = this.SongService.getMedTermTopTracks();
     this.topTracksLongTerm = this.SongService.getLongTermTopTracks();
@@ -101,17 +104,13 @@ export class TopSongsComponent implements OnInit, OnDestroy {
     }
   }
 
-  playSong(previewUrl: string) {
-    if (this.audioPlayer.nativeElement.src !== previewUrl) {
-      this.audioPlayer.nativeElement.src = previewUrl;
-    }
-    this.audioPlayer.nativeElement.play();
+  async playSong(trackId: string) {
+    this.PlayerService.playSong(trackId);
   }
 
-  stopSong() {
-    this.audioPlayer.nativeElement.pause();
-    this.audioPlayer.nativeElement.currentTime = 0; // Reset playback
-  }
+  async stopSong() {
+    this.PlayerService.stopSong();
+  } 
 
   getSongStats(song){
 

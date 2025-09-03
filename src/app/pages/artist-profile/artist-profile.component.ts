@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from 'src/app/services/artist.service';
+import { PlayerService } from 'src/app/services/player.service';
 import { Router } from '@angular/router';
 
 import { forkJoin, take } from 'rxjs';
@@ -24,14 +25,17 @@ export class ArtistProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private ArtistService: ArtistService,
-    private ToastService: ToastService
+    private ToastService: ToastService,
+      private PlayerService: PlayerService
   ) {}
 
   ngOnInit() {
+    this.PlayerService.transferPlaybackHere()
     this.route.queryParams.subscribe(params => {
       this.artistId = params['id'];
       this.loadArtistDetails(this.artistId);
       this.artist.id = this.artistId;
+      this.artist.relatedArtists = []
     });
   }
 
@@ -41,13 +45,13 @@ export class ArtistProfileComponent implements OnInit {
       const artistCalls = forkJoin({
         detailsResp: this.ArtistService.getArtistDetails(artistId),
         albumsResp: this.ArtistService.getArtistAlbums(artistId),
-        tracksResp: this.ArtistService.getArtistTopTracks(artistId),
-        relatedResp: this.ArtistService.getArtistRelatedArtists(artistId)
+        tracksResp: this.ArtistService.getArtistTopTracks(artistId)
+        //relatedResp: this.ArtistService.getArtistRelatedArtists(artistId)
       });
 
       return artistCalls.pipe(take(1)).subscribe({
         next: data => {
-          this.buildArtist(data.detailsResp, data.albumsResp, data.tracksResp, data.relatedResp);
+          this.buildArtist(data.detailsResp, data.albumsResp, data.tracksResp);
         },
         error: err => {
           console.error('Error fetching artist', err);
@@ -70,18 +74,15 @@ export class ArtistProfileComponent implements OnInit {
     this.router.navigate(['/artist'], { queryParams: { id: relatedArtistId } });
   }
 
-  playPreview(previewUrl: string) {
-    this.stopPreview();
-    this.audio.src = previewUrl;
-    this.audio.play();
+  async playSong(trackId: string) {
+    this.PlayerService.playSong(trackId);
   }
 
-  stopPreview() {
-    this.audio.pause();
-    this.audio.currentTime = 0;
-  }
+  async stopSong() {
+    this.PlayerService.stopSong();
+  } 
 
-  private buildArtist(details: any, albums: any, tracks: any, relatedArtists: any) {
+  private buildArtist(details: any, albums: any, tracks: any) {
     this.artist.image = details.images[0].url;
     this.artist.images = details.images;
     this.artist.name = details.name;
@@ -93,13 +94,13 @@ export class ArtistProfileComponent implements OnInit {
       name: track.name,
       image: track.album.images[0].url,
       artists: track.artists,
-      previewUrl: track.preview_url
+      id: track.id
     }));
-    this.artist.relatedArtists = relatedArtists.artists.map(artist => ({
-      name: artist.name,
-      image: artist.images[0].url,
-      id: artist.id
-    }));
+    // this.artist.relatedArtists = relatedArtists.artists.map(artist => ({
+    //   name: artist.name,
+    //   image: artist.images[0].url,
+    //   id: artist.id
+    // }));
   }
 
   formatArtists(artists: any[]): string {
