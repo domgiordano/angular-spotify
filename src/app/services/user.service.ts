@@ -40,7 +40,7 @@ export class UserService implements OnInit {
 
   updateUserTable(): Observable<any> {
         this.refreshToken = this.AuthService.getRefreshToken();
-        const url = `${this.xomifyApiUrl}/update-user-table`;
+        const url = `${this.xomifyApiUrl}/user/update-user-table`;
         const body =  {
           email: this.user.email,
           refreshToken: this.refreshToken
