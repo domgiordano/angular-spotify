@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WrappedService {
-  private baseUrl: string = 'https://0zo7dgv0sc.execute-api.us-east-1.amazonaws.com/dev';
-  private authToken: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ4b21pZnktYW5ndWxhciIsIm5hbWUiOiJ4b21pZnktcHl0aG9uIiwiaWF0IjoxNTE2MjM5MDIyfQ.yCoXbDmAlYP_Yz4ucgFIY-boq22kKkrxZ4n60GnIM-c';
-
+  private xomifyApiUrl: string = `https://${environment.apiAuthToken}.execute-api.us-east-1.amazonaws.com/dev`;
+  private readonly apiAuthToken = environment.apiAuthToken;
   constructor(private http: HttpClient) {}
 
   // Method to get user wrapped data based on the selected term (short, medium, long)
   getUserWrappedData(email: string): Observable<any> {
-    const url = `${this.baseUrl}/wrapped/data?email=${email}`;
+    const url = `${this.xomifyApiUrl}/wrapped/data?email=${email}`;
     const headers = {
-        Authorization: `Bearer ${this.authToken}`,
+        Authorization: `Bearer ${this.apiAuthToken}`,
         'Content-Type': 'application/json'
     };
     return this.http.get(url, { headers });
@@ -31,7 +31,7 @@ export class WrappedService {
     topArtistIdsTwoMonthsAgo: any = {'short_term': [], 'med_term': [], 'long_term': []},
     topGenresTwoMonthsAgo: any = {'short_term': [], 'med_term': [], 'long_term': []}): Observable<any> {
 
-    const url = `${this.baseUrl}/wrapped/data`;
+    const url = `${this.xomifyApiUrl}/wrapped/data`;
     const body =  {
           email: email,
           userId: id,
@@ -45,7 +45,7 @@ export class WrappedService {
           topGenresTwoMonthsAgo: topGenresTwoMonthsAgo
     };
     const headers = new HttpHeaders({
-        Authorization: `Bearer ${this.authToken}`,
+        Authorization: `Bearer ${this.apiAuthToken}`,
         'Content-Type': 'application/json'
     });
     return this.http.post(url, body, { headers });

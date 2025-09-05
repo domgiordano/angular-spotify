@@ -42,6 +42,8 @@ export class MyProfileComponent implements OnInit {
       this.followersCount = this.UserService.getFollowers();
     }
 
+
+
   }
 
   loadUser() {

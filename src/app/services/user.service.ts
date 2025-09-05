@@ -1,9 +1,10 @@
 // user.service.ts
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,8 @@ export class UserService implements OnInit {
   userName = '';
   id = '';
   private baseUrl = 'https://api.spotify.com/v1';
+  private xomifyApiUrl: string = `https://${environment.apiAuthToken}.execute-api.us-east-1.amazonaws.com/dev`;
+  private readonly apiAuthToken = environment.apiAuthToken;
 
   constructor(
       private http: HttpClient,
@@ -34,6 +37,20 @@ export class UserService implements OnInit {
         },
       })
   }
+
+  updateUserTable(): Observable<any> {
+        this.refreshToken = this.AuthService.getRefreshToken();
+        const url = `${this.xomifyApiUrl}/update-user-table`;
+        const body =  {
+          email: this.user.email,
+          refreshToken: this.refreshToken
+        };
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${this.apiAuthToken}`,
+            'Content-Type': 'application/json'
+        });
+        return this.http.post(url, body, { headers });
+    }
 
   setUser(data): void{
       this.userName = data.display_name;
