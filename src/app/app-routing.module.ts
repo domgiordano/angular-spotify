@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'top-artists', component: TopArtistsComponent, canActivate: [AuthGuard]},
   { path: 'top-genres', component: TopGenresComponent, canActivate: [AuthGuard]},
   //{ path: 'playlist-generator', component: PlaylistGeneratorComponent, canActivate: [AuthGuard]},
-  { path: 'wrapped', component: WrappedComponent, canActivate: [AuthGuard]},
+  //{ path: 'wrapped', component: WrappedComponent, canActivate: [AuthGuard]},
   { path: 'callback', component: CallbackComponent },
   { path: 'artist', component: ArtistProfileComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect empty path to /home

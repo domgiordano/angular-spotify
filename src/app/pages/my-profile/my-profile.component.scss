@@ -60,3 +60,55 @@
   font-size: 16px; /* Increased font size for label */
   color: #b3b3b3; /* Light gray text for labels */
 }
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px; // spacing between buttons
+  margin-top: 2rem; // spacing above buttons
+}
+
+.action-button {
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  min-width: 220px; // keeps buttons same width
+  color: white; // always white text
+
+  &.wrapped {
+    background-color: #1db954; // Spotify green
+
+    &:hover {
+      background-color: #17a74b;
+    }
+
+    &.active {
+      background-color: black;
+      border: 2px solid #1db954;
+
+      &:hover {
+        background-color: #222;
+      }
+    }
+  }
+
+  &.radar {
+    background-color: #9c0abf; // Purple
+
+    &:hover {
+      background-color: #7e089c;
+    }
+
+    &.active {
+      background-color: black;
+      border: 2px solid #9c0abf;
+
+      &:hover {
+        background-color: #222;
+      }
+    }
+  }
+}
