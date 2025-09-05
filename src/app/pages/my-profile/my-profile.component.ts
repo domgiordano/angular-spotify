@@ -43,6 +43,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.profilePicture = this.UserService.getProfilePic();
       this.email = this.UserService.getEmail();
       this.followersCount = this.UserService.getFollowers();
+      this.wrappedEnrolled = this.UserService.getWrappedEnrollment();
+      this.releaseRadarEnrolled = this.UserService.getReleaseRadarEnrollment();
     }
   }
 
@@ -82,6 +84,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         this.wrappedEnrolled = xomUser.activeWrapped;
         this.releaseRadarEnrolled = xomUser.activeReleaseRadar;
         this.loading = false;
+        this.UserService.setReleaseRadarEnrollment(this.releaseRadarEnrolled);
+        this.UserService.setWrappedEnrollment(this.wrappedEnrolled);
       },
       error: err => {
         console.error('Error Updating User Table', err);
@@ -111,6 +115,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         this.UserService.updateUserTableEnrollments(this.wrappedEnrolled, this.releaseRadarEnrolled).pipe(take(1)).subscribe({
           next: xomUser => {
             console.log("Updated Xomify USER Table------", xomUser);
+            this.UserService.setReleaseRadarEnrollment(this.releaseRadarEnrolled);
+            this.UserService.setWrappedEnrollment(this.wrappedEnrolled);
           },
           error: err => {
             console.error('Error Updating User Table', err);
