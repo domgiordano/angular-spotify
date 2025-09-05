@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArtistService } from 'src/app/services/artist.service';
 import { PlayerService } from 'src/app/services/player.service';
-import { Router } from '@angular/router';
-
 import { forkJoin, take } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -16,9 +14,6 @@ export class ArtistProfileComponent implements OnInit {
   loading: boolean;
   artistId: string;
   artist: any = {};
-  topSongs: any[] = [];
-  currentImageIndex: number = 0;
-  audio = new Audio();
   currentRelatedArtistIndex = 0;
 
   constructor(
@@ -26,7 +21,7 @@ export class ArtistProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private ArtistService: ArtistService,
     private ToastService: ToastService,
-      private PlayerService: PlayerService
+    private PlayerService: PlayerService
   ) {}
 
   ngOnInit() {
@@ -34,7 +29,7 @@ export class ArtistProfileComponent implements OnInit {
       this.artistId = params['id'];
       this.loadArtistDetails(this.artistId);
       this.artist.id = this.artistId;
-      this.artist.relatedArtists = []
+      this.artist.relatedArtists = [];
     });
   }
 
@@ -45,24 +40,32 @@ export class ArtistProfileComponent implements OnInit {
         detailsResp: this.ArtistService.getArtistDetails(artistId),
         albumsResp: this.ArtistService.getArtistAlbums(artistId),
         tracksResp: this.ArtistService.getArtistTopTracks(artistId)
-        //relatedResp: this.ArtistService.getArtistRelatedArtists(artistId)
       });
 
-      return artistCalls.pipe(take(1)).subscribe({
-        next: data => {
-          this.buildArtist(data.detailsResp, data.albumsResp, data.tracksResp);
-        },
+      artistCalls.pipe(take(1)).subscribe({
+        next: data => this.buildArtist(data.detailsResp, data.albumsResp, data.tracksResp),
         error: err => {
           console.error('Error fetching artist', err);
           this.ToastService.showNegativeToast('Error adding songs to playlist');
           this.loading = false;
         },
-        complete: () => {
-          this.loading = false
-          console.log('Artist Loaded.');
-        }
+        complete: () => { this.loading = false; console.log('Artist Loaded.'); }
       });
     }
+  }
+
+  playSong(trackId: string, autoPlay = false) {
+    this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
+      if (ready) this.PlayerService.playSong(trackId, autoPlay);
+      else console.warn('Player not ready yet.');
+    });
+  }
+
+  stopSong() {
+    this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
+      if (ready) this.PlayerService.stopSong();
+      else console.warn('Player not ready yet.');
+    });
   }
 
   goBack() {
@@ -73,26 +76,6 @@ export class ArtistProfileComponent implements OnInit {
     this.router.navigate(['/artist'], { queryParams: { id: relatedArtistId } });
   }
 
-  async playSong(trackId: string) {
-    this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
-      if (ready && this.PlayerService.deviceId) {
-        this.PlayerService.playSong(trackId);
-      } else {
-        console.warn('Player not ready yet.');
-      }
-    });
-  }
-
-  async stopSong() {
-    this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
-      if (ready && this.PlayerService.deviceId) {
-        this.PlayerService.stopSong();
-      } else {
-        console.warn('Player not ready yet.');
-      }
-    });
-  }
-
   private buildArtist(details: any, albums: any, tracks: any) {
     this.artist.image = details.images[0].url;
     this.artist.images = details.images;
@@ -101,21 +84,13 @@ export class ArtistProfileComponent implements OnInit {
     this.artist.followers = details.followers.total;
     this.artist.popularity = details.popularity;
     this.artist.albums = albums.items;
-    this.artist.topTracks = tracks.tracks.map(track => ({
+    this.artist.topTracks = tracks.tracks.map((track, index) => ({
       name: track.name,
       image: track.album.images[0].url,
       artists: track.artists,
-      id: track.id
+      id: track.id,
+      autoPlay: index === 0 // only first track auto-plays
     }));
-    // this.artist.relatedArtists = relatedArtists.artists.map(artist => ({
-    //   name: artist.name,
-    //   image: artist.images[0].url,
-    //   id: artist.id
-    // }));
-  }
-
-  formatArtists(artists: any[]): string {
-    return artists.map(artist => artist.name).join(', ');
   }
 
   get visibleRelatedArtists() {
@@ -126,7 +101,7 @@ export class ArtistProfileComponent implements OnInit {
     if (this.currentRelatedArtistIndex < this.artist.relatedArtists.length - 3) {
       this.currentRelatedArtistIndex++;
     } else {
-      this.currentRelatedArtistIndex = 0; // Reset to the beginning for infinite scroll
+      this.currentRelatedArtistIndex = 0;
     }
   }
 
@@ -134,15 +109,7 @@ export class ArtistProfileComponent implements OnInit {
     if (this.currentRelatedArtistIndex > 0) {
       this.currentRelatedArtistIndex--;
     } else {
-      this.currentRelatedArtistIndex = this.artist.relatedArtists.length - 3; // Reset to the end for infinite scroll
+      this.currentRelatedArtistIndex = this.artist.relatedArtists.length - 3;
     }
-  }
-
-  isNextDisabled() {
-    return this.artist.relatedArtists.length <= 3;
-  }
-
-  isPreviousDisabled() {
-    return this.artist.relatedArtists.length <= 3;
   }
 }

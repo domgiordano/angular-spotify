@@ -25,12 +25,11 @@ export class TopSongsComponent implements OnInit, OnDestroy {
   accessToken: string;
 
   constructor(
-      private AuthService: AuthService,
-      private SongService: SongService,
-      private ToastService: ToastService,
-      private PlayerService: PlayerService
-    ) {
-  }
+    private AuthService: AuthService,
+    private SongService: SongService,
+    private ToastService: ToastService,
+    private PlayerService: PlayerService
+  ) {}
 
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
@@ -38,13 +37,15 @@ export class TopSongsComponent implements OnInit, OnDestroy {
     this.topTracksMedTerm = this.SongService.getMedTermTopTracks();
     this.topTracksLongTerm = this.SongService.getLongTermTopTracks();
     this.displayedSongs = this.topTracksShortTerm;
-    if ( this.topTracksShortTerm.length === 0){
+
+    if (this.topTracksShortTerm.length === 0) {
       console.log("Need Top Tracks.");
       this.loadTopTracks();
-    }
-    else{
+    } else {
       console.log("We got dem top tracks.");
       this.updateDisplayedSongs();
+      // Auto-play first track if player ready
+      if (this.displayedSongs[0]) this.playSong(this.displayedSongs[0].id, true);
     }
   }
 
@@ -55,23 +56,22 @@ export class TopSongsComponent implements OnInit, OnDestroy {
   flipCard(song) {
     this.currentSong.flipped = false;
     this.selectedSong = song;
-    if('flipped' in this.selectedSong){
+    if ('flipped' in this.selectedSong) {
       this.selectedSong.flipped = !this.selectedSong.flipped;
-    }
-    else{
+    } else {
       this.selectedSong.flipped = true;
-
     }
 
     this.getSongStats(this.selectedSong);
     this.currentSong = this.selectedSong;
-
   }
-  flipCardBack(song){
+
+  flipCardBack(song) {
     this.currentSong.flipped = false;
     this.selectedSong = song;
     this.selectedSong.flipped = false;
   }
+
   onTermChange() {
     this.SongService.setCurrentTerm(this.selectedTerm);
     this.updateDisplayedSongs();
@@ -82,40 +82,40 @@ export class TopSongsComponent implements OnInit, OnDestroy {
   updateDisplayedSongs() {
     const songsGrid = document.querySelector('.songs-grid');
     if (songsGrid) {
-      songsGrid.classList.add('fade-out'); // Apply fade-out class
+      songsGrid.classList.add('fade-out'); 
       setTimeout(() => {
         switch (this.selectedTerm) {
           case 'short_term':
             this.displayedSongs = this.topTracksShortTerm;
-            this.selectedSong = this.displayedSongs[0];
             break;
           case 'medium_term':
-            this.displayedSongs = this.topTracksMedTerm; // Use the stored array
-            this.selectedSong = this.displayedSongs[0];
+            this.displayedSongs = this.topTracksMedTerm;
             break;
           case 'long_term':
             this.displayedSongs = this.topTracksLongTerm;
-            this.selectedSong = this.displayedSongs[0];
             break;
         }
-        songsGrid.classList.remove('fade-out'); // Remove fade-out class after content is updated
+        songsGrid.classList.remove('fade-out');
+        // Auto-play first song in the new term
+        if (this.displayedSongs[0]) this.playSong(this.displayedSongs[0].id, true);
+        this.selectedSong = this.displayedSongs[0];
       }, 500);
     }
   }
 
-  async playSong(trackId: string) {
+  playSong(trackId: string, autoPlay = false) {
     this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
-      if (ready && this.PlayerService.deviceId) {
-        this.PlayerService.playSong(trackId);
+      if (ready) {
+        this.PlayerService.playSong(trackId, autoPlay);
       } else {
         console.warn('Player not ready yet.');
       }
     });
   }
 
-  async stopSong() {
+  stopSong() {
     this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
-      if (ready && this.PlayerService.deviceId) {
+      if (ready) {
         this.PlayerService.stopSong();
       } else {
         console.warn('Player not ready yet.');
@@ -123,22 +123,16 @@ export class TopSongsComponent implements OnInit, OnDestroy {
     });
   }
 
-  getSongStats(song){
-
+  getSongStats(song) {
     this.SongService.getSongStats(song.id).pipe(take(1)).subscribe({
-      next: stats => {
-        console.log('stats', stats);
-        this.updateSelectedSong(stats);
-      },
+      next: stats => this.updateSelectedSong(stats),
       error: err => {
         console.error('Error fetching song stats', err);
         this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
-      complete: () => {
-        console.log('Song Stats Loaded.');
-      }
-    })
+      complete: () => console.log('Song Stats Loaded.')
+    });
   }
 
   private updateSelectedSong(stats): void {
@@ -152,14 +146,14 @@ export class TopSongsComponent implements OnInit, OnDestroy {
     this.selectedSong.speechiness = stats.speechiness;
     this.selectedSong.tempo = stats.tempo;
     this.selectedSong.valence = stats.valence;
-
   }
 
   private convertMillisecondsToMinutesSeconds(ms: number): string {
-    const minutes = Math.floor(ms / 60000);  // Get the total minutes
-    const seconds = Math.floor((ms % 60000) / 1000);  // Get the remaining seconds
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;  // Format seconds as two digits
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
+
   loadTopTracks() {
     this.loading = true;
     const getTracksCalls = forkJoin({
@@ -171,9 +165,9 @@ export class TopSongsComponent implements OnInit, OnDestroy {
     getTracksCalls.pipe(take(1)).subscribe({
       next: data => {
         this.SongService.setTopTracks(data.shortTermResp.items, data.medTermResp.items, data.longTermResp.items);
-        this.topTracksShortTerm = data.shortTermResp.items; // Set directly for immediate use
-        this.topTracksMedTerm = data.medTermResp.items;     // Set directly for immediate use
-        this.topTracksLongTerm = data.longTermResp.items;   // Set directly for immediate use
+        this.topTracksShortTerm = data.shortTermResp.items;
+        this.topTracksMedTerm = data.medTermResp.items;
+        this.topTracksLongTerm = data.longTermResp.items;
         this.updateDisplayedSongs();
         this.loading = false;
       },
@@ -182,15 +176,15 @@ export class TopSongsComponent implements OnInit, OnDestroy {
         this.ToastService.showNegativeToast('Error adding songs to playlist');
         this.loading = false;
       },
-      complete: () => {
-        console.log('Top Tracks Loaded.');
-      }
+      complete: () => console.log('Top Tracks Loaded.')
     });
   }
+
   formatArtists(artists: any[]): string {
     return artists.map(artist => artist.name).join(', ');
   }
-  viewSongDetails(song: any){
+
+  viewSongDetails(song: any) {
     console.log('Song', song);
   }
 }
