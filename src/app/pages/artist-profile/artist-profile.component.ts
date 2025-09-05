@@ -30,7 +30,6 @@ export class ArtistProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.PlayerService.transferPlaybackHere()
     this.route.queryParams.subscribe(params => {
       this.artistId = params['id'];
       this.loadArtistDetails(this.artistId);

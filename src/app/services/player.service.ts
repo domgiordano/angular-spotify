@@ -1,21 +1,28 @@
 // src/app/services/player.service.ts
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PlayerService implements OnDestroy {
+export class PlayerService implements OnInit, OnDestroy {
   private player: any;
   private deviceId: string | null = null;
   private accessToken: string;
   private playerInitialized = false;
+  private playerTransfered = false;
   private baseUrl = 'https://api.spotify.com/v1';
 
   constructor(private authService: AuthService, private http: HttpClient) {
     this.accessToken = this.authService.getAccessToken();
     this.loadSpotifySDK();
+  }
+
+  ngOnInit() {
+    if (!this.playerTransfered) {
+      this.transferPlaybackHere();
+    }
   }
 
   private loadSpotifySDK(): void {
@@ -134,7 +141,10 @@ export class PlayerService implements OnDestroy {
         }
       )
       .subscribe({
-        next: () => console.log('Playback transferred to Xomify app'),
+        next: () => {
+          console.log('Playback transferred to Xomify app')
+          this.playerTransfered = true;
+        },
         error: (err) => console.error('Error transferring playback', err),
       });
   }
