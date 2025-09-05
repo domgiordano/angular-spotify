@@ -61,12 +61,29 @@ export class MyProfileComponent implements OnInit {
       },
       error: err => {
         console.error('Error fetching User', err);
-        this.ToastService.showNegativeToast('Error adding songs to playlist');
+        this.ToastService.showNegativeToast('Error fetching User');
         this.loading = false;
       },
       complete: () => {
         console.log('User Loaded.');
-        this.UserService.updateUserTable()
+      }
+    });
+
+  }
+
+  updateUserTable() {
+    this.UserService.updateUserTable().pipe(take(1)).subscribe({
+      next: data => {
+        console.log("Updated USER Table------", data);
+        this.loading = false;
+      },
+      error: err => {
+        console.error('Error Updating User Table', err);
+        this.ToastService.showNegativeToast('Error Updating User Table');
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('User Table Updated.');
       }
     });
 
