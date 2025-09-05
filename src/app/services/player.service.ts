@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PlayerService {
   private player: any;
-  private deviceId: string | null = null;
+  deviceId: string | null = null;
   private accessToken: string;
   private playerInitialized = false;
   private playerTransfered = false;
@@ -42,7 +42,7 @@ export class PlayerService {
   }
 
   private initializePlayer(): void {
-    if (this.player) return;
+    if (this.player) return; // prevent double initialization
 
     this.player = new (window as any).Spotify.Player({
       name: 'Xomify Player',
@@ -55,8 +55,9 @@ export class PlayerService {
       this.deviceId = device_id;
       this.playerReady$.next(true);
 
+      // Only transfer once on first startup
       if (!this.playerTransfered) {
-        this.transferPlaybackHere(false); // don't auto-play if not needed
+        this.transferPlaybackHere(true); // start playing immediately if desired
       }
     });
 
