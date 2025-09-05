@@ -75,7 +75,7 @@ export class ArtistProfileComponent implements OnInit {
 
   async playSong(trackId: string) {
     this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
-      if (ready) {
+      if (ready && this.PlayerService.deviceId) {
         this.PlayerService.playSong(trackId);
       } else {
         console.warn('Player not ready yet.');
@@ -83,13 +83,12 @@ export class ArtistProfileComponent implements OnInit {
     });
   }
 
-
   async stopSong() {
     this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
-      if (ready) {
+      if (ready && this.PlayerService.deviceId) {
         this.PlayerService.stopSong();
       } else {
-        console.warn('Player not ready yet, cannot stop.');
+        console.warn('Player not ready yet.');
       }
     });
   }
