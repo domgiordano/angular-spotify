@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { take } from 'rxjs';
@@ -8,9 +8,9 @@ import { ToastService } from 'src/app/services/toast.service';
 @Component({
   selector: 'app-my-profile-page',
   templateUrl: './my-profile.component.html',
-  styleUrls: ['./my-profile.component.css']
+  styleUrls: ['./my-profile.component.scss']
 })
-export class MyProfileComponent implements OnInit {
+export class MyProfileComponent implements OnInit, OnDestroy {
   loading: boolean;
   profilePicture: string;
   userName: string;
@@ -18,6 +18,9 @@ export class MyProfileComponent implements OnInit {
   followersCount: number;
   user: any;
   accessToken: string;
+  wrappedEnrolled: boolean = false;
+  releaseRadarEnrolled: boolean = false;
+  tableEntryUser;
 
   constructor(
     private AuthService: AuthService,
@@ -72,9 +75,12 @@ export class MyProfileComponent implements OnInit {
 
   updateUserTable() {
     console.log('Updating User Table ...'); 
-    this.UserService.updateUserTable().pipe(take(1)).subscribe({
-      next: data => {
-        console.log("Updated USER Table------", data);
+    this.UserService.updateUserTableRefreshToken().pipe(take(1)).subscribe({
+      next: xomUser => {
+        console.log("Updated Xomify USER Table------", xomUser);
+        this.tableEntryUser = xomUser;
+        this.wrappedEnrolled = xomUser.activeWrapped;
+        this.releaseRadarEnrolled = xomUser.activeReleaseRadar;
         this.loading = false;
       },
       error: err => {
@@ -87,5 +93,34 @@ export class MyProfileComponent implements OnInit {
       }
     });
 
+  }
+
+  toggleWrapped() {
+    console.log("Toggling Wrapped Enrollment...")
+    this.wrappedEnrolled = !this.wrappedEnrolled;
+  }
+
+  toggleReleaseRadar() {
+    console.log("Toggling Release Radar Enrollment...")
+    this.releaseRadarEnrolled = !this.releaseRadarEnrolled;
+  }
+  ngOnDestroy(): void {
+    if (this.tableEntryUser.activeWrapped != this.wrappedEnrolled || 
+      this.tableEntryUser.activeReleaseRadar != this.releaseRadarEnrolled) {
+        console.log("Found updated enrollment - Wrapped or Release Radar or Both!")
+        this.UserService.updateUserTableEnrollments(this.wrappedEnrolled, this.releaseRadarEnrolled).pipe(take(1)).subscribe({
+          next: xomUser => {
+            console.log("Updated Xomify USER Table------", xomUser);
+          },
+          error: err => {
+            console.error('Error Updating User Table', err);
+            this.ToastService.showNegativeToast('Error Updating User Table');
+            this.loading = false;
+          },
+          complete: () => {
+            console.log('User Table Updated.');
+          }
+        });
+      }
   }
 }

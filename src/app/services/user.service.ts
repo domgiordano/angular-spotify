@@ -38,12 +38,27 @@ export class UserService implements OnInit {
       })
   }
 
-  updateUserTable(): Observable<any> {
+  updateUserTableRefreshToken(): Observable<any> {
         this.refreshToken = this.AuthService.getRefreshToken();
         const url = `${this.xomifyApiUrl}/user/user-table`;
         const body =  {
           email: this.user.email,
           refreshToken: this.refreshToken
+        };
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${this.apiAuthToken}`,
+            'Content-Type': 'application/json'
+        });
+        return this.http.post(url, body, { headers });
+    }
+
+  updateUserTableEnrollments(wrappedEnrolled: boolean, releaseRadarEnrolled: boolean): Observable<any> {
+        this.refreshToken = this.AuthService.getRefreshToken();
+        const url = `${this.xomifyApiUrl}/user/user-table`;
+        const body =  {
+          email:  this.user.email,
+          wrappedEnrolled: wrappedEnrolled,
+          releaseRadarEnrolled: releaseRadarEnrolled
         };
         const headers = new HttpHeaders({
             Authorization: `Bearer ${this.apiAuthToken}`,
@@ -85,5 +100,4 @@ export class UserService implements OnInit {
   getUserId(): string {
     return this.id;
   }
-
 }
