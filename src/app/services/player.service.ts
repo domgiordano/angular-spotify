@@ -8,13 +8,14 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PlayerService {
   private player: any;
-  deviceId: string | null = null;
+  private deviceId: string | null = null;
   private accessToken: string;
   private playerInitialized = false;
   private playerTransfered = false;
   private baseUrl = 'https://api.spotify.com/v1';
+  private lastTrackId: string | null = null;
+  private firstPlayDone = false; // ensures first-track auto-play only once
 
-  // Observable to know when player is ready
   public playerReady$ = new BehaviorSubject<boolean>(false);
 
   constructor(private authService: AuthService, private http: HttpClient) {
@@ -42,7 +43,7 @@ export class PlayerService {
   }
 
   private initializePlayer(): void {
-    if (this.player) return; // prevent double initialization
+    if (this.player) return;
 
     this.player = new (window as any).Spotify.Player({
       name: 'Xomify Player',
@@ -55,9 +56,8 @@ export class PlayerService {
       this.deviceId = device_id;
       this.playerReady$.next(true);
 
-      // Only transfer once on first startup
       if (!this.playerTransfered) {
-        this.transferPlaybackHere(true); // start playing immediately if desired
+        this.transferPlaybackHere(false); // only transfer, do NOT auto-play
       }
     });
 
@@ -77,11 +77,18 @@ export class PlayerService {
     });
   }
 
-  playSong(trackId: string): void {
-    if (!this.deviceId) {
-      console.warn('Player not ready yet.');
-      return;
-    }
+  playSong(trackId: string, autoPlay = false): void {
+    if (!this.deviceId) return;
+
+    // Prevent repeated same-track calls
+    if (this.lastTrackId === trackId && !autoPlay) return;
+
+    this.lastTrackId = trackId;
+
+    // Only auto-play first time if allowed
+    const shouldPlay =
+      autoPlay && !this.firstPlayDone ? true : !autoPlay ? true : false;
+    if (autoPlay && !this.firstPlayDone) this.firstPlayDone = true;
 
     this.http
       .put(
@@ -96,10 +103,7 @@ export class PlayerService {
   }
 
   stopSong(): void {
-    if (!this.deviceId) {
-      console.warn('Player not ready yet.');
-      return;
-    }
+    if (!this.deviceId) return;
 
     this.http
       .put(
@@ -113,7 +117,7 @@ export class PlayerService {
       });
   }
 
-  transferPlaybackHere(playImmediately = true): void {
+  transferPlaybackHere(playImmediately = false): void {
     if (!this.deviceId || this.playerTransfered) return;
 
     this.http
@@ -138,6 +142,8 @@ export class PlayerService {
       this.deviceId = null;
       this.playerInitialized = false;
       this.playerTransfered = false;
+      this.lastTrackId = null;
+      this.firstPlayDone = false;
       this.playerReady$.next(false);
     }
   }
