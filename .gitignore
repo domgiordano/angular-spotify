@@ -43,3 +43,6 @@ Thumbs.db
 
 # Local .terraform directories
 **/.terraform/*
+
+# Testing
+src/environments/environment.dev.ts

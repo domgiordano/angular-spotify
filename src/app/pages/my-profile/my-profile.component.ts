@@ -20,7 +20,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   accessToken: string;
   wrappedEnrolled: boolean = false;
   releaseRadarEnrolled: boolean = false;
-  tableEntryUser;
+  originalWrappedEnrolled: boolean = false;
+  originalReleaseRadarEnrolled: boolean = false;
 
   constructor(
     private AuthService: AuthService,
@@ -45,8 +46,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.followersCount = this.UserService.getFollowers();
       this.wrappedEnrolled = this.UserService.getWrappedEnrollment();
       this.releaseRadarEnrolled = this.UserService.getReleaseRadarEnrollment();
-      this.tableEntryUser.activeWrapped = this.wrappedEnrolled;
-      this.tableEntryUser.activeReleaseRadar = this.releaseRadarEnrolled;
+      this.originalWrappedEnrolled = this.UserService.getWrappedEnrollment();
+      this.originalReleaseRadarEnrolled = this.UserService.getReleaseRadarEnrollment();
     }
   }
 
@@ -81,7 +82,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.UserService.updateUserTableRefreshToken().pipe(take(1)).subscribe({
       next: xomUser => {
         console.log("Updated Xomify USER Table------", xomUser);
-        this.tableEntryUser = xomUser;
+        this.originalWrappedEnrolled = xomUser.activeWrapped;
+        this.originalReleaseRadarEnrolled = xomUser.activeReleaseRadar;
         this.wrappedEnrolled = xomUser.activeWrapped;
         this.releaseRadarEnrolled = xomUser.activeReleaseRadar;
         this.loading = false;
@@ -111,8 +113,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.releaseRadarEnrolled = !this.releaseRadarEnrolled;
   }
   ngOnDestroy(): void {
-    if (this.tableEntryUser.activeWrapped != this.wrappedEnrolled || 
-      this.tableEntryUser.activeReleaseRadar != this.releaseRadarEnrolled) {
+    if (this.originalWrappedEnrolled != this.wrappedEnrolled || 
+      this.originalReleaseRadarEnrolled != this.releaseRadarEnrolled) {
         console.log("Found updated enrollment - Wrapped or Release Radar or Both!")
         this.UserService.updateUserTableEnrollments(this.wrappedEnrolled, this.releaseRadarEnrolled).pipe(take(1)).subscribe({
           next: xomUser => {
