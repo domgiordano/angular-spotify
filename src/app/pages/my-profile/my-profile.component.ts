@@ -45,6 +45,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.followersCount = this.UserService.getFollowers();
       this.wrappedEnrolled = this.UserService.getWrappedEnrollment();
       this.releaseRadarEnrolled = this.UserService.getReleaseRadarEnrollment();
+      this.tableEntryUser.activeWrapped = this.wrappedEnrolled;
+      this.tableEntryUser.activeReleaseRadar = this.releaseRadarEnrolled;
     }
   }
 
