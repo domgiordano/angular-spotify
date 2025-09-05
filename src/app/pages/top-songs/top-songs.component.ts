@@ -104,12 +104,24 @@ export class TopSongsComponent implements OnInit, OnDestroy {
   }
 
   async playSong(trackId: string) {
-    this.PlayerService.playSong(trackId);
+    this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
+      if (ready) {
+        this.PlayerService.playSong(trackId);
+      } else {
+        console.warn('Player not ready yet.');
+      }
+    });
   }
 
   async stopSong() {
-    this.PlayerService.stopSong();
-  } 
+    this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
+      if (ready) {
+        this.PlayerService.stopSong();
+      } else {
+        console.warn('Player not ready yet, cannot stop.');
+      }
+    });
+  }
 
   getSongStats(song){
 
