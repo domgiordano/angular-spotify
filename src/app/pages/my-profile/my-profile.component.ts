@@ -66,7 +66,9 @@ export class MyProfileComponent implements OnInit {
       },
       complete: () => {
         console.log('User Loaded.');
+        this.UserService.updateUserTable()
       }
     });
+
   }
 }
