@@ -16,7 +16,7 @@ export class UserService implements OnInit {
   userName = '';
   id = '';
   private baseUrl = 'https://api.spotify.com/v1';
-  private xomifyApiUrl: string = `https://${environment.apiAuthToken}.execute-api.us-east-1.amazonaws.com/dev`;
+  private xomifyApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
   private readonly apiAuthToken = environment.apiAuthToken;
 
   constructor(

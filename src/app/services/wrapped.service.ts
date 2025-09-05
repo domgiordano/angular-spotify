@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class WrappedService {
-  private xomifyApiUrl: string = `https://${environment.apiAuthToken}.execute-api.us-east-1.amazonaws.com/dev`;
+  private xomifyApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
   private readonly apiAuthToken = environment.apiAuthToken;
   constructor(private http: HttpClient) {}
 
