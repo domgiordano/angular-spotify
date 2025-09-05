@@ -34,7 +34,6 @@ export class TopSongsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.accessToken = this.AuthService.getAccessToken();
-    this.PlayerService.transferPlaybackHere()
     this.topTracksShortTerm = this.SongService.getShortTermTopTracks();
     this.topTracksMedTerm = this.SongService.getMedTermTopTracks();
     this.topTracksLongTerm = this.SongService.getLongTermTopTracks();
