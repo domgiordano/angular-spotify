@@ -32,6 +32,7 @@ export class MyProfileComponent implements OnInit {
     if ( this.userName.length === 0 ){
       console.log("Need User.");
       this.loadUser();
+      this.updateUserTable()
     }
     else{
       console.log("We got dat user.");
@@ -41,9 +42,6 @@ export class MyProfileComponent implements OnInit {
       this.email = this.UserService.getEmail();
       this.followersCount = this.UserService.getFollowers();
     }
-
-
-
   }
 
   loadUser() {
@@ -72,6 +70,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   updateUserTable() {
+    console.log('Updating User Table ...'); 
     this.UserService.updateUserTable().pipe(take(1)).subscribe({
       next: data => {
         console.log("Updated USER Table------", data);

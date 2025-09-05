@@ -1,15 +1,16 @@
 // src/app/services/player.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PlayerService {
+export class PlayerService implements OnDestroy {
   private player: any;
   private deviceId: string | null = null;
   private accessToken: string;
+  private playerInitialized = false;
   private baseUrl = 'https://api.spotify.com/v1';
 
   constructor(private authService: AuthService, private http: HttpClient) {
@@ -18,6 +19,9 @@ export class PlayerService {
   }
 
   private loadSpotifySDK(): void {
+    if (this.playerInitialized) {
+      return; // already set up
+    }
     // If SDK already loaded, just init
     if ((window as any).Spotify) {
       this.initializePlayer();
@@ -33,6 +37,7 @@ export class PlayerService {
     (window as any).onSpotifyWebPlaybackSDKReady = () => {
       this.initializePlayer();
     };
+    this.playerInitialized = true;
   }
 
   private initializePlayer(): void {
@@ -49,7 +54,7 @@ export class PlayerService {
       console.log('Ready with Device ID', device_id);
       this.deviceId = device_id;
       // Force playback to this Angular app
-      this.transferPlaybackHere();
+      //this.transferPlaybackHere();
     });
 
     // Player went offline
@@ -133,4 +138,12 @@ export class PlayerService {
         error: (err) => console.error('Error transferring playback', err),
       });
   }
+  ngOnDestroy() {
+    if (this.player) {
+      this.player.disconnect();
+      this.player = null;
+      this.deviceId = null;
+      this.playerInitialized = false;
+    }
+}
 }
