@@ -61,7 +61,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         this.profilePicture = this.UserService.getProfilePic();
         this.email = this.UserService.getEmail();
         this.followersCount = this.UserService.getFollowers();
-        this.loading = false;
         // Update User Table
         this.updateUserTable()
       },
@@ -95,6 +94,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       complete: () => {
+        this.loading = false;
         console.log('User Table Updated.');
       }
     });
