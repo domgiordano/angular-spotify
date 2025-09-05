@@ -1,5 +1,6 @@
 export const environment = {
     production: true,
+    baseCallbackUrl: "https://xomify.com",
     spotifyClientId: '---',
     spotifyClientSecret: '---',
     apiAuthToken: '---',
