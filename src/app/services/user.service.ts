@@ -15,6 +15,8 @@ export class UserService implements OnInit {
   user: any;
   userName = '';
   id = '';
+  activeWrapped: boolean = false;
+  activeReleaseRadar: boolean = false;
   private baseUrl = 'https://api.spotify.com/v1';
   private xomifyApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
   private readonly apiAuthToken = environment.apiAuthToken;
@@ -99,5 +101,17 @@ export class UserService implements OnInit {
   }
   getUserId(): string {
     return this.id;
+  }
+  getWrappedEnrollment(): boolean {
+    return this.activeWrapped;
+  }
+  getReleaseRadarEnrollment(): boolean {
+    return this.activeReleaseRadar;
+  }
+  setWrappedEnrollment(enrolled: boolean): void {
+    this.activeWrapped = enrolled;
+  }
+  setReleaseRadarEnrollment(enrolled: boolean): void {
+    this.activeReleaseRadar = enrolled;
   }
 }
