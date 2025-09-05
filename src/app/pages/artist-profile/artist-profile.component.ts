@@ -74,12 +74,25 @@ export class ArtistProfileComponent implements OnInit {
   }
 
   async playSong(trackId: string) {
-    this.PlayerService.playSong(trackId);
+    this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
+      if (ready) {
+        this.PlayerService.playSong(trackId);
+      } else {
+        console.warn('Player not ready yet.');
+      }
+    });
   }
 
+
   async stopSong() {
-    this.PlayerService.stopSong();
-  } 
+    this.PlayerService.playerReady$.pipe(take(1)).subscribe(ready => {
+      if (ready) {
+        this.PlayerService.stopSong();
+      } else {
+        console.warn('Player not ready yet, cannot stop.');
+      }
+    });
+  }
 
   private buildArtist(details: any, albums: any, tracks: any) {
     this.artist.image = details.images[0].url;

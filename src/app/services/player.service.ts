@@ -1,7 +1,7 @@
-// src/app/services/player.service.ts
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,9 @@ export class PlayerService {
   private playerInitialized = false;
   private playerTransfered = false;
   private baseUrl = 'https://api.spotify.com/v1';
+
+  // Observable to know when player is ready
+  public playerReady$ = new BehaviorSubject<boolean>(false);
 
   constructor(private authService: AuthService, private http: HttpClient) {
     this.accessToken = this.authService.getAccessToken();
@@ -39,7 +42,7 @@ export class PlayerService {
   }
 
   private initializePlayer(): void {
-    if (this.player) return; // prevent double initialization
+    if (this.player) return;
 
     this.player = new (window as any).Spotify.Player({
       name: 'Xomify Player',
@@ -50,6 +53,8 @@ export class PlayerService {
     this.player.addListener('ready', ({ device_id }: any) => {
       console.log('Ready with Device ID', device_id);
       this.deviceId = device_id;
+      this.playerReady$.next(true);
+
       if (!this.playerTransfered) {
         this.transferPlaybackHere(false); // don't auto-play if not needed
       }
@@ -58,6 +63,7 @@ export class PlayerService {
     this.player.addListener('not_ready', ({ device_id }: any) => {
       console.log('Device offline', device_id);
       this.deviceId = null;
+      this.playerReady$.next(false);
     });
 
     this.player.connect();
@@ -72,7 +78,7 @@ export class PlayerService {
 
   playSong(trackId: string): void {
     if (!this.deviceId) {
-      console.error('No active Spotify device yet.');
+      console.warn('Player not ready yet.');
       return;
     }
 
@@ -89,7 +95,10 @@ export class PlayerService {
   }
 
   stopSong(): void {
-    if (!this.deviceId) return;
+    if (!this.deviceId) {
+      console.warn('Player not ready yet.');
+      return;
+    }
 
     this.http
       .put(
@@ -121,7 +130,6 @@ export class PlayerService {
       });
   }
 
-  // Optional cleanup if app fully unloads
   disconnectPlayer(): void {
     if (this.player) {
       this.player.disconnect();
@@ -129,6 +137,7 @@ export class PlayerService {
       this.deviceId = null;
       this.playerInitialized = false;
       this.playerTransfered = false;
+      this.playerReady$.next(false);
     }
   }
 }
