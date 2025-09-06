@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { take } from 'rxjs';
@@ -10,7 +10,7 @@ import { ToastService } from 'src/app/services/toast.service';
   templateUrl: './my-profile.component.html',
   styleUrls: ['./my-profile.component.scss']
 })
-export class MyProfileComponent implements OnInit, OnDestroy {
+export class MyProfileComponent implements OnInit {
   loading: boolean;
   profilePicture: string;
   userName: string;
@@ -20,8 +20,10 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   accessToken: string;
   wrappedEnrolled: boolean = false;
   releaseRadarEnrolled: boolean = false;
-  originalWrappedEnrolled: boolean = false;
-  originalReleaseRadarEnrolled: boolean = false;
+  maxEnrollAttempts = 5;
+  enrollAttempts = 0;
+  disableEnrollButtons: boolean = false;
+  maxReached: boolean = false;
 
   constructor(
     private AuthService: AuthService,
@@ -46,8 +48,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.followersCount = this.UserService.getFollowers();
       this.wrappedEnrolled = this.UserService.getWrappedEnrollment();
       this.releaseRadarEnrolled = this.UserService.getReleaseRadarEnrollment();
-      this.originalWrappedEnrolled = this.UserService.getWrappedEnrollment();
-      this.originalReleaseRadarEnrolled = this.UserService.getReleaseRadarEnrollment();
     }
   }
 
@@ -82,8 +82,6 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.UserService.updateUserTableRefreshToken().pipe(take(1)).subscribe({
       next: xomUser => {
         console.log("Updated Xomify USER Table------", xomUser);
-        this.originalWrappedEnrolled = xomUser.activeWrapped;
-        this.originalReleaseRadarEnrolled = xomUser.activeReleaseRadar;
         this.wrappedEnrolled = xomUser.activeWrapped;
         this.releaseRadarEnrolled = xomUser.activeReleaseRadar;
         this.loading = false;
@@ -106,31 +104,51 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   toggleWrapped() {
     console.log("Toggling Wrapped Enrollment...")
     this.wrappedEnrolled = !this.wrappedEnrolled;
+    this.toggleErollments();
   }
 
   toggleReleaseRadar() {
     console.log("Toggling Release Radar Enrollment...")
     this.releaseRadarEnrolled = !this.releaseRadarEnrolled;
+    this.toggleErollments();
   }
-  ngOnDestroy(): void {
-    if (this.originalWrappedEnrolled != this.wrappedEnrolled || 
-      this.originalReleaseRadarEnrolled != this.releaseRadarEnrolled) {
-        console.log("Found updated enrollment - Wrapped or Release Radar or Both!")
-        this.UserService.updateUserTableEnrollments(this.wrappedEnrolled, this.releaseRadarEnrolled).pipe(take(1)).subscribe({
-          next: xomUser => {
-            console.log("Updated Xomify USER Table------", xomUser);
-            this.UserService.setReleaseRadarEnrollment(this.releaseRadarEnrolled);
-            this.UserService.setWrappedEnrollment(this.wrappedEnrolled);
-          },
-          error: err => {
-            console.error('Error Updating User Table', err);
-            this.ToastService.showNegativeToast('Error Updating User Table');
-            this.loading = false;
-          },
-          complete: () => {
-            console.log('User Table Updated.');
+
+  toggleErollments() {
+    if (this.maxReached) {
+      return; // already maxed out
+    }
+
+    console.log("Updating Enrollments..")
+    this.disableEnrollButtons = true;
+    this.enrollAttempts++;
+
+    this.UserService.updateUserTableEnrollments(this.wrappedEnrolled, this.releaseRadarEnrolled)
+      .pipe(take(1))
+      .subscribe({
+        next: xomUser => {
+          console.log("Updated Xomify USER Table------", xomUser);
+          this.UserService.setReleaseRadarEnrollment(this.releaseRadarEnrolled);
+          this.UserService.setWrappedEnrollment(this.wrappedEnrolled);
+        },
+        error: err => {
+          console.error('Error Updating User Table', err);
+          this.ToastService.showNegativeToast('Error Updating User Table');
+        },
+        complete: () => {
+          console.log('User Table Updated.');
+
+          if (this.enrollAttempts >= this.maxEnrollAttempts) {
+            this.maxReached = true;
+            this.disableEnrollButtons = true; // permanently disabled
+          } else {
+            // temporarily disable for 5s
+            setTimeout(() => {
+              if (!this.maxReached) {
+                this.disableEnrollButtons = false;
+              }
+            }, 3000);
           }
-        });
-      }
+        }
+    });
   }
 }
