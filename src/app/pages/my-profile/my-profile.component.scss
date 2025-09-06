@@ -66,22 +66,62 @@
   justify-content: center;
   gap: 20px; // spacing between buttons
   margin-top: 2rem; // spacing above buttons
+  flex-wrap: wrap; // ensures buttons won't overflow on small screens
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  bottom: 125%; /* above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.06s ease-in-out; /* instant */
+  background: rgba(0, 0, 0, 0.95);
+  color: #fff;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
 
 .action-button {
   border: none;
   border-radius: 25px;
-  padding: 12px 30px;
+  height: 50px;               /* consistent height */
+  width: 240px;               /* fixed width so both equal */
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease, border 0.3s ease;
-  min-width: 220px; // keeps buttons same width
-  color: white; // always white text
+  color: white;               /* always white text */
+  text-align: center;
+  box-sizing: border-box;     /* keeps padding inside width */
+  overflow: hidden;           /* prevents text spill */
+
+  &:disabled {
+    background-color: grey !important;
+    border: none !important;
+    cursor: not-allowed;
+    opacity: 0.9;
+  }
 
   &.wrapped {
     background-color: #1db954; // Spotify green
 
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: #17a74b;
     }
 
@@ -89,7 +129,7 @@
       background-color: black;
       border: 2px solid #1db954;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: #222;
       }
     }
@@ -98,7 +138,7 @@
   &.radar {
     background-color: #9c0abf; // Purple
 
-    &:hover {
+    &:hover:not(:disabled) {
       background-color: #7e089c;
     }
 
@@ -106,7 +146,7 @@
       background-color: black;
       border: 2px solid #9c0abf;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: #222;
       }
     }
